@@ -6,6 +6,7 @@ export class Target {
     public name: string,
     public info: string,
     public page: number,
+    public status: number,
     public readonly playerId: string,
     public link?: string,
     public details?: string,

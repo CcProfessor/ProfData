@@ -23,6 +23,7 @@ model Player {
 model Target {
   id        String   @id @default(uuid())
   page      Int      @default(0)
+  status    Int      @default(0)
   playerId  String
 
   name      String?
