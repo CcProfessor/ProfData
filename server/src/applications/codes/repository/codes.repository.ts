@@ -27,4 +27,10 @@ export class CodesRepository {
     }
     return code;
   }
+
+  async findCodeIdsByTargetIds(targetIds: string[]): Promise<string[][]> {
+    return targetIds.map((targetId) =>
+        this.codes.filter((c) => c.targetId === targetId).map((c) => c.id),
+    );
+  }
 }

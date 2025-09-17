@@ -42,4 +42,11 @@ export class TargetController {
   getByPlayer(@Param('id') playerId: string) {
     return this.targetService.getByPlayer(playerId);
   }
+
+  // 7 - getTargetIdsByPlayer
+  @Get('player/:id/ids')
+  getTargetIdsByPlayer(@Param('id') playerId: string) {
+    return this.targetService.getTargetIdsByPlayer(playerId);
+  } 
+  
 }

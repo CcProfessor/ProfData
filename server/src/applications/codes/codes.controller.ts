@@ -41,4 +41,9 @@ export class CodesController {
   findOne(@Param('id') id: string) {
     return this.codesService.findOne(id);
   }
+
+  @Post('codes-by-targets')
+  getCodesByTargets(@Body('targetIds') targetIds: string[]) {
+    return this.codesService.getCodeIdsByTargetIds(targetIds);
+  }
 }

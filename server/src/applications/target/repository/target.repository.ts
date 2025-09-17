@@ -41,4 +41,10 @@ export class TargetRepository {
     }
     return target;
   }
+
+  async findTargetIdsByPlayer(playerId: string): Promise<string[]> {
+  return this.targets
+    .filter((t) => t.playerId === playerId)
+    .map((t) => t.id);
+}
 }

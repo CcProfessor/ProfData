@@ -39,4 +39,8 @@ export class TargetService {
   async getByPlayer(playerId: string): Promise<Target[]> {
     return this.targetRepo.findByPlayer(playerId);
   }
+
+  async getTargetIdsByPlayer(playerId: string): Promise<string[]> {
+    return this.targetRepo.findTargetIdsByPlayer(playerId);
+  }
 }

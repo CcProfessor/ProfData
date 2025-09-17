@@ -51,4 +51,8 @@ export class CodesService {
     if (!code) throw new NotFoundException(`Code ${id} not found`);
     return code;
   }
+
+  async getCodeIdsByTargetIds(targetIds: string[]): Promise<string[][]> {
+    return this.codesRepo.findCodeIdsByTargetIds(targetIds);
+  }
 }
