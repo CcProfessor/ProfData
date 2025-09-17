@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,55 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Player {
+  id       String   @id @default(uuid())
+  username String
+  password String
+
+  targets  Target[]
+  ships    Ship[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Target {
+  id        String   @id @default(uuid())
+  name      String
+  info      String
+  page      Int
+  playerId  String
+
+  player    Player   @relation(fields: [playerId], references: [id])
+  codes     Code[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Code {
+  id        String   @id @default(uuid())
+  targetId  String
+  status    Int
+
+  target    Target   @relation(fields: [targetId], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Ship {
+  id        String   @id @default(uuid())
+  playerId  String
+  number    String
+  local     String
+  name      String
+  data      String
+
+  player    Player   @relation(fields: [playerId], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
