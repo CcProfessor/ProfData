@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "workspaces": [
     "core",
-    "client",
-    "server"
+    "player",
+    "server",
+    "target"
   ],
   "scripts": {
     "dev:server": "nodemon --watch server --exec ts-node server/src/main.ts",
