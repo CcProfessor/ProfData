@@ -27,6 +27,9 @@ model Target {
   page      Int
   playerId  String
 
+  link      String?
+  details   String?
+
   player    Player   @relation(fields: [playerId], references: [id])
   codes     Code[]
 

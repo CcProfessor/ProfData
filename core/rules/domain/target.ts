@@ -7,6 +7,8 @@ export class Target {
     public info: string,
     public page: number,
     public readonly playerId: string,
+    public link?: string,
+    public details?: string,
     public readonly created_at: Date = new Date(),
     public updated_at: Date = new Date(),
   ) {}
