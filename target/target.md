@@ -1,0 +1,1 @@
+Detalhes sobre a página
