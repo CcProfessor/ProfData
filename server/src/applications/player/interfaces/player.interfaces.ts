@@ -1,9 +1,9 @@
 // server/src/applications/player/interfaces/player.interfaces.ts
 
 // DTOs
-export interface CreatePlayerDto {
-  username: string;
-  password: string;
+export class CreatePlayerDto {
+  username!: string;
+  password!: string;
 }
 
 export class UpdatePlayerDto {

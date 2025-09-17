@@ -1,7 +1,9 @@
 // server/src/applications/player/repository/player.repository.ts
 import { Injectable } from '@nestjs/common';
 import { Player } from 'src/rules/domain/player';
-import { v7 as uuidv7 } from 'uuidv7';
+import { uuidv7 } from 'uuidv7';
+
+// const id = uuidv7();
 
 @Injectable()
 export class PlayerRepository {
