@@ -22,11 +22,11 @@ model Player {
 
 model Target {
   id        String   @id @default(uuid())
-  name      String
-  info      String
-  page      Int
+  page      Int      @default(0)
   playerId  String
 
+  name      String?
+  info      String?
   link      String?
   details   String?
 
@@ -40,7 +40,8 @@ model Target {
 model Code {
   id        String   @id @default(uuid())
   targetId  String
-  status    Int
+  status    Int      @default(0)
+  codev     String?
 
   target    Target   @relation(fields: [targetId], references: [id])
 
