@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { TargetService } from './target.service';
-import { CreateTargetDto } from './dto/create-target.dto';
-import { UpdateTargetDto } from './dto/update-target.dto';
+import { CreateTargetDto } from './interfaces/create-target.dto';
+import { UpdateTargetDto } from './interfaces/update-target.dto';
 
 @Controller('target')
 export class TargetController {

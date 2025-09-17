@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCodeDto } from './dto/create-code.dto';
-import { UpdateCodeDto } from './dto/update-code.dto';
+import { CreateCodeDto } from './interfaces/create-code.dto';
+import { UpdateCodeDto } from './interfaces/update-code.dto';
 
 @Injectable()
 export class CodesService {
