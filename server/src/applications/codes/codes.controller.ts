@@ -1,34 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Patch, Get, Param, Body } from '@nestjs/common';
 import { CodesService } from './codes.service';
-import { CreateCodeDto } from './interfaces/create-code.dto';
-import { UpdateCodeDto } from './interfaces/update-code.dto';
+import {
+  CreateCodeDto,
+  UpdateCodevDto,
+  CheckCodeDto,
+  UpdateCodeValueDto,
+} from './interfaces/codes.interface';
 
 @Controller('codes')
 export class CodesController {
   constructor(private readonly codesService: CodesService) {}
 
-  @Post()
-  create(@Body() createCodeDto: CreateCodeDto) {
-    return this.codesService.create(createCodeDto);
+  @Post('newcode/:targetId')
+  newCodeRequest(@Param('targetId') targetId: string) {
+    const dto: CreateCodeDto = { targetId };
+    return this.codesService.newCodeRequest(dto);
   }
 
-  @Get()
+  @Patch('entercode/:codeId')
+  enterCode(@Param('codeId') codeId: string, @Body() dto: UpdateCodevDto) {
+    return this.codesService.enterCode(codeId, dto);
+  }
+
+  @Patch('checkcode/:codeId')
+  checkCode(@Param('codeId') codeId: string, @Body() dto: CheckCodeDto) {
+    return this.codesService.checkCode(codeId, dto);
+  }
+
+  @Patch('valuecode/:codeId')
+  valueCode(@Param('codeId') codeId: string, @Body() dto: UpdateCodeValueDto) {
+    return this.codesService.valueCode(codeId, dto);
+  }
+
+  @Get('findall')
   findAll() {
     return this.codesService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.codesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCodeDto: UpdateCodeDto) {
-    return this.codesService.update(+id, updateCodeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.codesService.remove(+id);
+    return this.codesService.findOne(id);
   }
 }
