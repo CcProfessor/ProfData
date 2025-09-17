@@ -11,6 +11,7 @@ model Player {
   id       String   @id @default(uuid())
   username String
   password String
+  access   Int
 
   targets  Target[]
   ships    Ship[]

@@ -1,0 +1,13 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./core" },
+    { "path": "./server" },
+    { "path": "./player" },
+    { "path": "./target" }
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true
+  }
+}
