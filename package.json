@@ -18,23 +18,24 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "ts-node": "^10.9.2",
-    "nodemon": "^3.0.2",
+    "@types/node": "^20.11.17",
     "eslint": "^8.56.0",
+    "nodemon": "^3.0.2",
     "prettier": "^3.2.5",
-    "@types/node": "^20.11.17"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@prisma/client": "^5.10.2",
+    "mysql2": "^3.9.2",
+    "prisma": "^5.10.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "@prisma/client": "^5.10.2",
-    "prisma": "^5.10.2",
-    "mysql2": "^3.9.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "uuidv7": "^1.0.2"
   }
 }
