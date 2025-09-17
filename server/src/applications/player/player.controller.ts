@@ -35,4 +35,31 @@ export class PlayerController {
   ): Promise<Player> {
     return this.playerService.update(id, updatePlayerDto);
   }
+
+  // ====
+
+
+  // Criar novo Target para o player
+  @Post(':id/target')
+  createTarget(@Param('id') playerId: string, @Body('page') page: number) {
+    return this.playerService.createTarget(playerId, page ?? 0);
+  }
+
+  // Listar Targets do player
+  @Get(':id/targets')
+  getTargets(@Param('id') playerId: string) {
+    return this.playerService.getPlayerTargets(playerId);
+  }
+
+  // Obter apenas os targetIds
+  @Get(':id/target-ids')
+  getTargetIds(@Param('id') playerId: string) {
+    return this.playerService.getTargetIds(playerId);
+  }
+
+  // Obter todos os codes associados aos targets do player
+  @Get(':id/codes')
+  getCodes(@Param('id') playerId: string) {
+    return this.playerService.getPlayerCodes(playerId);
+  }
 }
