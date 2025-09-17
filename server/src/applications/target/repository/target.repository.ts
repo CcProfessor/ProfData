@@ -8,7 +8,16 @@ export class TargetRepository {
   private targets: Target[] = [];
 
   async create(playerId: string, page: number = 0): Promise<Target> {
-    const target = new Target(uuidv7(), playerId, page);
+    const target = new Target(
+    uuidv7(),
+    "",        // name
+    "",        // info
+    page,      // page
+    0,         // status
+    playerId,
+    undefined, // link
+    undefined, // details
+  );
     this.targets.push(target);
     return target;
   }
