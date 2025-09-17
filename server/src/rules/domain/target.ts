@@ -2,7 +2,7 @@ export class Target {
   constructor(
     public readonly id: string,
     public readonly playerId: string,
-    public page: number = 0,   // 🔹 começa como 0 se não informado
+    public page: number = 0,
     public name?: string,
     public info?: string,
     public link?: string,
