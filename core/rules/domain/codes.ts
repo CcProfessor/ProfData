@@ -8,9 +8,18 @@ export class Code {
     public updated_at: Date = new Date(),
   ) {}
 
-  // ✅ Alterar status do código
   updateStatus(newStatus: number) {
     this.status = newStatus;
+    this.updated_at = new Date();
+  }
+
+  public update(newStatus?: number, newCodev?: string) {
+    if (newStatus !== undefined) {
+      this.status = newStatus;
+    }
+    if (newCodev !== undefined) {
+      this.codev = newCodev;
+    }
     this.updated_at = new Date();
   }
 }

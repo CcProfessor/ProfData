@@ -26,4 +26,15 @@ export class Target {
     if (newDetails !== undefined) this.details = newDetails;
     this.updated_at = new Date();
   }
+
+  public checkFields(): boolean {
+    return !!(this.name && this.info);
+  }
+
+  public getFields(): { name?: string; info?: string } {
+    return {
+      name: this.name,
+      info: this.info,
+    };
+  }
 }
