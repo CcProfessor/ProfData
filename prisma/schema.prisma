@@ -43,6 +43,7 @@ model Code {
   targetId  String
   status    Int      @default(0)
   codev     String?
+  value     String?
 
   target    Target   @relation(fields: [targetId], references: [id])
 

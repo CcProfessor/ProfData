@@ -4,6 +4,7 @@ export class Code {
     public readonly targetId: string,
     public status: number = 0,
     public codev?: string,
+    public value?: string,
     public readonly created_at: Date = new Date(),
     public updated_at: Date = new Date(),
   ) {}
