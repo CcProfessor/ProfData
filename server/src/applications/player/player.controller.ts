@@ -13,6 +13,11 @@ export class PlayerController {
     return this.playerService.create(createPlayerDto);
   }
 
+  @Post('login')
+  login(@Body() dto: { username: string; password: string }) {
+    return this.playerService.login(dto.username, dto.password);
+  }
+
   @Get()
   findAll(): Promise<Player[]> {
     return this.playerService.findAll();

@@ -11,5 +11,9 @@ import { Target } from 'src/rules/domain/target';
     TargetRepository,
     Target,
   ],
+  exports: [
+    TargetService,
+    TargetRepository,
+  ]
 })
 export class TargetModule {}
