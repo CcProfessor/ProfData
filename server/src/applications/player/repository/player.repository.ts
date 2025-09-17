@@ -21,18 +21,15 @@ export class PlayerRepository {
     return this.players.find((p) => p.id === id);
   }
 
-  async update(id: string, username?: string, password?: string): Promise<Player | undefined> {
+  async update(
+    id: string,
+    username?: string,
+    password?: string,
+  ): Promise<Player | undefined> {
     const player = await this.findById(id);
     if (player) {
       player.updateProfile(username, password);
     }
     return player;
-  }
-
-  async remove(id: string): Promise<boolean> {
-    const index = this.players.findIndex((p) => p.id === id);
-    if (index === -1) return false;
-    this.players.splice(index, 1);
-    return true;
   }
 }
