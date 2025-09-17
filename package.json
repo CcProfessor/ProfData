@@ -9,22 +9,12 @@
     "target"
   ],
   "scripts": {
-    "dev:server": "nodemon --watch server --exec ts-node server/src/main.ts",
-    "dev:client": "cd client && npm start",
+    "dev:server": "npm --workspace server run start:dev",
     "dev:core": "ts-node core/src/index.ts",
     "dev:prisma": "prisma generate && prisma migrate dev",
-    "build": "nest build",
+    "build": "tsc -b",
     "lint": "eslint . --ext .ts,.tsx",
-    "format": "prettier --write .",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./server/test/jest-e2e.json"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
