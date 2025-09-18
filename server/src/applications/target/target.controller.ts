@@ -6,7 +6,12 @@ import {
   InitStatusDto,
 } from '../../rules/interfaces/target.interfaces';
 import { ClientTargetDto as ClientDto } from 'src/rules/interfaces/client.interface';
-import { Request } from 'express';
+import { type Request } from 'express';
+
+export class EnterTargetRequestDto {
+  dto!: EnterTargetDto;
+  secret!: ClientDto;
+}
 
 @Controller('target')
 export class TargetController {
@@ -22,11 +27,12 @@ export class TargetController {
   @Patch('access/:id')
   enterTarget(
     @Param('id') id: string,
-    @Body() dto: EnterTargetDto,
-    @Body() secret: ClientDto,
+    // @Body() dto: EnterTargetDto,
+    // @Body() secret: ClientDto,
+    @Body() body: EnterTargetRequestDto,
     @Req() req: Request,
   ) {
-    return this.targetService.enterTarget(id, dto, secret, req);
+    return this.targetService.enterTarget(id, body.dto, body.secret, req);
   }
 
   // 3 - initStatus

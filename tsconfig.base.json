@@ -9,6 +9,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
+    "isolatedModules": true,
+    "emitDecoratorMetadata": true,
     "paths": {
       "@core/*": ["core/*"],
       "@domain/*": ["core/rules/domain/*"]
