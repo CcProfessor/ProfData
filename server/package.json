@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "main": "dist/main.js",
- "scripts": {
+  "scripts": {
     "build": "nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -33,5 +33,9 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "@nestjs/platform-socket.io": "^11.1.6",
+    "@nestjs/websockets": "^11.1.6"
   }
 }
