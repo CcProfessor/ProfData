@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PlayerService } from '../player/player.service';
 import { PlayerRepository } from '../player/repository/player.repository';
+import { TargetService } from '../target/target.service';
+import { TargetRepository } from '../target/repository/target.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 
@@ -14,7 +16,13 @@ import { JwtStrategy } from './jwt.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, PlayerService, PlayerRepository, JwtStrategy],
+  providers: [
+    AuthService,
+    PlayerService,
+    PlayerRepository,
+    TargetService,
+    TargetRepository,
+    JwtStrategy],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}
