@@ -70,10 +70,10 @@ model Ship {
 
 model RequestInfo {
   id          String   @id @default(uuid())
-  ip          String   // IP de origem
+  ip          String?   // IP de origem
   port        Int?     // Porta de origem
   tlsVersion  String?  // Versão TLS (ex: TLS1.3)
-  transport   String   // Protocolo de transporte (ex: TCP, QUIC/UDP)
+  transport   String?   // Protocolo de transporte (ex: TCP, QUIC/UDP)
   origin      String?  // Header Origin
   connection  String?  // Header Connection (ex: keep-alive, close)
   userAgent   String?  // Header User-Agent
@@ -91,7 +91,6 @@ model ClientInfo {
   screenHeight Int?    // Altura da tela
   timezone    String?  // Timezone do navegador
   language    String?  // Linguagem principal (ex: pt-BR)
-  languages   String[] // Lista de linguagens do navegador
   platform    String?  // Plataforma (ex: Win32, Linux x86_64, Android)
   deviceMemory Float?  // Memória RAM estimada (em GB, se disponível)
   hardwareConcurrency Int? // Nº de núcleos de CPU

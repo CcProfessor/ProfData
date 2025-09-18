@@ -27,11 +27,44 @@ export class TargetRepository {
   async create(playerId: string, page: number = 0): Promise<Target> {
     return this.prisma.target.create({
       data: {
-        playerId,
-        page,
-        status: 0,
+        // id,
         name: '',
         info: '',
+        page,
+        status: 0,
+        playerId,
+
+        requestInfo: {
+          create: {
+            id: uuidv7(),
+            ip: null,
+            port: null,
+            tlsVersion: null,
+            transport: null,
+            origin: null,
+            connection: null,
+            userAgent: null,
+            referer: null,
+            host: null,
+          },
+        },
+
+        clientInfo: {
+          create: {
+            id: uuidv7(),
+            screenWidth: null,
+            screenHeight: null,
+            timezone: null,
+            language: null,
+            platform: null,
+            deviceMemory: null,
+            hardwareConcurrency: null,
+          },
+        },
+      },
+      include: {
+        requestInfo: true,
+        clientInfo: true,
       },
     });
   }

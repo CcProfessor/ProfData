@@ -3,8 +3,13 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { Target } from '../../../rules/domain/target';
 
 @Injectable()
-export class TargetRepository {
+export class ClientRepository {
   constructor(private readonly prisma: PrismaService) {}
+
+  async create(targetId: string) {
+    // const newReq = this.prisma.requestInfo.create{ ... }
+    // const newClient = this.prisma.clientInfo.create{ ... }
+  }
 
   async findById(id: string): Promise<Target | null> {
     return this.prisma.target.findUnique({
