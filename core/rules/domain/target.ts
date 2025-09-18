@@ -1,5 +1,3 @@
-// core/domain/target.ts
-
 export class Target {
   constructor(
     public readonly id: string,
