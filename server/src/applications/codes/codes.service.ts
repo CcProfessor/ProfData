@@ -16,17 +16,6 @@ export class CodesService {
     return this.codesRepo.create(dto.targetId);
   }
 
-  /*
-  async enterCode(codeId: string, dto: UpdateCodevDto): Promise<Code> {
-    const code = await this.codesRepo.findById(codeId);
-    if (!code) throw new NotFoundException(`Code ${codeId} not found`);
-    this.codesRepo.update(codeId, { Codev: UpdateCodevDto });
-    // code.update(undefined, dto.codev);
-    // return this.codesRepo.update(code);
-    return code;
-  }
-  */
-
   async enterCode(codeId: string, dto: UpdateCodevDto): Promise<Code> {
     const code = await this.codesRepo.findById(codeId);
     if (!code) throw new NotFoundException(`Code ${codeId} not found`);
@@ -39,18 +28,12 @@ export class CodesService {
     if (!code) throw new NotFoundException(`Code ${codeId} not found`);
 
     const status = dto.isValid ? 1 : 2;
-    // code.update(status);
-    // return this.codesRepo.update(code);
     return this.codesRepo.update(codeId, { status, updated_at: new Date() });
   }
 
   async valueCode(codeId: string, dto: UpdateCodeValueDto): Promise<Code> {
     const code = await this.codesRepo.findById(codeId);
     if (!code) throw new NotFoundException(`Code ${codeId} not found`);
-
-    // code.value = dto.value;
-    // code.updated_at = new Date();
-    // return this.codesRepo.update(code);
 
     return this.codesRepo.update(codeId, { value: dto.value, updated_at: new Date() });
   }

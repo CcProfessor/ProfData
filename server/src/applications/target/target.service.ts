@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TargetRepository } from './repository/target.repository';
-import { ClientRepository } from './repository/client.repository';
 import { Target } from 'src/rules/domain/target';
 import {
   CreateTargetDto,
@@ -14,7 +13,6 @@ import { Request } from 'express';
 export class TargetService {
   constructor(
     private readonly targetRepo: TargetRepository,
-    private readonly clientRepo: ClientRepository,
   ) {}
 
   async newTarget(dto: CreateTargetDto): Promise<Target> {
