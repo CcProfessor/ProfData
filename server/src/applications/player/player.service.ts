@@ -2,7 +2,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PlayerRepository } from './repository/player.repository';
 import { Player } from 'src/rules/domain/player';
-import { CreatePlayerDto, UpdatePlayerDto } from './interfaces/player.interfaces';
+import { CreatePlayerDto, UpdatePlayerDto } from '../../rules/interfaces/player.interfaces';
 import { TargetService } from '../target/target.service';
 import { CodesService } from '../codes/codes.service';
 
@@ -47,10 +47,12 @@ export class PlayerService {
   }
 
   async update(id: string, updatePlayerDto: UpdatePlayerDto): Promise<Player> {
+    // const {username, password} = updatePlayerDto;
     const updated = await this.playerRepo.update(
       id,
-      updatePlayerDto.username,
-      updatePlayerDto.password,
+      updatePlayerDto,
+      // updatePlayerDto.username,
+      // updatePlayerDto.password,
     );
     if (!updated) {
       throw new NotFoundException(`Player with id ${id} not found`);
