@@ -1,0 +1,32 @@
+const BASE_URL = process.env.SERVER_LINK || "http://localhost:3000";
+
+export async function login(username: string, password: string) {
+  const res = await fetch(`${BASE_URL}/player/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (!res.ok) throw new Error(`Login failed: ${res.status}`);
+  return res.json();
+}
+
+export async function getPlayer(id: string) {
+  const res = await fetch(`${BASE_URL}/player/${id}`, {
+    method: "GET",
+  });
+
+  if (!res.ok) throw new Error(`Failed to fetch player ${id}: ${res.status}`);
+  return res.json();
+}
+
+export async function updatePlayer(id: string, data: Partial<{ username: string; password: string; access: number }>) {
+  const res = await fetch(`${BASE_URL}/player/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) throw new Error(`Failed to update player ${id}: ${res.status}`);
+  return res.json();
+}
