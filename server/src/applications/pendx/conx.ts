@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Patch, Headers, Body, UnauthorizedException } from '@nestjs/common';
-import { AdminService } from './admin.service';
+import { Zetasys } from './zetasys';
 
-@Controller('red-button')
-export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+@Controller('red')
+export class conx {
+  constructor(private readonly zetasys: Zetasys) {}
 
   private validateSecret(secret?: string) {
     if (!secret || secret !== process.env.NV) {
@@ -13,34 +13,34 @@ export class AdminController {
 
   @Get('test')
   testAdmin(@Headers() secret: string) {
-    const response = this.adminService.test();
+    const response = this.zetasys.test();
     return { ok: true, msg: response };
   }
 
-  @Post('start-seed')
-  async startSeed(@Headers('x') secret: string) {
+  @Post('ssz')
+  async sS(@Headers('x') secret: string) {
     this.validateSecret(secret);
 
-    await this.adminService.startSeed();
+    await this.zetasys.sS();
     return { ok: true, msg: 'Seed executada com sucesso!' };
   }
 
-  @Patch('emergency')
-  async emergency(
+  @Patch('emer')
+  async ewipe(
     @Headers('x') secret: string,
     @Body('password') password: string,
   ) {
     this.validateSecret(secret);
 
-    await this.adminService.emergency(password);
+    await this.zetasys.ewipe(password);
     return { ok: true, msg: 'Todas as senhas foram resetadas!' };
   }
 
-  @Patch('recovery')
-  async recovery(@Headers('x') secret: string) {
+  @Patch('gate')
+  async keystone(@Headers('x') secret: string) {
     this.validateSecret(secret);
 
-    await this.adminService.recovery();
+    await this.zetasys.playovery();
     return { ok: true, msg: 'Senha do Professor restaurada!' };
   }
 }

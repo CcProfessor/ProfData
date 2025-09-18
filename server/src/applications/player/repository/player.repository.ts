@@ -19,7 +19,7 @@ export class PlayerRepository {
     });
   }
 
-  async adminCreate(username: string, password: string, access: number) {
+  async start(username: string, password: string, access: number) {
     return this.prisma.player.create({
       data: {
         username,
