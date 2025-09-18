@@ -3,8 +3,10 @@ import { TargetService } from './target.service';
 import { TargetController } from './target.controller';
 import { TargetRepository } from './repository/target.repository';
 import { Target } from 'src/rules/domain/target';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
+  imports: [AuthModule],
   controllers: [TargetController],
   providers: [
     TargetService,
