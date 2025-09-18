@@ -34,6 +34,11 @@ model Target {
   player    Player   @relation(fields: [playerId], references: [id])
   codes     Code[]
 
+  
+
+  requests  RequestInfo[]
+  clients   ClientInfo[]
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -79,10 +84,7 @@ model RequestInfo {
   host        String?  // Header Host
   createdAt   DateTime @default(now())
 
-  clientInfo  ClientInfo? @relation(fields: [clientInfoId], references: [id])
-  clientInfoId String?
-
-  target       Target      @relation(fields: [targetId], references: [id])
+  target       Target   @relation(fields: [targetId], references: [id])
   targetId     String
 }
 
@@ -98,8 +100,6 @@ model ClientInfo {
   hardwareConcurrency Int? // Nº de núcleos de CPU
   createdAt   DateTime @default(now())
 
-  requests    RequestInfo[]
-
-  target       Target      @relation(fields: [targetId], references: [id])
+  target       Target   @relation(fields: [targetId], references: [id])
   targetId     String
 }
