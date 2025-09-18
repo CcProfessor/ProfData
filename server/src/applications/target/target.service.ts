@@ -1,8 +1,13 @@
-// server/src/applications/target/target.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TargetRepository } from './repository/target.repository';
 import { Target } from 'src/rules/domain/target';
-import { CreateTargetDto, EnterTargetDto, InitStatusDto } from './interfaces/target.interfaces';
+import {
+  CreateTargetDto,
+  EnterTargetDto,
+  InitStatusDto,
+} from '../../rules/interfaces/target.interfaces';
+import { ClientTargetDto as ClientDto } from 'src/rules/interfaces/client.interface';
+import { Request } from 'express';
 
 @Injectable()
 export class TargetService {
@@ -12,7 +17,12 @@ export class TargetService {
     return this.targetRepo.create(dto.playerId, dto.page ?? 0);
   }
 
-  async enterTarget(id: string, dto: EnterTargetDto): Promise<Target> {
+  async enterTarget(
+    id: string,
+    dto: EnterTargetDto,
+    secret: ClientDto,
+    req: Request,
+  ): Promise<Target> {
     const target = await this.targetRepo.findById(id);
     if (!target) throw new NotFoundException(`Target ${id} not found`);
     target.updateInfo(dto.name, dto.info);

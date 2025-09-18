@@ -1,18 +1,21 @@
-// server/src/applications/player/repository/player.repository.ts
 import { Injectable } from '@nestjs/common';
 import { Player } from 'src/rules/domain/player';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { uuidv7 } from 'uuidv7';
 
-// const id = uuidv7();
 
 @Injectable()
 export class PlayerRepository {
   private players: Player[] = [];
 
   async create(username: string, password: string): Promise<Player> {
-    const player = new Player(uuidv7(), username, password);
-    this.players.push(player);
-    return player;
+    return this.prisma.player.create({
+      data: {
+        username,
+        password,
+        access: 0, // default
+      },
+    });
   }
 
   async findAll(): Promise<Player[]> {

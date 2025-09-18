@@ -1,4 +1,3 @@
-// server/src/applications/target/repository/target.repository.ts
 import { Injectable } from '@nestjs/common';
 import { Target } from 'src/rules/domain/target';
 import { uuidv7 } from 'uuidv7';

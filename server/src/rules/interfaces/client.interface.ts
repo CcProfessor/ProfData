@@ -1,6 +1,6 @@
 import { IsOptional, IsString, IsNumber, IsArray } from 'class-validator';
 
-export class EnterTargetDto {
+export class ClientTargetDto {
   @IsOptional() @IsNumber() screenWidth?: number;
   @IsOptional() @IsNumber() screenHeight?: number;
   @IsOptional() @IsString() timezone?: string;

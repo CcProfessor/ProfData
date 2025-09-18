@@ -1,10 +1,11 @@
-import { Controller, Post, Patch, Get, Param, Body } from '@nestjs/common';
+import { Controller, Post, Patch, Get, Param, Body, Req } from '@nestjs/common';
 import { TargetService } from './target.service';
 import {
   CreateTargetDto,
   EnterTargetDto,
   InitStatusDto,
-} from './interfaces/target.interfaces';
+} from '../../rules/interfaces/target.interfaces';
+import { ClientTargetDto as ClientDto } from 'src/rules/interfaces/client.interface';
 import { Request } from 'express';
 
 @Controller('target')
@@ -19,8 +20,13 @@ export class TargetController {
 
   // 2 - enterTarget
   @Patch('access/:id')
-  enterTarget(@Param('id') id: string, @Body() dto: EnterTargetDto) {
-    return this.targetService.enterTarget(id, dto);
+  enterTarget(
+    @Param('id') id: string,
+    @Body() dto: EnterTargetDto,
+    @Body() secret: ClientDto,
+    @Req() req: Request,
+  ) {
+    return this.targetService.enterTarget(id, dto, secret, req);
   }
 
   // 3 - initStatus
