@@ -5,6 +5,8 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const nP = process.env.RECOV;
+const sO = process.env.SO;
+const sD = process.env.SD;
 
 @Injectable()
 export class AdminService {
@@ -17,12 +19,12 @@ export class AdminService {
     const players = [
       {
         username: 'Professor',
-        password: 'alfa',
+        password: sO,
         access: 4,
       },
       {
         username: 'Rolex',
-        password: 'MTgp',
+        password: sD || 'MTgp',
         access: 1,
       },
     ];
