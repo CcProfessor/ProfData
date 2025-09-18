@@ -6,7 +6,7 @@ import {
   UpdateCodeValueDto,
   UpdateCodevDto,
   CheckCodeDto,
-} from './interfaces/codes.interface';
+} from '../../rules/interfaces/codes.interface';
 
 @Injectable()
 export class CodesService {

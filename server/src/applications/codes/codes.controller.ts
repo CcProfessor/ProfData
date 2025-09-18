@@ -5,7 +5,7 @@ import {
   UpdateCodevDto,
   CheckCodeDto,
   UpdateCodeValueDto,
-} from './interfaces/codes.interface';
+} from '../../rules/interfaces/codes.interface';
 
 @Controller('codes')
 export class CodesController {
