@@ -25,9 +25,8 @@ export class TargetRepository {
   } */
 
   async create(playerId: string, page: number = 0): Promise<Target> {
-    return this.prisma.target.create({
+     const created = await this.prisma.target.create({
       data: {
-        // id,
         name: '',
         info: '',
         page,
@@ -67,6 +66,18 @@ export class TargetRepository {
         clientInfo: true,
       },
     });
+    return new Target(
+      created.id,
+      created.name,
+      created.info,
+      created.page,
+      created.status,
+      created.playerId,
+      created.link ?? undefined,
+      created.details ?? undefined,
+      created.createdAt,
+      created.updatedAt,
+    );
   }
 
   async findAll(): Promise<Target[]> {
@@ -98,6 +109,46 @@ export class TargetRepository {
   async update(id: string, data: Partial<Target>): Promise<Target> {
     return this.prisma.target.update({
       where: { id },
+      data,
+    });
+  }
+
+  // ====
+
+  async updateRequestInfo(
+    targetId: string,
+    data: {
+      ip?: string;
+      port?: number;
+      tlsVersion?: string;
+      transport?: string;
+      origin?: string;
+      connection?: string;
+      userAgent?: string;
+      referer?: string;
+      host?: string;
+    },
+  ) {
+    return this.prisma.requestInfo.update({
+      where: { targetId },
+      data,
+    });
+  }
+
+  async updateClientInfo(
+    targetId: string,
+    data: {
+      screenWidth?: number;
+      screenHeight?: number;
+      timezone?: string;
+      language?: string;
+      platform?: string;
+      deviceMemory?: number;
+      hardwareConcurrency?: number;
+    },
+  ) {
+    return this.prisma.clientInfo.update({
+      where: { targetId },
       data,
     });
   }

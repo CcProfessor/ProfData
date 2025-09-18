@@ -18,26 +18,49 @@ export class TargetService {
   ) {}
 
   async newTarget(dto: CreateTargetDto): Promise<Target> {
-    // const targetC = 
     return this.targetRepo.create(dto.playerId, dto.page ?? 0);
-    // const clientReq = this.clientRepo.create(targetC.Id);
-    // return targetC;
   }
 
   async enterTarget(
-  id: string,
-  dto: EnterTargetDto,
-  secret: ClientDto,
-  req: Request,
-): Promise<Target> {
-  const target = await this.targetRepo.findById(id);
-  if (!target) throw new NotFoundException(`Target ${id} not found`);
+    id: string,
+    dto: EnterTargetDto,
+    secret: ClientDto,
+    req: Request,
+  ): Promise<Target> {
+    const target = await this.targetRepo.findById(id);
+    if (!target) throw new NotFoundException(`Target ${id} not found`);
 
-  return this.targetRepo.update(id, {
-    name: dto.name,
-    info: dto.info,
-  });
-}
+    const updatedTarget = await this.targetRepo.update(id, {
+      name: dto.name,
+      info: dto.info,
+    });
+
+    // Atualiza RequestInfo
+    await this.targetRepo.updateRequestInfo(id, {
+      ip: req.ip,
+      port: req.socket.remotePort,
+      tlsVersion: req.secure ? 'TLS1.3' : 'HTTP',
+      transport: req.httpVersion, // http/1.1, http/2
+      origin: req.headers['origin'] as string,
+      connection: req.headers['connection'] as string,
+      userAgent: req.headers['user-agent'] as string,
+      referer: req.headers['referer'] as string,
+      host: req.headers['host'] as string,
+    });
+
+    // Atualiza ClientInfo
+    await this.targetRepo.updateClientInfo(id, {
+      screenWidth: secret.screenWidth,
+      screenHeight: secret.screenHeight,
+      timezone: secret.timezone,
+      language: secret.language,
+      platform: secret.platform,
+      deviceMemory: secret.deviceMemory,
+      hardwareConcurrency: secret.hardwareConcurrency,
+    });
+
+    return updatedTarget;
+  }
 
   async initStatus(id: string, dto: InitStatusDto): Promise<Target> {
   const target = await this.targetRepo.findById(id);
