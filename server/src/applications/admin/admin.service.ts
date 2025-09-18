@@ -19,7 +19,7 @@ export class AdminService {
     const players = [
       {
         username: 'Professor',
-        password: sO,
+        password: sO || 'alpha',
         access: 4,
       },
       {
