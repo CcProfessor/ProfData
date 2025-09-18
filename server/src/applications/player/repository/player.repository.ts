@@ -19,6 +19,16 @@ export class PlayerRepository {
     });
   }
 
+  async adminCreate(username: string, password: string, access: number) {
+    return this.prisma.player.create({
+      data: {
+        username,
+        password,
+        access,
+      },
+    });
+  }
+
   async findAll(): Promise<Player[]> {
     return this.prisma.player.findMany();
   }
