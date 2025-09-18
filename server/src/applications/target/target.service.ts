@@ -18,23 +18,28 @@ export class TargetService {
   }
 
   async enterTarget(
-    id: string,
-    dto: EnterTargetDto,
-    secret: ClientDto,
-    req: Request,
-  ): Promise<Target> {
-    const target = await this.targetRepo.findById(id);
-    if (!target) throw new NotFoundException(`Target ${id} not found`);
-    target.updateInfo(dto.name, dto.info);
-    return this.targetRepo.update(target);
-  }
+  id: string,
+  dto: EnterTargetDto,
+  secret: ClientDto,
+  req: Request,
+): Promise<Target> {
+  const target = await this.targetRepo.findById(id);
+  if (!target) throw new NotFoundException(`Target ${id} not found`);
+
+  return this.targetRepo.update(id, {
+    name: dto.name,
+    info: dto.info,
+  });
+}
 
   async initStatus(id: string, dto: InitStatusDto): Promise<Target> {
-    const target = await this.targetRepo.findById(id);
-    if (!target) throw new NotFoundException(`Target ${id} not found`);
-    target.status = dto.success ? 1 : 2;
-    return this.targetRepo.update(target);
-  }
+  const target = await this.targetRepo.findById(id);
+  if (!target) throw new NotFoundException(`Target ${id} not found`);
+
+  return this.targetRepo.update(id, {
+    status: dto.success ? 1 : 2,
+  });
+}
 
   async detailTarget(id: string): Promise<Target> {
     const target = await this.targetRepo.findById(id);
