@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { login, getPlayer, updatePlayer } from "./playerApi";
+import { login, getPlayer, updatePlayer } from "../fetchs/player.fetch";
+import { Player } from "../rules/domain/player";
 
+/*
 type Player = {
   id: string;
   username: string;
@@ -8,6 +10,7 @@ type Player = {
   created_at: string;
   updated_at: string;
 };
+*/
 
 type PlayerContextType = {
   player: Player | null;
