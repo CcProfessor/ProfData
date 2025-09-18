@@ -13,7 +13,11 @@ export class AuthService {
     const player = await this.playerService.login(username, password);
     if (!player) throw new UnauthorizedException('Invalid credentials');
 
-    const payload = { sub: player.id, username: player.username };
+    const payload = {
+      sub: player.id,
+      access: player.access,
+      createdAt: player.created_at,
+    };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -25,4 +29,6 @@ export class AuthService {
       },
     };
   }
+
+  async targetLogin() {}
 }

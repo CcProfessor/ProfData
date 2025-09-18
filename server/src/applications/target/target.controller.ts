@@ -7,6 +7,8 @@ import {
 } from '../../rules/interfaces/target.interfaces';
 import { ClientTargetDto as ClientDto } from 'src/rules/interfaces/client.interface';
 import { type Request } from 'express';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 
 export class EnterTargetRequestDto {
   dto!: EnterTargetDto;
@@ -18,6 +20,7 @@ export class TargetController {
   constructor(private readonly targetService: TargetService) {}
 
   // 1 - newTarget
+  @UseGuards(JwtAuthGuard)
   @Post('new')
   newTarget(@Body() dto: CreateTargetDto) {
     return this.targetService.newTarget(dto);
@@ -40,6 +43,7 @@ export class TargetController {
   }
 
   // 4 - detailTarget
+  @UseGuards(JwtAuthGuard)
   @Get('detail/:id')
   detailTarget(@Param('id') id: string) {
     return this.targetService.detailTarget(id);
@@ -52,18 +56,21 @@ export class TargetController {
   }
 
   // 6 - getByPlayer
+  @UseGuards(JwtAuthGuard)
   @Get('player/:id')
   getByPlayer(@Param('id') playerId: string) {
     return this.targetService.getByPlayer(playerId);
   }
 
   // 7 - getTargetIdsByPlayer
+  @UseGuards(JwtAuthGuard)
   @Get('player/:id/ids')
   getTargetIdsByPlayer(@Param('id') playerId: string) {
     return this.targetService.getTargetIdsByPlayer(playerId);
   } 
 
   // 8 - updatePage
+  @UseGuards(JwtAuthGuard)
   @Patch('targetPage/:id/')
   updatePage(@Param('id') targetId: string, @Body() page: number) {
     return this.targetService.updatePage(targetId, page);
