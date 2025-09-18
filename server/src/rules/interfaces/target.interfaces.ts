@@ -1,5 +1,3 @@
-// server/src/applications/target/interfaces/target.interfaces.ts
-
 // DTO para criar um novo Target
 export class CreateTargetDto {
   playerId!: string;   // obrigatório
@@ -19,6 +17,20 @@ export class InitStatusDto {
 
 // Interface de retorno
 export interface TargetResponse {
+  id: string;
+  playerId: string;
+  page: number;
+  name?: string;
+  info?: string;
+  link?: string;
+  details?: string;
+  status: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+// Interface de persistência
+export interface TargetPersistence {
   id: string;
   playerId: string;
   page: number;

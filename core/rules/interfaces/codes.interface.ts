@@ -26,3 +26,13 @@ export class CodeResponse {
   created_at!: Date;
   updated_at!: Date;
 }
+
+export class CodePersistence {
+  id!: string;
+  targetId!: string;
+  status!: number;
+  codev?: string;
+  value?: string;
+  created_at!: Date;
+  updated_at!: Date;
+}
