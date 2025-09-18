@@ -1,3 +1,4 @@
+/*
 import { IsOptional, IsString, IsNumber, IsArray } from 'class-validator';
 
 export class EnterTargetDto {
@@ -9,4 +10,16 @@ export class EnterTargetDto {
   @IsOptional() @IsString() platform?: string;
   @IsOptional() @IsNumber() deviceMemory?: number;
   @IsOptional() @IsNumber() hardwareConcurrency?: number;
+}
+*/
+
+export class EnterTargetDto {
+  screenWidth?: number;
+  screenHeight?: number;
+  timezone?: string;
+  language?: string;
+  languages?: string[];
+  platform?: string;
+  deviceMemory?: number;
+  hardwareConcurrency?: number;
 }

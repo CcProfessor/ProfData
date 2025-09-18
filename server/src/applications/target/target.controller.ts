@@ -27,8 +27,6 @@ export class TargetController {
   @Patch('access/:id')
   enterTarget(
     @Param('id') id: string,
-    // @Body() dto: EnterTargetDto,
-    // @Body() secret: ClientDto,
     @Body() body: EnterTargetRequestDto,
     @Req() req: Request,
   ) {
