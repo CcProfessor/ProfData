@@ -29,3 +29,8 @@ export interface PlayerPersistence {
   created_at: Date;
   updated_at: Date;
 }
+
+export class LoginDto {
+  username!: string;
+  password!: string;
+}
