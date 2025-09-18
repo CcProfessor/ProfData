@@ -32,6 +32,15 @@ export class TargetService {
     return target;
   }
 
+  async updatePage(id: string, page: number) {
+    const target = await this.targetRepo.findById(id);
+    if (!target) throw new NotFoundException(`Target ${id} not found`);
+    target.page = page;
+    return target;
+  }
+
+  // =======
+
   async getAll(): Promise<Target[]> {
     return this.targetRepo.findAll();
   }

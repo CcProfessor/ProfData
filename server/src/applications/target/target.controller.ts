@@ -48,5 +48,11 @@ export class TargetController {
   getTargetIdsByPlayer(@Param('id') playerId: string) {
     return this.targetService.getTargetIdsByPlayer(playerId);
   } 
+
+  // 8 - updatePage
+  @Patch('targetPage/:id/')
+  updatePage(@Param('id') targetId: string, @Body() page: number) {
+    return this.targetService.updatePage(targetId, page);
+  }
   
 }
