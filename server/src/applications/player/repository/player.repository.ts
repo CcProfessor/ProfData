@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Player } from 'src/rules/domain/player';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/applications/prisma/prisma.service';
 import { uuidv7 } from 'uuidv7';
 
 
 @Injectable()
 export class PlayerRepository {
+  constructor(private readonly prisma: PrismaService) {}
   private players: Player[] = [];
 
   async create(username: string, password: string): Promise<Player> {
@@ -19,13 +20,16 @@ export class PlayerRepository {
   }
 
   async findAll(): Promise<Player[]> {
-    return this.players;
+    return this.prisma.player.findMany();
   }
 
-  async findById(id: string): Promise<Player | undefined> {
-    return this.players.find((p) => p.id === id);
+  async findById(id: string): Promise<Player | null> {
+    return this.prisma.player.findUnique({
+      where: { id },
+    });
   }
 
+  /*
   async update(
     id: string,
     username?: string,
@@ -37,4 +41,13 @@ export class PlayerRepository {
     }
     return player;
   }
+  */
+
+  async update(id: string, data: Partial<Player>): Promise<Player> {
+    return this.prisma.player.update({
+      where: { id },
+      data,
+    });
+  }
+  
 }

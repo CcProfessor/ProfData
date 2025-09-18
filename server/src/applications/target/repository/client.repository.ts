@@ -1,6 +1,6 @@
 // target.repository.ts
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 // import { Target } from '@prisma/client';
 
 @Injectable()
