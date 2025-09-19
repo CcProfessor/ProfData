@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Target } from 'src/rules/domain/target';
 import { uuidv7 } from 'uuidv7';
+import { TargetMapper } from 'src/rules/mappers/target.mapper';
 
 @Injectable()
 export class TargetRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(playerId: string, page: number = 0): Promise<Target> {
-     const created = await this.prisma.target.create({
+    const created = await this.prisma.target.create({
       data: {
         name: '',
         info: '',
@@ -44,46 +45,32 @@ export class TargetRepository {
           },
         },
       },
-      include: {
-        requestInfo: true,
-        clientInfo: true,
-      },
     });
-    return new Target(
-      created.id,
-      created.name || '',
-      created.info || '',
-      created.page,
-      created.status,
-      created.playerId,
-      created.link || '',
-      created.details || '',
-      // created.createdAt,
-      // created.updatedAt,
-    );
+
+    return TargetMapper.toDomain(created);
   }
 
   async findAll(): Promise<Target[]> {
-    return this.prisma.target.findMany();
+    const found = await this.prisma.target.findMany();
+    return found.map(TargetMapper.toDomain);
   }
 
   async findById(id: string): Promise<Target | null> {
-    return this.prisma.target.findUnique({
-      where: { id },
-    });
+    const found = await this.prisma.target.findUnique({ where: { id } });
+    return found ? TargetMapper.toDomain(found) : null;
   }
 
   async findByPlayer(playerId: string): Promise<Target[]> {
-    return this.prisma.target.findMany({
-      where: { playerId },
-    });
+    const found = await this.prisma.target.findMany({ where: { playerId } });
+    return found.map(TargetMapper.toDomain);
   }
 
   async update(id: string, data: Partial<Target>): Promise<Target> {
-    return this.prisma.target.update({
+    const updated = await this.prisma.target.update({
       where: { id },
       data,
     });
+    return TargetMapper.toDomain(updated);
   }
 
   // ====
@@ -135,5 +122,4 @@ export class TargetRepository {
     });
     return targets.map((t) => t.id);
   }
-  
 }

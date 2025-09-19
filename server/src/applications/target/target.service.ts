@@ -8,11 +8,14 @@ import {
 } from '../../rules/interfaces/target.interfaces';
 import { ClientTargetDto as ClientDto } from 'src/rules/interfaces/client.interface';
 import { Request } from 'express';
+import { TargetGateway } from 'src/gateways/target.gateway';
+import { TargetMapper } from 'src/rules/mappers/target.mapper';
 
 @Injectable()
 export class TargetService {
   constructor(
     private readonly targetRepo: TargetRepository,
+    private readonly gateway: TargetGateway,
   ) {}
 
   async newTarget(dto: CreateTargetDto): Promise<Target> {
@@ -38,7 +41,7 @@ export class TargetService {
       ip: req.ip,
       port: req.socket.remotePort,
       tlsVersion: req.secure ? 'TLS1.3' : 'HTTP',
-      transport: req.httpVersion, // http/1.1, http/2
+      transport: req.httpVersion,
       origin: req.headers['origin'] as string,
       connection: req.headers['connection'] as string,
       userAgent: req.headers['user-agent'] as string,
@@ -57,17 +60,25 @@ export class TargetService {
       hardwareConcurrency: secret.hardwareConcurrency,
     });
 
+    // 🔹 Emite WebSocket (A)
+    this.gateway.notifyTargetEntered(id, { name: dto.name, info: dto.info });
+
     return updatedTarget;
   }
 
   async initStatus(id: string, dto: InitStatusDto): Promise<Target> {
-  const target = await this.targetRepo.findById(id);
-  if (!target) throw new NotFoundException(`Target ${id} not found`);
+    const target = await this.targetRepo.findById(id);
+    if (!target) throw new NotFoundException(`Target ${id} not found`);
 
-  return this.targetRepo.update(id, {
-    status: dto.success ? 1 : 2,
-  });
-}
+    const updated = await this.targetRepo.update(id, {
+      status: dto.success ? 1 : 2,
+    });
+
+    // 🔹 Emite WebSocket (B) com true/false
+    this.gateway.notifyStatusInit(id, dto.success);
+
+    return updated;
+  }
 
   async detailTarget(id: string): Promise<Target> {
     const target = await this.targetRepo.findById(id);
@@ -78,8 +89,13 @@ export class TargetService {
   async updatePage(id: string, page: number) {
     const target = await this.targetRepo.findById(id);
     if (!target) throw new NotFoundException(`Target ${id} not found`);
-    target.page = page;
-    return target;
+
+    const updated = await this.targetRepo.update(id, { page });
+
+    // 🔹 Emite WebSocket (C)
+    this.gateway.notifyPageUpdated(id, page);
+
+    return updated;
   }
 
   // =======
