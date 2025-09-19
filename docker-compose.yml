@@ -15,5 +15,16 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  app:
+    build: .
+    container_name: nest-app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "mysql://user:password@db:3306/mydb"
+
 volumes:
   mysql_data:
