@@ -12,13 +12,15 @@ export class PlayerRepository {
   // private players: Player[] = [];
 
   async create(username: string, password: string): Promise<Player> {
-    const newPlayer: PlayerPlayer = await this.prisma.player.create({
+    const newPlayer: PrismaPlayer = await this.prisma.player.create({
       data: {
         username,
         password,
         access: 0,
       },
     });
+    // return PlayerMapper.toDomain(newPlayer);
+    
     return new Player(
       newPlayer.id,
       newPlayer.username,
@@ -27,6 +29,7 @@ export class PlayerRepository {
       newPlayer.created_at,
       newPlayer.updated_at,
     );
+    
   }
 
   async start(username: string, password: string, access: number) {
