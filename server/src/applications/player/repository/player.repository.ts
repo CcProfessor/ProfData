@@ -9,7 +9,7 @@ export class PlayerRepository {
   constructor(private readonly prisma: PrismaService) {}
   // private players: Player[] = [];
 
-  async create(username: string, password: string): Promise<Player> {
+  async create(username: string, password: string) {
     return this.prisma.player.create({
       data: {
         username,
@@ -29,31 +29,17 @@ export class PlayerRepository {
     });
   }
 
-  async findAll(): Promise<Player[]> {
+  async findAll() {
     return this.prisma.player.findMany();
   }
 
-  async findById(id: string): Promise<Player | null> {
+  async findById(id: string) {
     return this.prisma.player.findUnique({
       where: { id },
     });
   }
 
-  /*
-  async update(
-    id: string,
-    username?: string,
-    password?: string,
-  ): Promise<Player | undefined> {
-    const player = await this.findById(id);
-    if (player) {
-      player.updateProfile(username, password);
-    }
-    return player;
-  }
-  */
-
-  async update(id: string, data: Partial<Player>): Promise<Player> {
+  async update(id: string, data: Partial<Player>) {
     return this.prisma.player.update({
       where: { id },
       data,
