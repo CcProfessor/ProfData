@@ -1,19 +1,23 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000");
+export function connectTargetSocket(targetId: string) {
+  const socket = io("http://localhost:3000");
 
-// ✅ Entrar no mesmo room
-socket.emit("joinTarget", targetId);
+  // ✅ Entrar no room
+  socket.emit("joinTarget", targetId);
 
-// 🔹 Escutar eventos
-socket.on("targetEntered", (data) => {
-  console.log("Cliente entrou no target:", data);
-});
+  // 🔹 Escutar eventos
+  socket.on("targetEntered", (data) => {
+    console.log("Novo target entrou:", data);
+  });
 
-socket.on("targetStatusInit", (data) => {
-  console.log("Status do cliente:", data);
-});
+  socket.on("targetStatusInit", (data) => {
+    console.log("Status inicial recebido:", data);
+  });
 
-socket.on("targetPageUpdated", (data) => {
-  console.log("Cliente pode ir para página:", data.page);
-});
+  socket.on("targetPageUpdated", (data) => {
+    console.log("Página autorizada:", data.page);
+  });
+
+  return socket;
+}
