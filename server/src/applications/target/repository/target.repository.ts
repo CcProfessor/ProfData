@@ -17,7 +17,7 @@ export class TargetRepository {
         status: 0,
         playerId,
 
-        requestInfo: {
+        request: {
           create: {
             id: uuidv7(),
             ip: null,
@@ -32,7 +32,7 @@ export class TargetRepository {
           },
         },
 
-        clientInfo: {
+        client: {
           create: {
             id: uuidv7(),
             screenWidth: null,

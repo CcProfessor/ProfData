@@ -34,10 +34,10 @@ export interface TargetPersistence {
   id: string;
   playerId: string;
   page: number;
-  name?: string;
-  info?: string;
-  link?: string;
-  details?: string;
+  name: string | null;
+  info: string | null;
+  link: string | null;
+  details: string | null;
   status: number;
   created_at: Date;
   updated_at: Date;
