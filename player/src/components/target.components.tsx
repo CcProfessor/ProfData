@@ -1,6 +1,6 @@
 // /workspaces/ProfData/player/src/components/target.components.tsx
 import { useEffect, useState } from "react";
-import { useTarget } from "../contexts/TargetContexttarget.context";
+import { useTarget } from "../contexts/target.context";
 
 // ---------- NewTarget ----------
 export function NewTarget() {

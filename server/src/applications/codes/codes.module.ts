@@ -4,6 +4,7 @@ import { CodesController } from './codes.controller';
 import { Code } from 'src/rules/domain/codes';
 import { CodesRepository } from './repository/codes.repository';
 import { AuthModule } from '../auth/auth.module';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [AuthModule],
@@ -11,6 +12,7 @@ import { AuthModule } from '../auth/auth.module';
   providers: [
     CodesService,
     Code,
+    PrismaService,
   ],
   exports: [
     CodesService,

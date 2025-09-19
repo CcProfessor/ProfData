@@ -6,23 +6,6 @@ import { uuidv7 } from 'uuidv7';
 @Injectable()
 export class TargetRepository {
   constructor(private readonly prisma: PrismaService) {}
-  private targets: Target[] = [];
-
-  /*
-  async create(playerId: string, page: number = 0): Promise<Target> {
-    const target = new Target(
-    uuidv7(),
-    "",        // name
-    "",        // info
-    page,      // page
-    0,         // status
-    playerId,
-    undefined, // link
-    undefined, // details
-  );
-    this.targets.push(target);
-    return target;
-  } */
 
   async create(playerId: string, page: number = 0): Promise<Target> {
      const created = await this.prisma.target.create({
@@ -68,15 +51,15 @@ export class TargetRepository {
     });
     return new Target(
       created.id,
-      created.name,
-      created.info,
+      created.name || '',
+      created.info || '',
       created.page,
       created.status,
       created.playerId,
-      created.link ?? undefined,
-      created.details ?? undefined,
-      created.createdAt,
-      created.updatedAt,
+      created.link || '',
+      created.details || '',
+      // created.createdAt,
+      // created.updatedAt,
     );
   }
 
@@ -95,16 +78,6 @@ export class TargetRepository {
       where: { playerId },
     });
   }
-
-  /*
-  async update(target: Target): Promise<Target> {
-    const index = this.targets.findIndex((t) => t.id === target.id);
-    if (index !== -1) {
-      this.targets[index] = target;
-    }
-    return target;
-  }
-  */
 
   async update(id: string, data: Partial<Target>): Promise<Target> {
     return this.prisma.target.update({

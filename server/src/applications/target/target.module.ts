@@ -4,6 +4,7 @@ import { TargetController } from './target.controller';
 import { TargetRepository } from './repository/target.repository';
 import { Target } from 'src/rules/domain/target';
 import { AuthModule } from '../auth/auth.module';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [AuthModule],
@@ -12,6 +13,7 @@ import { AuthModule } from '../auth/auth.module';
     TargetService,
     TargetRepository,
     Target,
+    PrismaService,
   ],
   exports: [
     TargetService,
