@@ -20,7 +20,7 @@ export class PlayerRepository {
       },
     });
     // return PlayerMapper.toDomain(newPlayer);
-    
+    /*
     return new Player(
       newPlayer.id,
       newPlayer.username,
@@ -29,7 +29,7 @@ export class PlayerRepository {
       newPlayer.created_at,
       newPlayer.updated_at,
     );
-    
+    */
   }
 
   async start(username: string, password: string, access: number) {
