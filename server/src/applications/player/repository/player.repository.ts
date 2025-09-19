@@ -7,14 +7,14 @@ import { uuidv7 } from 'uuidv7';
 @Injectable()
 export class PlayerRepository {
   constructor(private readonly prisma: PrismaService) {}
-  private players: Player[] = [];
+  // private players: Player[] = [];
 
   async create(username: string, password: string): Promise<Player> {
     return this.prisma.player.create({
       data: {
         username,
         password,
-        access: 0, // default
+        access: 0,
       },
     });
   }
@@ -38,6 +38,20 @@ export class PlayerRepository {
       where: { id },
     });
   }
+
+  /*
+  async update(
+    id: string,
+    username?: string,
+    password?: string,
+  ): Promise<Player | undefined> {
+    const player = await this.findById(id);
+    if (player) {
+      player.updateProfile(username, password);
+    }
+    return player;
+  }
+  */
 
   async update(id: string, data: Partial<Player>): Promise<Player> {
     return this.prisma.player.update({
