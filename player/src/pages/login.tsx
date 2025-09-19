@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { playerLogin } from '..player.fetch'
+import { playerLogin } from '../fetchs/player.fetch'
 
 function Login() {
   const navigate = useNavigate()
