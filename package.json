@@ -10,6 +10,9 @@
   ],
   "scripts": {
     "dev:server": "npm --workspace server run start:dev",
+    "dev:player": "npm --workspace player run dev",
+    "dev:target": "npm --workspace target run dev",
+    "dev:all": "npm-run-all -p dev:server dev:player dev:target",
     "dev:core": "ts-node core/src/index.ts",
     "dev:prisma": "prisma generate && prisma migrate dev",
     "build": "tsc -b",
