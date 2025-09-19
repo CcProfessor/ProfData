@@ -1,5 +1,3 @@
-// server/src/applications/player/interfaces/player.interfaces.ts
-
 // DTOs
 export class CreatePlayerDto {
   username!: string;

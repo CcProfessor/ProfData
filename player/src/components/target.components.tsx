@@ -1,13 +1,15 @@
-// /workspaces/ProfData/player/src/components/target.components.tsx
 import { useEffect, useState } from "react";
 import { useTarget } from "../contexts/target.context";
+import { CreateTargetDto } from "../rules/interfaces/target.interfaces";
 
 // ---------- NewTarget ----------
 export function NewTarget() {
   const { createTarget, loading } = useTarget();
 
   async function handleNewTarget() {
-    await createTarget("Novo Esquema");
+    const token = localStorage.getItem("token") || "";
+    const dto: CreateTargetDto = { playerId: "fake-player-id", page: 0 }; // TODO: pegar playerId real
+    await createTarget(dto, token);
   }
 
   return (
@@ -30,11 +32,10 @@ export function TargetControl() {
   const [messages, setMessages] = useState<WsMessage[]>([]);
 
   useEffect(() => {
-    // TODO: trocar pelo WebSocket real
     const interval = setInterval(() => {
       const fakeMessage: WsMessage = {
         type: "status",
-        payload: { status: Math.random() > 0.5 ? "running" : "idle" },
+        payload: { status: Math.random() > 0.5 ? 1 : 2 }, // agora numérico
       };
       setMessages((prev) => [...prev, fakeMessage]);
 
@@ -56,10 +57,10 @@ export function TargetControl() {
       <p><b>Status:</b> {target.status}</p>
 
       <div style={{ marginTop: "1rem" }}>
-        <button onClick={() => updateTarget(target.id, { status: "paused" })}>
+        <button onClick={() => updateTarget(target.id, { status: 3 })}>
           Pausar
         </button>
-        <button onClick={() => updateTarget(target.id, { status: "stopped" })}>
+        <button onClick={() => updateTarget(target.id, { status: 4 })}>
           Parar
         </button>
       </div>
@@ -76,4 +77,10 @@ export function TargetControl() {
       </div>
     </div>
   );
+}
+
+// ---------- Wrapper que alterna ----------
+export function TargetWrapper() {
+  const { targetStatus } = useTarget();
+  return targetStatus === 0 ? <NewTarget /> : <TargetControl />;
 }
