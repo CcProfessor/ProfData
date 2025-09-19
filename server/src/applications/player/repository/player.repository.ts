@@ -39,20 +39,6 @@ export class PlayerRepository {
     });
   }
 
-  /*
-  async update(
-    id: string,
-    username?: string,
-    password?: string,
-  ): Promise<Player | undefined> {
-    const player = await this.findById(id);
-    if (player) {
-      player.updateProfile(username, password);
-    }
-    return player;
-  }
-  */
-
   async update(id: string, data: Partial<Player>): Promise<Player> {
     return this.prisma.player.update({
       where: { id },
