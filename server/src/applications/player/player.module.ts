@@ -9,6 +9,7 @@ import { TargetService } from '../target/target.service';
 import { CodesService } from '../codes/codes.service';
 import { TargetRepository } from '../target/repository/target.repository';
 import { CodesRepository } from '../codes/repository/codes.repository';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [AuthModule, TargetModule, CodesModule],
@@ -20,6 +21,7 @@ import { CodesRepository } from '../codes/repository/codes.repository';
     TargetRepository,
     CodesService,
     CodesRepository,
+    PrismaService,
   ],
 })
 export class PlayerModule {}
