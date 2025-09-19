@@ -10,7 +10,7 @@ import { Server, Socket } from 'socket.io';
 @WebSocketGateway({ cors: true })
 export class PlayerGateway {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   // 🔹 Emitir evento quando player for atualizado
   notifyPlayerUpdate(playerId: string, data: any) {
