@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTarget } from "../contexts/target.context";
 import { CreateTargetDto } from "../rules/interfaces/target.interfaces";
 
