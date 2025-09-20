@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/login'
 import Data from './pages/data'
 import Target from './pages/target'
+import React from 'react'
 
 function App() {
   return (
