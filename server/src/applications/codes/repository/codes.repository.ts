@@ -2,63 +2,40 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Code } from '../../../rules/domain/codes';
 import { uuidv7 } from 'uuidv7';
+import { CodesMapper } from '../../../rules/mappers/codes.mapper';
 
 @Injectable()
 export class CodesRepository {
   constructor(private readonly prisma: PrismaService) {}
-  private codes: Code[] = [];
-
-  /*
-  async create(targetId: string): Promise<Code> {
-    const code = new Code(uuidv7(), targetId);
-    this.codes.push(code);
-    return code;
-  }
-  */
 
   async create(targetId: string): Promise<Code> {
-    return this.prisma.code.create({
+    const created = await this.prisma.code.create({
       data: {
+        id: uuidv7(),
         targetId,
         status: 0,
       },
     });
+    return CodesMapper.toDomain(created);
   }
 
   async findAll(): Promise<Code[]> {
-    return this.prisma.code.findMany();
+    const list = await this.prisma.code.findMany();
+    return list.map(CodesMapper.toDomain);
   }
 
   async findById(id: string): Promise<Code | null> {
-    return this.prisma.code.findUnique({
-      where: { id },
-    });
+    const found = await this.prisma.code.findUnique({ where: { id } });
+    return found ? CodesMapper.toDomain(found) : null;
   }
-
-  /*
-  async update(code: Code): Promise<Code> {
-    const index = this.codes.findIndex((c) => c.id === code.id);
-    if (index !== -1) {
-      this.codes[index] = code;
-    }
-    return code;
-  }
-  */
 
   async update(id: string, data: Partial<Code>): Promise<Code> {
-    return this.prisma.code.update({
+    const updated = await this.prisma.code.update({
       where: { id },
       data,
     });
+    return CodesMapper.toDomain(updated);
   }
-
-  /*
-  async findCodeIdsByTargetIds(targetIds: string[]): Promise<string[][]> {
-    return targetIds.map((targetId) =>
-        this.codes.filter((c) => c.targetId === targetId).map((c) => c.id),
-    );
-  }
-  */
 
   async findCodeIdsByTargetIds(targetIds: string[]): Promise<string[][]> {
     const result: string[][] = [];
