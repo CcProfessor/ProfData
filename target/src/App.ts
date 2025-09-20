@@ -1,34 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { connectTargetSocket } from "./gateway/socket";
+// target/src/App.tsx
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-export default function TargetApp({ targetId }: { targetId: string }) {
-  const [status, setStatus] = useState(0);
-  const [page, setPage] = useState(1);
+import Header from "./components/header.component";
+import LoginPage from "./pages/login";
+import AscessPage from "./pages/ascess";
 
-  useEffect(() => {
-    const socket = connectTargetSocket(targetId);
-
-    socket.on("targetStatusInit", (data) => {
-      setStatus(data.status);
-    });
-
-    socket.on("targetPageUpdated", (data) => {
-      setPage(data.page);
-    });
-
-    return () => socket.disconnect();
-  }, [targetId]);
+/**
+ * Roteamento principal do app Target (cliente)
+ *
+ * /        -> redireciona para /login ou /ascess dependendo do token
+ * /login   -> página de login
+ * /ascess  -> página de acesso (onde o cliente entra no flow)
+ */
+export default function App() {
+  // Checagem simples: se houver token em localStorage consideramos "autenticado".
+  // Se você tem outro método (cookie, validação de sessão, etc.), troque essa lógica.
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const initialRoute = token ? "/ascess" : "/login";
 
   return (
-    <div>
-      <h1>Target Client</h1>
-      <p><b>Status:</b> {status}</p>
-      <p><b>Página atual:</b> {page}</p>
-
-      {page === 1 && <div>Página inicial</div>}
-      {page === 2 && <div>Carregando...</div>}
-      {page === 3 && <div>Requisição em andamento</div>}
-      {page === 4 && <div>Acesso liberado!</div>}
-    </div>
+    <BrowserRouter>
+      <Header />
+      <main style={{ padding: "1rem" }}>
+        <Routes>
+          <Route path="/" element={<Navigate to={initialRoute} replace />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/ascess" element={<AscessPage />} />
+          {/* fallback: manda para raiz que já redireciona corretamente */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
