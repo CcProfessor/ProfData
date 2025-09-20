@@ -1,6 +1,5 @@
-// /workspaces/ProfData/target/src/App.tsx
 import React, { useEffect, useState } from "react";
-import { connectTargetSocket } from "./gateways/target.gateway";
+import { connectTargetSocket } from "./gateway/socket";
 
 export default function TargetApp({ targetId }: { targetId: string }) {
   const [status, setStatus] = useState(0);
