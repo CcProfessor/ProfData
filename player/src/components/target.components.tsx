@@ -27,6 +27,7 @@ type WsMessage = {
   payload: any;
 };
 
+/*
 export function TargetControl() {
   const { target, updateTarget } = useTarget();
   const [messages, setMessages] = useState<WsMessage[]>([]);
@@ -78,6 +79,29 @@ export function TargetControl() {
     </div>
   );
 }
+*/
+
+export function TargetControl() {
+  const { target, updateTarget } = useTarget();
+
+  if (!target) return <p>Nenhum Target ativo</p>;
+
+  return (
+    <div>
+      <h2>Controle do Target</h2>
+      <p><b>ID:</b> {target.id}</p>
+      <p><b>Nome:</b> {target.name}</p>
+      <p><b>Status:</b> {target.status}</p>
+      <p><b>Página:</b> {target.page}</p>
+
+      <div style={{ marginTop: "1rem" }}>
+        <button onClick={() => updateTarget(target.id, { status: 3 })}>Pausar</button>
+        <button onClick={() => updateTarget(target.id, { status: 4 })}>Parar</button>
+      </div>
+    </div>
+  );
+}
+
 
 // ---------- Wrapper que alterna ----------
 export function TargetWrapper() {

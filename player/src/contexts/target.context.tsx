@@ -1,10 +1,8 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { TargetResponse, CreateTargetDto } from "../rules/interfaces/target.interfaces";
 import { newTarget } from "../fetchs/target.fetch";
+import { connectTargetSocket } from "../gateway/socket";
 
-// ======================
-// Tipos e Contexto
-// ======================
 type TargetContextType = {
   target: TargetResponse | null;
   targetStatus: number;
@@ -17,20 +15,33 @@ type TargetContextType = {
 
 const TargetContext = createContext<TargetContextType | undefined>(undefined);
 
-// ======================
-// Provider
-// ======================
 export function TargetProvider({ children }: { children: ReactNode }) {
   const [target, setTarget] = useState<TargetResponse | null>(null);
   const [loading, setLoading] = useState(false);
-  const [targetStatus, setTargetStatus] = useState(0); // default = 0
+  const [targetStatus, setTargetStatus] = useState(0);
+  const [socket, setSocket] = useState<any>(null);
 
   const createTarget = async (dto: CreateTargetDto, token: string) => {
     setLoading(true);
     try {
       const created = await newTarget(dto, token);
       setTarget(created);
-      setTargetStatus(1); // muda para 1 ao criar
+      setTargetStatus(1);
+
+      // 🔌 conecta socket automaticamente
+      const sock = connectTargetSocket(created.id);
+      setSocket(sock);
+
+      // escuta eventos do socket
+      sock.on("targetStatusInit", (data: any) => {
+        setTargetStatus(data.status);
+        setTarget((prev) => prev ? { ...prev, status: data.status } : prev);
+      });
+
+      sock.on("targetPageUpdated", (data: any) => {
+        setTarget((prev) => prev ? { ...prev, page: data.page } : prev);
+      });
+
     } finally {
       setLoading(false);
     }
@@ -42,6 +53,11 @@ export function TargetProvider({ children }: { children: ReactNode }) {
     try {
       const updated: TargetResponse = { ...target, ...data, updated_at: new Date() };
       setTarget(updated);
+
+      // 🚀 se quiser notificar o server via socket:
+      if (socket) {
+        socket.emit("updateTarget", { id, ...data });
+      }
     } finally {
       setLoading(false);
     }
@@ -50,6 +66,8 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const clearTarget = () => {
     setTarget(null);
     setTargetStatus(0);
+    if (socket) socket.disconnect();
+    setSocket(null);
   };
 
   return (
@@ -61,9 +79,6 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// ======================
-// Hook
-// ======================
 export function useTarget() {
   const context = useContext(TargetContext);
   if (!context) throw new Error("useTarget must be used inside TargetProvider");
