@@ -21,12 +21,12 @@ export class CodesMapper {
       raw.id,
       raw.targetId,
       raw.status,
-      raw.codev ?? "",
-      raw.value ?? "",
+      raw.codev ?? undefined,   // 👈 null → undefined
+      raw.value ?? undefined,   // 👈 null → undefined
       new Date(raw.created_at),
       new Date(raw.updated_at),
     );
-  }
+  }  
 
   // 🔹 Domínio -> Response (para expor na API)
   static toResponse(code: Code): CodeResponse {

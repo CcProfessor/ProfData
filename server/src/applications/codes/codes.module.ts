@@ -13,10 +13,11 @@ import { PrismaService } from '../prisma/prisma.service';
     CodesService,
     Code,
     PrismaService,
+    CodesRepository,
   ],
   exports: [
     CodesService,
-    CodesRepository
+    CodesRepository,
   ]
 })
 export class CodesModule {}
