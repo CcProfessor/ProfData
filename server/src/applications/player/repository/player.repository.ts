@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Player } from 'src/rules/domain/player';
+import { Player } from '../../../rules/domain/player';
 import { Player as PrismaPlayer } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { PlayerMapper } from '../../../rules/mappers/player.mapper';

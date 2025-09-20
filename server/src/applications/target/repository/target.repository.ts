@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Target } from 'src/rules/domain/target';
+import { Target } from '../../../rules/domain/target';
 import { uuidv7 } from 'uuidv7';
-import { TargetMapper } from 'src/rules/mappers/target.mapper';
+import { TargetMapper } from '../../../rules/mappers/target.mapper';
 
 @Injectable()
 export class TargetRepository {
