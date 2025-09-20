@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CodesRepository } from './repository/codes.repository';
-import { Code } from 'src/rules/domain/codes';
+import { Code } from '../../rules/domain/codes';
 import {
   CreateCodeDto,
   UpdateCodeValueDto,
