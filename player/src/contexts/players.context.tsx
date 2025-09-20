@@ -1,16 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { login, getPlayer, updatePlayer } from "../fetchs/player.fetch";
+import { playerLogin, getPlayer, updatePlayer } from "../fetchs/player.fetch";
 import { Player } from "../rules/domain/player";
-
-/*
-type Player = {
-  id: string;
-  username: string;
-  access: number;
-  created_at: string;
-  updated_at: string;
-};
-*/
 
 type PlayerContextType = {
   player: Player | null;
@@ -30,7 +20,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const loginPlayer = async (username: string, password: string) => {
     setLoading(true);
     try {
-      const data = await login(username, password);
+      const data = await playerLogin(username, password);
       setPlayer(data);
     } finally {
       setLoading(false);
