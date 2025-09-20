@@ -10,6 +10,10 @@ import {
   TargetResponse,
   CreateTargetDto,
 } from "../rules/interfaces/target.interfaces";
+import {
+  CodeResponse,
+  CodePersistence,
+} from "../rules/interfaces/codes.interface";
 import { newTarget } from "../fetchs/target.fetch";
 import { connectTargetSocket } from "../gateway/socket";
 
@@ -42,6 +46,7 @@ export interface ClientInfo {
 export interface TargetData extends TargetResponse {
   request?: RequestInfo | null;
   client?: ClientInfo | null;
+  codes?: CodeResponse[] | null;
 }
 
 // ======================

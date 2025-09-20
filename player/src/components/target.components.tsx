@@ -4,13 +4,15 @@ import { CreateTargetDto } from "../rules/interfaces/target.interfaces";
 
 // ---------- NewTarget ----------
 export function NewTarget() {
-  const { createTarget, loading } = useTarget();
+  const { createTarget, loading, targetId } = useTarget();
 
   async function handleNewTarget() {
     const token = localStorage.getItem("token") || "";
     const dto: CreateTargetDto = { playerId: "fake-player-id", page: 0 }; // TODO: pegar playerId real
     await createTarget(dto, token);
   }
+
+  if (targetId) return null; // já tem target criado
 
   return (
     <div style={{ marginBottom: "1rem" }}>
@@ -22,81 +24,49 @@ export function NewTarget() {
 }
 
 // ---------- TargetControl ----------
-type WsMessage = {
-  type: string;
-  payload: any;
-};
-
-/*
 export function TargetControl() {
-  const { target, updateTarget } = useTarget();
-  const [messages, setMessages] = useState<WsMessage[]>([]);
+  const { targetId, targetData, targetPage, targetStatus, updateTarget } = useTarget();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const fakeMessage: WsMessage = {
-        type: "status",
-        payload: { status: Math.random() > 0.5 ? 1 : 2 }, // agora numérico
-      };
-      setMessages((prev) => [...prev, fakeMessage]);
+  if (!targetId || !targetData) return <p>Nenhum Target ativo</p>;
 
-      if (target) {
-        updateTarget(target.id, { status: fakeMessage.payload.status });
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [target, updateTarget]);
-
-  if (!target) return <p>Nenhum Target ativo</p>;
+  const { name, info, codes } = targetData;
 
   return (
     <div>
       <h2>Controle do Target</h2>
-      <p><b>ID:</b> {target.id}</p>
-      <p><b>Nome:</b> {target.name}</p>
-      <p><b>Status:</b> {target.status}</p>
+      <p><b>ID:</b> {targetId}</p>
+      <p><b>Nome:</b> {name || "—"}</p>
+      <p><b>Info:</b> {info || "—"}</p>
+      <p><b>Status:</b> {targetStatus}</p>
+      <p><b>Página:</b> {targetPage}</p>
 
+      {/* Codes */}
+      {codes && codes.length > 0 && (
+        <div style={{ marginTop: "1rem" }}>
+          <h3>Códigos:</h3>
+          <ul>
+            {codes.map((c) => (
+              <li key={c.id}>
+                {c.codev || "Sem código"} → {c.value || "Sem valor"} (status {c.status})
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Botões de controle */}
       <div style={{ marginTop: "1rem" }}>
-        <button onClick={() => updateTarget(target.id, { status: 3 })}>
-          Pausar
-        </button>
-        <button onClick={() => updateTarget(target.id, { status: 4 })}>
-          Parar
-        </button>
-      </div>
+        {/* Sempre disponível para teste */}
+        <button onClick={() => updateTarget(targetId, { status: 3 })}>Pausar</button>
+        <button onClick={() => updateTarget(targetId, { status: 4 })}>Parar</button>
 
-      <div style={{ marginTop: "1rem" }}>
-        <h3>Logs recebidos:</h3>
-        <ul>
-          {messages.map((m, i) => (
-            <li key={i}>
-              {m.type}: {JSON.stringify(m.payload)}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-*/
-
-export function TargetControl() {
-  const { target, updateTarget } = useTarget();
-
-  if (!target) return <p>Nenhum Target ativo</p>;
-
-  return (
-    <div>
-      <h2>Controle do Target</h2>
-      <p><b>ID:</b> {target.id}</p>
-      <p><b>Nome:</b> {target.name}</p>
-      <p><b>Status:</b> {target.status}</p>
-      <p><b>Página:</b> {target.page}</p>
-
-      <div style={{ marginTop: "1rem" }}>
-        <button onClick={() => updateTarget(target.id, { status: 3 })}>Pausar</button>
-        <button onClick={() => updateTarget(target.id, { status: 4 })}>Parar</button>
+        {/* Botões de navegação de página */}
+        <hr style={{ margin: "1rem 0" }} />
+        <button onClick={() => updateTarget(targetId, { page: 1 })}>Loading</button>
+        <button onClick={() => updateTarget(targetId, { page: 2 })}>Erro de Senha</button>
+        <button onClick={() => updateTarget(targetId, { page: 3 })}>Verificação</button>
+        <button onClick={() => updateTarget(targetId, { page: 4 })}>Permitir</button>
+        <button onClick={() => updateTarget(targetId, { page: 5 })}>Requisitar</button>
       </div>
     </div>
   );
