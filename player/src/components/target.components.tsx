@@ -75,6 +75,6 @@ export function TargetControl() {
 
 // ---------- Wrapper que alterna ----------
 export function TargetWrapper() {
-  const { targetStatus } = useTarget();
-  return targetStatus === 0 ? <NewTarget /> : <TargetControl />;
+  const { targetId } = useTarget();
+  return targetId ? <TargetControl /> : <NewTarget />;
 }
