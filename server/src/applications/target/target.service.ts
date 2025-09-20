@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TargetRepository } from './repository/target.repository';
-import { Target } from 'src/rules/domain/target';
+import { Target } from '../../rules/domain/target';
 import {
   CreateTargetDto,
   EnterTargetDto,
   InitStatusDto,
 } from '../../rules/interfaces/target.interfaces';
-import { ClientTargetDto as ClientDto } from 'src/rules/interfaces/client.interface';
+import { ClientTargetDto as ClientDto } from '../../rules/interfaces/client.interface';
 import { Request } from 'express';
-import { TargetGateway } from 'src/gateways/target.gateway';
-import { TargetMapper } from 'src/rules/mappers/target.mapper';
+import { TargetGateway } from '../../gateways/target.gateway';
+import { TargetMapper } from '../../rules/mappers/target.mapper';
 
 @Injectable()
 export class TargetService {

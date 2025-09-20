@@ -5,7 +5,7 @@ import {
   EnterTargetDto,
   InitStatusDto,
 } from '../../rules/interfaces/target.interfaces';
-import { ClientTargetDto as ClientDto } from 'src/rules/interfaces/client.interface';
+import { ClientTargetDto as ClientDto } from '../../rules/interfaces/client.interface';
 import { type Request } from 'express';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt.guard';
