@@ -9,7 +9,7 @@ import { TargetModule } from '../target/target.module';
 @Module({
   imports: [
     forwardRef(() => PlayerModule), // 👈 evita ciclo
-    TargetModule,                   // 👈 necessário para TargetService
+    forwardRef(() => TargetModule),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'super_secret_key',
       signOptions: { expiresIn: '1h' },
