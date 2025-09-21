@@ -5,7 +5,7 @@ import { TargetRepository } from './repository/target.repository';
 import { Target } from '../../rules/domain/target';
 import { AuthModule } from '../auth/auth.module';
 import { PrismaService } from '../prisma/prisma.service';
-import { TargetGateway } from 'applications/gateways/target.gateway';
+import { TargetGateway } from 'applications/applications/gateways/target.gateway';
 
 @Module({
   imports: [AuthModule],
