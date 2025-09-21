@@ -1,4 +1,3 @@
-// server/src/applications/player/player.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PlayerRepository } from './repository/player.repository';
 import { Player } from '../../rules/domain/player';
