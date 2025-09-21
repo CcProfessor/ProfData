@@ -8,7 +8,7 @@ import {
 } from '../../rules/interfaces/target.interfaces';
 import { ClientTargetDto as ClientDto } from '../../rules/interfaces/client.interface';
 import { Request } from 'express';
-import { TargetGateway } from '../gateways/target.gateway';
+import { TargetGateway } from '../../gateways/target.gateway';
 import { TargetMapper } from '../../rules/mappers/target.mapper';
 
 @Injectable()
