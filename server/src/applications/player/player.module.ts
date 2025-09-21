@@ -21,10 +21,10 @@ import { PrismaService } from '../prisma/prisma.service';
   providers: [
     PlayerService,
     PlayerRepository,
-    TargetService,
-    TargetRepository,
-    CodesRepository,
-    CodesService,
+    // TargetService,
+    // TargetRepository,
+    // CodesRepository,
+    // CodesService,
     PrismaService,
   ],
 })
