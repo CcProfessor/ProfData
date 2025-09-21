@@ -12,14 +12,18 @@ import { CodesRepository } from '../codes/repository/codes.repository';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-  imports: [AuthModule, TargetModule, CodesModule],
+  imports: [
+    AuthModule,
+    TargetModule,
+    CodesModule,
+    CodesService,
+  ],
   controllers: [PlayerController],
   providers: [
     PlayerService,
     PlayerRepository,
     TargetService,
     TargetRepository,
-    CodesService,
     CodesRepository,
     PrismaService,
   ],
