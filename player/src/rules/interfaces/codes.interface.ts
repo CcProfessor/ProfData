@@ -31,8 +31,8 @@ export class CodePersistence {
   id!: string;
   targetId!: string;
   status!: number;
-  codev?: string;
-  value?: string;
+  codev?: string | null;
+  value?: string | null;
   created_at!: Date;
   updated_at!: Date;
 }

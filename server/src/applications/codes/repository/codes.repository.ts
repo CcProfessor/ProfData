@@ -21,9 +21,9 @@ export class CodesRepository {
 
   async findAll(): Promise<Code[]> {
     const list = await this.prisma.code.findMany();
-    return list.map(CodesMapper.toDomain);
+    return list.map((item) => CodesMapper.toDomain(item));
   }
-
+  
   async findById(id: string): Promise<Code | null> {
     const found = await this.prisma.code.findUnique({ where: { id } });
     return found ? CodesMapper.toDomain(found) : null;
