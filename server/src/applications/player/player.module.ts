@@ -16,7 +16,6 @@ import { PrismaService } from '../prisma/prisma.service';
     AuthModule,
     TargetModule,
     CodesModule,
-    CodesService,
   ],
   controllers: [PlayerController],
   providers: [
@@ -25,6 +24,7 @@ import { PrismaService } from '../prisma/prisma.service';
     TargetService,
     TargetRepository,
     CodesRepository,
+    CodesService,
     PrismaService,
   ],
 })
