@@ -17,7 +17,8 @@
     "dev:prisma": "prisma generate && prisma migrate dev",
     "build": "tsc -b",
     "lint": "eslint . --ext .ts,.tsx",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "seed": "npx ts-node prisma/seeds/seeds.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
