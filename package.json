@@ -13,6 +13,8 @@
     "dev:player": "npm --workspace player run dev",
     "dev:target": "npm --workspace target run dev",
     "dev:all": "npm-run-all -p dev:server dev:player dev:target",
+    "dev:concu": "concurrently \"npm run dev:server\" \"npm run dev:player\" \"npm run dev:target\"",
+    "dev:turbo": "turbo run dev --parallel",
     "dev:core": "ts-node core/src/index.ts",
     "dev:prisma": "prisma generate && prisma migrate dev",
     "build": "tsc -b",

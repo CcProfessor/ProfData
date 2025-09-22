@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto, UpdatePlayerDto } from '../../rules/interfaces/player.interfaces';
-import { Player } from 'src/rules/domain/player';
+import { Player } from '../../rules/domain/player';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 
