@@ -6,12 +6,12 @@ const prisma = new PrismaClient();
 async function main() {
   const players = [
     {
-      username: 'Professor',
+      username: 'Priscila',
       password: 'alfa',
       access: 4,
     },
     {
-      username: 'Rolex',
+      username: 'Vitoria',
       password: 'MTgp',
       access: 1,
     },

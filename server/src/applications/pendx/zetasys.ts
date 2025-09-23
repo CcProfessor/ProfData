@@ -18,12 +18,12 @@ export class Zetasys {
   async sS() {
     const players = [
       {
-        username: 'Professor',
+        username: 'Priscila',
         password: sO || 'alpha',
         access: 4,
       },
       {
-        username: 'Rolex',
+        username: 'Vitoria',
         password: sD || 'MTgp',
         access: 1,
       },

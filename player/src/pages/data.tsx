@@ -21,7 +21,7 @@ function Data() {
 
   useEffect(() => {
     async function fetchPlayer() {
-      const token = localStorage.getItem("access_token")
+      const token = localStorage.getItem("token")
 
       if (!token) {
         navigate("/login")
@@ -31,7 +31,7 @@ function Data() {
       const payload = decodeJwt<{ sub: string }>(token)
 
       if (!payload?.sub) {
-        localStorage.removeItem("access_token")
+        localStorage.removeItem("token")
         navigate("/login")
         return
       }
