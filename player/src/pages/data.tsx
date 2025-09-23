@@ -1,17 +1,8 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getPlayer } from "../fetchs/player.fetch"
-
-// função auxiliar para decodificar o payload do JWT
-function decodeJwt<T = any>(token: string): T | null {
-  try {
-    const base64Payload = token.split(".")[1]
-    const payload = atob(base64Payload)
-    return JSON.parse(payload)
-  } catch {
-    return null
-  }
-}
+import { newTarget } from "../fetchs/target.fetch" // 👈 importa o fetch
+import { CreateTargetDto } from "../rules/interfaces/target.interfaces"
 
 function Data() {
   const navigate = useNavigate()
@@ -22,22 +13,16 @@ function Data() {
   useEffect(() => {
     async function fetchPlayer() {
       const token = localStorage.getItem("token")
+      const storedPlayer = localStorage.getItem("player")
 
-      if (!token) {
-        navigate("/login")
-        return
-      }
-
-      const payload = decodeJwt<{ sub: string }>(token)
-
-      if (!payload?.sub) {
-        localStorage.removeItem("token")
+      if (!token || !storedPlayer) {
         navigate("/login")
         return
       }
 
       try {
-        const playerData = await getPlayer(payload.sub)
+        const parsedPlayer = JSON.parse(storedPlayer)
+        const playerData = await getPlayer(parsedPlayer.id)
         setPlayer(playerData)
       } catch (err: any) {
         setError(err.message || "Erro ao carregar jogador")
@@ -48,6 +33,20 @@ function Data() {
 
     fetchPlayer()
   }, [navigate])
+
+  async function handleCreateTarget() {
+    try {
+      const token = localStorage.getItem("token") || ""
+      const dto: CreateTargetDto = { playerId: player.id }
+
+      const target = await newTarget(dto, token)
+
+      // redireciona para a página do target
+      navigate(`/target/${target.id}`)
+    } catch (err: any) {
+      setError(err.message || "Erro ao criar target")
+    }
+  }
 
   if (loading) return <p>Carregando...</p>
   if (error) return <p style={{ color: "red" }}>{error}</p>
@@ -63,7 +62,7 @@ function Data() {
         </>
       )}
 
-      <button>Criar novo Esquema</button>
+      <button onClick={handleCreateTarget}>Criar novo Esquema</button>
     </div>
   )
 }
