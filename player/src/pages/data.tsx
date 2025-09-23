@@ -37,7 +37,7 @@ function Data() {
       }
 
       try {
-        const playerData = await getPlayer(payload.sub, token)
+        const playerData = await getPlayer(payload.sub)
         setPlayer(playerData)
       } catch (err: any) {
         setError(err.message || "Erro ao carregar jogador")
