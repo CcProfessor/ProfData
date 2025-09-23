@@ -1,8 +1,6 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './applications/app.module';
-import { Logger } from '@nestjs/common';
-import { DiscoveryService, MetadataScanner } from '@nestjs/core';
-import { ModuleRef } from '@nestjs/core';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,27 +12,29 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT_S ?? 3000);
 
-  const address = await app.getUrl();
-  Logger.log(`🚀 Server is running at ${address}`);
+  const serverUrl = await app.getUrl();
+  Logger.log(`🚀 Server is running at ${serverUrl}`);
 
-  // ✅ Lista todas as rotas via servidor HTTP
-  const server = app.getHttpServer();
-  const router = server._events.request?.router;
+  // 👇 maneira oficial de acessar rotas no Express
+  const httpAdapter = app.getHttpAdapter();
 
-  if (router && router.stack) {
-    const routes: string[] = [];
-    router.stack.forEach((layer) => {
-      if (layer.route) {
-        const path = layer.route.path;
-        const methods = Object.keys(layer.route.methods)
-          .map((m) => m.toUpperCase())
-          .join(', ');
-        routes.push(`${methods} ${path}`);
-      }
-    });
-    Logger.log('📌 Routes:\n' + routes.join('\n'));
-  } else {
-    Logger.warn('⚠️ Nenhuma rota encontrada — pode ser que esteja usando Fastify, ou que a estrutura mudou.');
+  if (httpAdapter.getInstance) {
+    const instance = httpAdapter.getInstance(); // Express app
+    if (instance?._router?.stack) {
+      const routes = [];
+      instance._router.stack.forEach((layer) => {
+        if (layer.route) {
+          const path = layer.route?.path;
+          const methods = Object.keys(layer.route.methods)
+            .map((m) => m.toUpperCase())
+            .join(', ');
+          routes.push(`${methods} ${path}`);
+        }
+      });
+      Logger.log('📌 Routes:\n' + routes.join('\n'));
+    } else {
+      Logger.warn('⚠️ Não achei _router dentro do Express instance');
+    }
   }
 }
 bootstrap();
