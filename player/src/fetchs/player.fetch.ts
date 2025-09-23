@@ -27,8 +27,13 @@ export async function getPlayers() {
 }
 
 export async function getPlayer(id: string) {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(`${BASE_URL}/player/${id}`, {
     method: "GET",
+    headers: token
+      ? { "Authorization": `Bearer ${token}` }
+      : {},
   });
 
   if (!res.ok) throw new Error(`Failed to fetch player ${id}: ${res.status}`);
