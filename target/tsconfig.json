@@ -1,11 +1,17 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "node",
     "jsx": "react-jsx",
     "outDir": "./dist",
     "rootDir": "./src",
-    "incremental": true
+    "incremental": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "include": ["src"],
+  "include": ["src", "vite-env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
