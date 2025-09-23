@@ -1,4 +1,4 @@
-const BASE_URL = process.env.SERVER_LINK || "http://localhost:3000";
+const BASE_URL = import.meta.VITE_SERVER_URL || "http://localhost:3000";
 
 export async function playerLogin(username: string, password: string) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
