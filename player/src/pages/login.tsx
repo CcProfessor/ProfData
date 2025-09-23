@@ -15,21 +15,15 @@ function Login() {
     setLoading(true)
 
     try {
-      const res = await playerLogin(username, password)
+      // ⚡ playerLogin já retorna o JSON { access_token, player }
+      const data = await playerLogin(username, password)
 
-      if (!res.ok) {
-        throw new Error(`Login failed: ${res.status}`)
-      }
-
-      const data = await res.json()
-
-      // ⚡ supondo que o backend retorna { access_token, player }
       if (data?.access_token) {
-        localStorage.setItem("token", data.access_token);
-        localStorage.setItem("player", JSON.stringify(data.player));
+        localStorage.setItem("token", data.access_token)
+        localStorage.setItem("player", JSON.stringify(data.player))
 
         // redireciona já com o ID do player
-        navigate(`/user/${data.player.id}`);
+        navigate(`/user/${data.player.id}`)
       } else {
         setError('Credenciais inválidas')
       }
