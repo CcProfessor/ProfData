@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PlayerRepository } from './repository/player.repository';
 import { Player } from '../../rules/domain/player';
 import { CreatePlayerDto, UpdatePlayerDto } from '../../rules/interfaces/player.interfaces';
@@ -21,13 +21,11 @@ export class PlayerService {
   }
 
   async login(username: string, password: string): Promise<Player> {
-    const players = await this.playerRepo.findAll();
-    const player = players.find(
-      (p) => p.username === username && p.password === password,
-    );
+    // 🔹 Buscando direto por username (melhor que trazer tudo)
+    const player = await this.playerRepo.findByUsername(username);
 
-    if (!player) {
-      throw new NotFoundException(`Invalid credentials`);
+    if (!player || player.password !== password) {
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     return player;
@@ -40,7 +38,7 @@ export class PlayerService {
   async findOne(id: string): Promise<Player> {
     const player = await this.playerRepo.findById(id);
     if (!player) {
-      throw new NotFoundException(`Player with id ${id} not found`);
+      throw new UnauthorizedException(`Player with id ${id} not found`);
     }
     return player;
   }
@@ -51,7 +49,7 @@ export class PlayerService {
       updatePlayerDto,
     );
     if (!updated) {
-      throw new NotFoundException(`Player with id ${id} not found`);
+      throw new UnauthorizedException(`Player with id ${id} not found`);
     }
     return updated;
   }

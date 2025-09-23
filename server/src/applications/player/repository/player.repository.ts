@@ -31,6 +31,15 @@ export class PlayerRepository {
     });
   }
 
+  async findByUsername(username: string): Promise<Player | null> {
+    const player = await this.prisma.player.findFirst({
+      where: { username },
+    });
+
+    return player ? PlayerMapper.toDomain(player) : null;
+  }
+
+
   async findAll(): Promise<Player[]> {
     const list = await this.prisma.player.findMany();
     return list.map((elem) => PlayerMapper.toDomain(elem));
