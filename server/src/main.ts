@@ -7,6 +7,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       "https://turbo-space-yodel-974px7q6wjrw2x9gx-5175.app.github.dev",
+      "https://turbo-space-yodel-974px7q6wjrw2x9gx-5175.app.github.dev/login",
       "https://turbo-space-yodel-974px7q6wjrw2x9gx-5174.app.github.dev",
     ],
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
