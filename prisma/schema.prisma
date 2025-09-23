@@ -9,7 +9,7 @@ datasource db {
 
 model Player {
   id       String   @id @default(uuid())
-  username String
+  username String   @unique
   password String
   access   Int
 
