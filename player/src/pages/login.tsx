@@ -25,14 +25,11 @@ function Login() {
 
       // ⚡ supondo que o backend retorna { access_token, player }
       if (data?.access_token) {
-        // guarda o token no localStorage ou sessionStorage
-        localStorage.setItem('access_token', data.access_token)
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("player", JSON.stringify(data.player));
 
-        // pode guardar infos do player também
-        localStorage.setItem('player', JSON.stringify(data.player))
-
-        // redireciona para a rota /user (== Data)
-        navigate('/user')
+        // redireciona já com o ID do player
+        navigate(`/user/${data.player.id}`);
       } else {
         setError('Credenciais inválidas')
       }
