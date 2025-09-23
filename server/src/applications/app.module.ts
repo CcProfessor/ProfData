@@ -7,7 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { PlayerModule } from './player/player.module';
 import { TargetModule } from './target/target.module';
 import { CodesModule } from './codes/codes.module';
-// import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { CodesModule } from './codes/codes.module';
     PlayerModule,
     TargetModule,
     CodesModule,
-    // AuthModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

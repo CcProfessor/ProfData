@@ -4,12 +4,12 @@ import { PlayerController } from './player.controller';
 import { PlayerRepository } from './repository/player.repository';
 import { TargetModule } from '../target/target.module';
 import { CodesModule } from '../codes/codes.module';
-// import { AuthModule } from '../auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [
-    // forwardRef(() => AuthModule), // 👈 evita ciclo direto
+    forwardRef(() => AuthModule), // 👈 evita ciclo direto
     TargetModule,
     CodesModule,
   ],
