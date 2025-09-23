@@ -9,8 +9,8 @@
     "target"
   ],
   "scripts": {
-    "dev:server:old": "npm --workspace server run start:dev",
-    "dev:server": "ts-node-dev --respawn --transpile-only --project server/tsconfig.json server/src/main.ts",
+    "dev:server": "npm --workspace server run start:dev",
+    "dev:server:direct": "ts-node-dev --respawn --transpile-only --project server/tsconfig.json server/src/main.ts",
     "dev:player": "npm --workspace player run dev",
     "dev:target": "npm --workspace target run dev",
     "dev:all": "npm-run-all -p dev:server dev:player dev:target",

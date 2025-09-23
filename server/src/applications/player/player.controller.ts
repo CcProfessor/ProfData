@@ -19,7 +19,7 @@ export class PlayerController {
     return this.playerService.login(dto.username, dto.password);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   findAll(): Promise<Player[]> {
     return this.playerService.findAll();
