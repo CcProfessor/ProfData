@@ -5,13 +5,18 @@ import { UpdateCodevDto, UpdateCodeValueDto, CheckCodeDto } from "../rules/inter
 
 export function CodesComponent() {
   const { targetId } = useTarget();
-  const { codes } = useCodes();  // , findCodesByTarget, updateCode
+  const {
+    codes,
+    fetchAllCodes,
+    updateCodeValue,
+    checkCodeValid,
+  } = useCodes();
 
   useEffect(() => {
   if (targetId) {
     // ao invés de findCodesByTarget
     const token = localStorage.getItem("token") || "";
-    fetchCodesByTargets([targetId], token);
+    fetchAllCodes(token);
   }
 }, [targetId]);
 
@@ -80,17 +85,19 @@ export function CodesComponent() {
                         const value = (e.target as HTMLInputElement).value;
                         if (value) {
                           const dto: UpdateCodeValueDto = { value };
-                          updateCode(c.id, { status: 4, value }, "valuecode", dto);
+                          const token = localStorage.getItem("token") || "";
+                          updateCodeValue(c.id, dto, token);
                         }
-                      }
-                    }}
+                    }
+                }}
                   />
                   <button
                     onClick={() => {
                       const value = prompt("Digite o valor do código:");
                       if (value) {
                         const dto: UpdateCodeValueDto = { value };
-                        updateCode(c.id, { status: 4, value }, "valuecode", dto);
+                        const token = localStorage.getItem("token") || "";
+                        updateCodeValue(c.id, dto, token);
                       }
                     }}
                   >
