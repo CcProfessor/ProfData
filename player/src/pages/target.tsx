@@ -14,7 +14,7 @@ export default function TargetPage() {
     <TargetProvider>
       <main style={{ padding: "2rem" }}>
         <h1>Gerenciamento de Target</h1>
-        <TargetWrapper targetId={id} /> {/* 👉 passa o id para o wrapper */}
+        <TargetWrapper /> {/* 👉 passa o id para o wrapper */}
       </main>
     </TargetProvider>
   )
