@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto, UpdatePlayerDto } from '../../rules/interfaces/player.interfaces';
 import { Player } from '../../rules/domain/player';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+// import { UseGuards } from '@nestjs/common';
+// import { JwtAuthGuard } from '../auth/jwt.guard';
 
 @Controller('player')
 export class PlayerController {
@@ -25,13 +25,13 @@ export class PlayerController {
     return this.playerService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Player> {
     return this.playerService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -44,21 +44,21 @@ export class PlayerController {
 
 
   // Criar novo Target para o player
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post(':id/target')
   createTarget(@Param('id') playerId: string, @Body('page') page: number) {
     return this.playerService.createTarget(playerId, page ?? 0);
   }
 
   // Listar Targets do player
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get(':id/targets')
   getTargets(@Param('id') playerId: string) {
     return this.playerService.getPlayerTargets(playerId);
   }
 
   // Obter apenas os targetIds
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get(':id/target-ids')
   getTargetIds(@Param('id') playerId: string) {
     return this.playerService.getTargetIds(playerId);

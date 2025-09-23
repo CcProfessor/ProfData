@@ -6,14 +6,14 @@ import {
   CheckCodeDto,
   UpdateCodeValueDto,
 } from '../../rules/interfaces/codes.interface';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+// import { UseGuards } from '@nestjs/common';
+// import { JwtAuthGuard } from '../auth/jwt.guard';
 
 @Controller('codes')
 export class CodesController {
   constructor(private readonly codesService: CodesService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('newcode/:targetId')
   newCodeRequest(@Param('targetId') targetId: string) {
     const dto: CreateCodeDto = { targetId };
@@ -35,19 +35,19 @@ export class CodesController {
     return this.codesService.valueCode(codeId, dto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('findall')
   findAll() {
     return this.codesService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.codesService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('codes-by-targets')
   getCodesByTargets(@Body('targetIds') targetIds: string[]) {
     return this.codesService.getCodeIdsByTargetIds(targetIds);

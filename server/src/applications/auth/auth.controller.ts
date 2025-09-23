@@ -8,6 +8,7 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() dto: LoginDto) {
+    console.log('No Auth Controller:', dto)
     return this.authService.login(dto.username, dto.password);
   }
 }

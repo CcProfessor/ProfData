@@ -12,7 +12,9 @@ export class AuthService {
   ) {}
 
   async login(username: string, password: string) {
+    console.log('No Auth Service:', { username, password });
     const player = await this.playerService.login(username, password);
+    console.log('Player found:', player);
     if (!player) throw new UnauthorizedException('Invalid credentials');
 
     const payload = {

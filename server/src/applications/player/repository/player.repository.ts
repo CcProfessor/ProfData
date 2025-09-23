@@ -32,6 +32,7 @@ export class PlayerRepository {
   }
 
   async findByUsername(username: string): Promise<Player | null> {
+    console.log('No Player Repository, Buscando por username:', username);
     const player = await this.prisma.player.findFirst({
       where: { username },
     });

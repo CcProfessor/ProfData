@@ -3,6 +3,7 @@ import Login from './pages/login'
 import Data from './pages/data'
 import Target from './pages/target'
 import React from 'react'
+import PlayerList from './pages/playerList'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/user" element={<Data />} />
       <Route path="/target/:id" element={<Target />} />
+      <Route path="/players" element={<PlayerList />} /> {/* 👉 nova rota */}
     </Routes>
   )
 }

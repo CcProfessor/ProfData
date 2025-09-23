@@ -22,11 +22,14 @@ export class PlayerService {
 
   async login(username: string, password: string): Promise<Player> {
     // 🔹 Buscando direto por username (melhor que trazer tudo)
+    console.log('No Player Service:', { username, password });
     const player = await this.playerRepo.findByUsername(username);
 
     if (!player || player.password !== password) {
       throw new UnauthorizedException('Invalid credentials');
     }
+
+    console.log('Player found:', player);
 
     return player;
   }
