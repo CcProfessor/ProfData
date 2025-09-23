@@ -1,17 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './applications/app.module';
 
-const serverUrl = process.env.SERVER_LINK || "http://localhost:3000";
-const playerUrl = process.env.PLAYER_LINK || "http://localhost:5175";
-const targetUrl = process.env.TARGET_LINK || "http://localhost:5174";
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
     origin: [
-      playerUrl,
-      targetUrl,
+      "https://turbo-space-yodel-974px7q6wjrw2x9gx-5175.app.github.dev",
+      "https://turbo-space-yodel-974px7q6wjrw2x9gx-5174.app.github.dev",
     ],
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
