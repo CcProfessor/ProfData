@@ -10,7 +10,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/user" element={<Data />} />
+      <Route path="/user/:id" element={<Data />} />
       <Route path="/target/:id" element={<Target />} />
       <Route path="/players" element={<PlayerList />} /> {/* 👉 nova rota */}
     </Routes>
