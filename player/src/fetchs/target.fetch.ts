@@ -49,3 +49,18 @@ export async function enterTarget(
   return res.json();
 }
 
+export async function getTargetById(id: string, token: string) {
+  const res = await fetch(`${BASE_URL}/target/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Erro ao buscar target ${id}: ${res.status}`);
+  }
+
+  return res.json();
+}

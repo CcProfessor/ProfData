@@ -78,3 +78,25 @@ export function TargetWrapper() {
   const { targetId } = useTarget();
   return targetId ? <TargetControl /> : <NewTarget />;
 }
+
+// =============
+
+
+export function TargetInfos() {
+  const { targetId, targetData, targetPage, targetStatus } = useTarget()
+
+  if (!targetId || !targetData) return null
+
+  const { name, info } = targetData
+
+  return (
+    <div style={{ marginTop: "1rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
+      <h2>Informações do Target</h2>
+      <p><b>ID:</b> {targetId}</p>
+      <p><b>Nome:</b> {name || "—"}</p>
+      <p><b>Info:</b> {info || "—"}</p>
+      <p><b>Status:</b> {targetStatus}</p>
+      <p><b>Página:</b> {targetPage}</p>
+    </div>
+  )
+}

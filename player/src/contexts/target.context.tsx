@@ -14,7 +14,7 @@ import {
   CodeResponse,
   CodePersistence,
 } from "../rules/interfaces/codes.interface";
-import { newTarget } from "../fetchs/target.fetch";
+import { getTargetById, newTarget } from "../fetchs/target.fetch";
 import { connectTargetSocket } from "../gateway/socket";
 
 // Tipos adicionais para enriquecer targetData
@@ -167,6 +167,40 @@ export function TargetProvider({ children }: { children: ReactNode }) {
       {children}
     </TargetContext.Provider>
   );
+
+
+  // Buscar Target existente pelo id
+  const fetchTargetById = async (id: string, token: string) => {
+    setLoading(true);
+    try {
+      const found = await getTargetById(id, token);
+
+      setTargetId(found.id);
+      setTargetData(found);
+      setTargetStatus(found.status);
+      setTargetPage(found.page);
+
+      // Conectar socket também
+      const sock = connectTargetSocket(found.id);
+      setSocket(sock);
+
+      sock.on("targetStatusInit", (data: any) => {
+        setTargetStatus(data.status);
+        setTargetData((prev) =>
+          prev ? { ...prev, status: data.status } : prev
+        );
+      });
+
+      sock.on("targetPageUpdated", (data: any) => {
+        setTargetPage(data.page);
+        setTargetData((prev) =>
+          prev ? { ...prev, page: data.page } : prev
+        );
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 }
 
 // ======================
