@@ -5,6 +5,7 @@
     "target": "esnext",
     "moduleResolution": "node",
     "jsx": "react-jsx",
+    "types": ["vite/client", "react", "react-dom"],
     "outDir": "./dist",
     "rootDir": "./src",
     "incremental": true,

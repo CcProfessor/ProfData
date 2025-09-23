@@ -1,9 +1,8 @@
-// /workspaces/ProfData/player/src/fetchs/target.fetch.ts
 
 import { CreateTargetDto, EnterTargetDto, TargetResponse } from "../rules/interfaces/target.interfaces";
 import { EnterTargetDto as ClientDto } from "../rules/interfaces/client.interface";
 
-const BASE_URL = process.env.SERVER_LINK || "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 
 // ======================
 // Fetch: Criar Target
