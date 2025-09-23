@@ -5,13 +5,15 @@ import { UpdateCodevDto, UpdateCodeValueDto, CheckCodeDto } from "../rules/inter
 
 export function CodesComponent() {
   const { targetId } = useTarget();
-  const { codes, findCodesByTarget, updateCode } = useCodes();
+  const { codes } = useCodes();  // , findCodesByTarget, updateCode
 
   useEffect(() => {
-    if (targetId) {
-      findCodesByTarget(targetId);
-    }
-  }, [targetId]);
+  if (targetId) {
+    // ao invés de findCodesByTarget
+    const token = localStorage.getItem("token") || "";
+    fetchCodesByTargets([targetId], token);
+  }
+}, [targetId]);
 
   if (!targetId) return null;
 
@@ -49,24 +51,27 @@ export function CodesComponent() {
                   <button
                     onClick={() => {
                       const dto: CheckCodeDto = { isValid: true };
-                      updateCode(c.id, { status: 3 }, "checkcode", dto);
+                      const token = localStorage.getItem("token") || "";
+                      checkCodeValid(c.id, dto, token);
                     }}
                   >
-                    Aceitar
+                    Passou
                   </button>
                   <button
                     onClick={() => {
                       const dto: CheckCodeDto = { isValid: false };
-                      updateCode(c.id, { status: 2 }, "checkcode", dto);
+                      const token = localStorage.getItem("token") || "";
+                      checkCodeValid(c.id, dto, token);
                     }}
                   >
-                    Negar
+                    Deu erro
                   </button>
                 </div>
               )}
 
               {c.status === 3 && (
                 <div>
+                  <p>Coloque aqui o valor conseguido:</p>
                   <input
                     type="text"
                     placeholder="Digite o valor"
@@ -89,7 +94,7 @@ export function CodesComponent() {
                       }
                     }}
                   >
-                    Concluir
+                    Fechar
                   </button>
                 </div>
               )}
