@@ -5,16 +5,59 @@ import Target from './pages/target'
 import React from 'react'
 import PlayerList from './pages/playerList'
 
+import { PlayerProvider, PlayerListProvider } from "./contexts/players.context"
+import { TargetProvider } from "./contexts/target.context"
+import { CodesProvider } from "./contexts/codes.context"
+
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/user/:id" element={<Data />} />
-      <Route path="/target/:id" element={<Target />} />
-      <Route path="/players" element={<PlayerList />} /> {/* 👉 nova rota */}
+      {/* Login só precisa de Player */}
+      <Route
+        path="/login"
+        element={
+          <PlayerProvider>
+            <Login />
+          </PlayerProvider>
+        }
+      />
+
+      {/* Data precisa de Player + Target */}
+      <Route
+        path="/user/:id"
+        element={
+          <PlayerProvider>
+            <TargetProvider>
+              <Data />
+            </TargetProvider>
+          </PlayerProvider>
+        }
+      />
+
+      {/* Player List só precisa de PlayerList */}
+      <Route
+        path="/playerList"
+        element={
+          <PlayerListProvider>
+            <PlayerList />
+          </PlayerListProvider>
+        }
+      />
+
+      {/* Target precisa de Target + Codes */}
+      <Route
+        path="/targets/:id"
+        element={
+          <TargetProvider>
+            <CodesProvider>
+              <Target />
+            </CodesProvider>
+          </TargetProvider>
+        }
+      />
     </Routes>
   )
 }
+
 
 export default App
