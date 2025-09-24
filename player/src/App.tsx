@@ -48,11 +48,13 @@ function App() {
       <Route
         path="/targets/:id"
         element={
-          <TargetProvider>
-            <CodesProvider>
-              <Target />
-            </CodesProvider>
-          </TargetProvider>
+          <PlayerListProvider>
+            <TargetProvider>
+              <CodesProvider>
+                <Target />
+              </CodesProvider>
+            </TargetProvider>
+          </PlayerListProvider>
         }
       />
     </Routes>
