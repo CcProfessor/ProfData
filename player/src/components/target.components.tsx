@@ -8,8 +8,19 @@ export function NewTarget() {
 
   async function handleNewTarget() {
     const token = localStorage.getItem("token") || "";
-    const dto: CreateTargetDto = { playerId: "fake-player-id", page: 0 }; // TODO: pegar playerId real
-    await createTarget(dto, token);
+    const playerId = localStorage.getItem("playerId") || ""; // <- pega do login
+    if (!playerId) {
+      alert("Player não encontrado. Faça login novamente.");
+      return;
+    }
+
+    const dto: CreateTargetDto = { playerId, page: 0 };
+    try {
+      await createTarget(dto, token);
+    } catch (err) {
+      console.error("Erro ao criar target:", err);
+      alert("Não foi possível criar o target");
+    }
   }
 
   if (targetId) return null; // já tem target criado
@@ -22,6 +33,7 @@ export function NewTarget() {
     </div>
   );
 }
+
 
 // ---------- TargetControl ----------
 export function TargetControl() {
