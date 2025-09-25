@@ -1,4 +1,6 @@
-<div class="direita after">
+export const hd1 = {
+
+return (<div class="direita after">
     <ul id="_id59" class="menuSessao"><li id="_id60"> Quarta-feira, 24  de  Setembro  de  2025</li></ul>
     <div class="login_title2"><span id="headerTitulo"><h1>Acesso Seguro</h1></span>
     <div class="login-subtitulo">
@@ -7,4 +9,6 @@
         </span>
     </div>
     </div>
-</div>
+</div>)
+
+}
