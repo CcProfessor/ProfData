@@ -26,6 +26,23 @@ export enum GatewayClientEvents {
   UpdatePage = 'updatePage', // quando player muda página
 }
 
+export enum PlayerSocketEvents {
+  EnterTarget = GatewayServerEvents.EnterTarget,
+  FastPageUpdate = GatewayServerEvents.FastPageUpdate,
+  UpdatePage = GatewayServerEvents.UpdatePage,
+  CodeResponse = GatewayServerEvents.CodeResponse,
+  SendResponse = GatewayServerEvents.SendResponse,
+  SubscribePlayer = GatewayClientEvents.SubscribePlayer,
+}
+
+export enum TargetSocketEvents {
+  EnterTarget = GatewayClientEvents.EnterTarget,
+  UpdatePage = GatewayServerEvents.UpdatePage,
+  FastPageUpdate = GatewayServerEvents.FastPageUpdate,
+  CodeResponse = GatewayServerEvents.CodeResponse,
+  SendResponse = GatewayServerEvents.SendResponse,
+}
+
 // Interfaces DTO (exemplos)
 export interface EnterTargetDto {
   targetId: TargetId;
