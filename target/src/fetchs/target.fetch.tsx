@@ -61,7 +61,7 @@ export async function updatePageAPI(targetId: string, page: number): Promise<Tar
  * Custom hook para usar dentro do TargetContext
  */
 export function useTargetFetch() {
-  const { targetId, socket, setTargetData, setCurrentPage, setLastPage } = useTarget();
+  const { targetId, socket, targetData, setTargetData, setCurrentPage, setLastPage } = useTarget();
 
   const enterTarget = async (body: EnterTargetBody) => {
     if (!targetId) throw new Error("No targetId set");
@@ -79,22 +79,23 @@ export function useTargetFetch() {
   };
 
   const initStatus = async (dto: InitStatusDto) => {
-    if (!targetId) throw new Error("No targetId set");
+  if (!targetId) throw new Error("No targetId set");
 
-    const resp = await initStatusAPI(targetId, dto);
+  const resp = await initStatusAPI(targetId, dto);
 
-    // 🔹 Atualiza status localmente
-    if (resp?.status !== undefined) {
-      setTargetData(prev => prev ? { ...prev, status: resp.status } : prev);
-    } else if (dto?.success !== undefined) {
-      setTargetData(prev => prev ? { ...prev, status: dto.success ? 1 : 2 } : prev);
-    }
+  if (resp?.status !== undefined) {
+    // Atualiza diretamente com o retorno do backend
+    setTargetData(resp);
+  } else if (dto?.success !== undefined && targetData) {
+    // Atualiza localmente, baseado no targetData atual
+    setTargetData({ ...targetData, status: dto.success ? 1 : 2 });
+  }
 
-    // 🔹 Emite evento via socket
-    socket?.emit("targetStatusInit", { targetId, ...dto });
+  // 🔹 Emite evento via socket
+  socket?.emit("targetStatusInit", { targetId, ...dto });
 
-    return resp;
-  };
+  return resp;
+};
 
   const updatePage = async (page: number) => {
     if (!targetId) throw new Error("No targetId set");
