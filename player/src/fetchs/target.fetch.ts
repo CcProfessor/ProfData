@@ -12,12 +12,12 @@ export async function newTarget(dto: CreateTargetDto, token: string): Promise<Ta
   console.log('token: ', token);
   const playerInfo = JSON.parse(dto.playerId);
   console.log('playerInfo: ', playerInfo);
-  if (!playerInfo || !playerInfo.playerId) {
-    throw new Error("playerId inválido no DTO");
-  }
-  console.log('playerInfo.playerId: ', playerInfo.playerId);
+  // if (!playerInfo || !playerInfo.playerId) {
+  //   throw new Error("playerId inválido no DTO");
+  // }
+  console.log('playerInfo.id: ', playerInfo.playerId);
   const newDto = {
-    playerId: playerInfo.playerId,
+    playerId: playerInfo.id,
     page: dto.page,
   }
   const res = await fetch(`${BASE_URL}/target/new`, {
