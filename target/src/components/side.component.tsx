@@ -14,8 +14,7 @@ export const DicaCadeado: React.FC = () => {
             Componente de segurança Topaz
           </p>
 
-          <ul className="mb10" title="">
-            <li title="">
+          
               <p className="mb10" title="">
                 O Bradesco nunca entra em contato por telefone ou e-mail para pedir
                 sua chave de segurança durante instalações ou atualizações.
@@ -23,15 +22,12 @@ export const DicaCadeado: React.FC = () => {
               <p className="mb10" title="">
                 Por isso, não forneça essas informações a ninguém.
               </p>
-            </li>
-          </ul>
 
           <p className="subtitulo" title="Golpe do falso gerente">
             Golpe do falso gerente
           </p>
 
-          <ul className="mb10" title="">
-            <li title="">
+          
               <p className="mb10" title="">
                 O Bradesco <b>nunca</b> entra em contato pedindo dados pessoais,
                 senhas, chaves de segurança, atualizações cadastrais ou sistêmicas e{" "}
@@ -49,8 +45,6 @@ export const DicaCadeado: React.FC = () => {
                 <b>Nunca faça</b> transações a pedido de terceiros. Lembre-se: você é
                 responsável pelas movimentações da sua conta.
               </p>
-            </li>
-          </ul>
 
           <div className="dicasSeguranca_1 none_i" id="dicasSeguranca_1"></div>
         </span>

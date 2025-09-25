@@ -14,7 +14,6 @@ export default function LoginPage() {
   const { currentPage, setTargetId, targetData } = useTarget();
   const { id } = useParams<{ id: string }>();
 
-  // 🔹 Atualiza targetId no contexto e no localStorage
   useEffect(() => {
     if (id) {
       setTargetId(id);

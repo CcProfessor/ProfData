@@ -1,3 +1,32 @@
+/* --- Layout do login e DicaCadeado lado a lado --- */
+.loginPageMain {
+  display: flex;
+  flex-direction: row;
+  gap: 12px; /* espaço entre login e dica */
+  align-items: flex-start; /* alinha pelo topo */
+}
+
+.loginColumn {
+  flex: 1; /* ocupa o espaço restante */
+  max-height: 516px; /* altura máxima */
+  overflow: auto; /* scroll se necessário */
+}
+
+.dicaColumn {
+  width: 218px; /* largura fixa */
+  max-height: 516px; /* altura máxima */
+  overflow: hidden;
+}
+
+.dicaColumn .container-dicaCadeado {
+  width: 100%;
+  height: 100%;
+  max-width: 218px;
+  max-height: 516px;
+  overflow: auto;
+}
+
+/* --- Regras existentes do Login --- */
 .login-container {
   max-width: 420px;
   margin: 20px auto;
