@@ -1,5 +1,5 @@
 import React from "react";
-import "./AcessoSeguro.css";
+import "../styles/AscessoSeguro.css";
 
 export const AcessoSeguro: React.FC = () => {
   // Formata data atual
