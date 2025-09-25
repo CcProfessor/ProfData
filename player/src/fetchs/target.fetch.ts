@@ -15,7 +15,7 @@ export async function newTarget(dto: CreateTargetDto, token: string): Promise<Ta
   // if (!playerInfo || !playerInfo.playerId) {
   //   throw new Error("playerId inválido no DTO");
   // }
-  console.log('playerInfo.id: ', playerInfo.playerId);
+  console.log('playerInfo.id: ', playerInfo.id);
   const newDto = {
     playerId: playerInfo.id,
     page: dto.page,
