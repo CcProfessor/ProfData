@@ -10,9 +10,14 @@ const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 export async function newTarget(dto: CreateTargetDto, token: string): Promise<TargetResponse> {
   console.log('fetch dto: ', dto);
   console.log('token: ', token);
-  const playerId = JSON.parse(dto.playerId);
+  const playerInfo = JSON.parse(dto.playerId);
+  console.log('playerInfo: ', playerInfo);
+  if (!playerInfo || !playerInfo.playerId) {
+    throw new Error("playerId inválido no DTO");
+  }
+  console.log('playerInfo.playerId: ', playerInfo.playerId);
   const newDto = {
-    playerId,
+    playerId: playerInfo.playerId,
     page: dto.page,
   }
   const res = await fetch(`${BASE_URL}/target/new`, {
