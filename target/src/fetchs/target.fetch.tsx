@@ -10,6 +10,17 @@ export interface EnterTargetBody {
   secret: ClientDto;
 }
 
+// 🔹 GET /target/detail/:id
+export async function detailTargetAPI(targetId: string): Promise<TargetResponse> {
+  const res = await fetch(`${BASE_URL}/target/detail/${targetId}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) throw new Error(`detailTarget failed: ${res.statusText}`);
+  return await res.json();
+}
+
 // 🔹 PATCH /target/access/:id
 export async function enterTargetAPI(targetId: string, body: EnterTargetBody): Promise<TargetResponse> {
   const res = await fetch(`${BASE_URL}/target/access/${targetId}`, {
