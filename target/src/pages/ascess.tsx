@@ -8,7 +8,7 @@ import InvalidComponent from "../components/invalid.component";
 import { AcessoSeguro } from "../components/header.component";
 import { Rodape } from "../components/rodape.component";
 
-import "./Login.css"; // usa o mesmo layout base para padding/flex
+import "../styles/Login.css"; // usa o mesmo layout base para padding/flex
 
 /**
  * Ascess page decides which component to show according to currentPage:
