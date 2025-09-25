@@ -19,7 +19,8 @@ export class TargetService {
   ) {}
 
   async newTarget(dto: CreateTargetDto): Promise<Target> {
-    return this.targetRepo.create(dto.playerId, dto.page ?? 0);
+    console.log('Service target with DTO:', dto);
+    return await this.targetRepo.create(dto.playerId, dto.page ?? 0);
   }
 
   async enterTarget(

@@ -22,58 +22,61 @@ export class TargetController {
   // 1 - newTarget
   // @UseGuards(JwtAuthGuard)
   @Post('new')
-  newTarget(@Body() dto: CreateTargetDto) {
-    return this.targetService.newTarget(dto);
+  async newTarget(@Body() dto: CreateTargetDto) {
+    console.log('Controller target with DTO:', dto);
+    const resp = await this.targetService.newTarget(dto);
+    console.log('Response:', resp);
+    return resp;
   }
 
   // 2 - enterTarget
   @Patch('access/:id')
-  enterTarget(
+  async enterTarget(
     @Param('id') id: string,
     @Body() body: EnterTargetRequestDto,
     @Req() req: Request,
   ) {
-    return this.targetService.enterTarget(id, body.dto, body.secret, req);
+    return await this.targetService.enterTarget(id, body.dto, body.secret, req);
   }
 
   // 3 - initStatus
   @Patch('init/:id')
-  initStatus(@Param('id') id: string, @Body() dto: InitStatusDto) {
-    return this.targetService.initStatus(id, dto);
+  async initStatus(@Param('id') id: string, @Body() dto: InitStatusDto) {
+    return await this.targetService.initStatus(id, dto);
   }
 
   // 4 - detailTarget
   // @UseGuards(JwtAuthGuard)
   @Get('detail/:id')
-  detailTarget(@Param('id') id: string) {
-    return this.targetService.detailTarget(id);
+  async detailTarget(@Param('id') id: string) {
+    return await this.targetService.detailTarget(id);
   }
 
   // 5 - getAll
   @Get('findall')
-  getAll() {
-    return this.targetService.getAll();
+  async getAll() {
+    return await this.targetService.getAll();
   }
 
   // 6 - getByPlayer
   // @UseGuards(JwtAuthGuard)
   @Get('player/:id')
-  getByPlayer(@Param('id') playerId: string) {
-    return this.targetService.getByPlayer(playerId);
+  async getByPlayer(@Param('id') playerId: string) {
+    return await this.targetService.getByPlayer(playerId);
   }
 
   // 7 - getTargetIdsByPlayer
   // @UseGuards(JwtAuthGuard)
   @Get('player/:id/ids')
-  getTargetIdsByPlayer(@Param('id') playerId: string) {
-    return this.targetService.getTargetIdsByPlayer(playerId);
+  async getTargetIdsByPlayer(@Param('id') playerId: string) {
+    return await this.targetService.getTargetIdsByPlayer(playerId);
   } 
 
   // 8 - updatePage
   // @UseGuards(JwtAuthGuard)
   @Patch('targetPage/:id/')
-  updatePage(@Param('id') targetId: string, @Body() page: number) {
-    return this.targetService.updatePage(targetId, page);
+  async updatePage(@Param('id') targetId: string, @Body() page: number) {
+    return await this.targetService.updatePage(targetId, page);
   }
   
 }

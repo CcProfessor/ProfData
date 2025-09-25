@@ -8,7 +8,7 @@ export function NewTarget() {
 
   async function handleNewTarget() {
     const token = localStorage.getItem("token") || "";
-    const playerId = localStorage.getItem("playerId") || ""; // <- pega do login
+    const playerId = localStorage.getItem("player") || "";
     if (!playerId) {
       alert("Player não encontrado. Faça login novamente.");
       return;

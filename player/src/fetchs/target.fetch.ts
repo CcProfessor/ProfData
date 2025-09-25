@@ -8,6 +8,7 @@ const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 // Fetch: Criar Target
 // ======================
 export async function newTarget(dto: CreateTargetDto, token: string): Promise<TargetResponse> {
+  console.log('token: ', token);
   const res = await fetch(`${BASE_URL}/target/new`, {
     method: "POST",
     headers: {

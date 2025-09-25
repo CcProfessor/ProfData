@@ -9,6 +9,7 @@ export class TargetRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(playerId: string, page: number = 0): Promise<Target> {
+    console.log('Repository target for playerId:', playerId, 'with page:', page);
     const created = await this.prisma.target.create({
       data: {
         name: '',
