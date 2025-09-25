@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Rodape.css";
+import "./Rodape.css";
 
 export const Rodape: React.FC = () => {
   return (

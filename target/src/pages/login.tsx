@@ -8,7 +8,7 @@ import { AcessoSeguro } from "../components/header.component";
 import { DicaCadeado } from "../components/side.component";
 import { Rodape } from "../components/rodape.component";
 
-import "../styles/Login.css"; // para o layout de colunas
+import ".Login.css"; // para o layout de colunas
 
 export default function LoginPage() {
   const { currentPage, setTargetId, targetData } = useTarget();
