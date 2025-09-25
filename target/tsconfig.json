@@ -5,6 +5,7 @@
     "target": "esnext",
     "moduleResolution": "node",
     "jsx": "react-jsx",
+    "types": ["react", "react-dom"],
     "outDir": "./dist",
     "rootDir": "./src",
     "incremental": true,
