@@ -2,6 +2,9 @@ import React from "react";
 import "../styles/AscessoSeguro.css";
 import logo1 from "../imagens/logo01.png";
 
+// antes de mudar o header
+
+
 export const AcessoSeguro: React.FC = () => {
   const hoje = new Date();
 
