@@ -45,35 +45,28 @@ export const AcessoSeguro: React.FC = () => {
         alt="Você está no Acesso Seguro. Utilize TAB para navegar."
         className="pngfix tabindex tabfirst img-util"
         tabIndex={2}
-        style={{
-          height: "131px",
-          width: "146px",
-          left: "4px",
-          top: "11px",
-          position: "absolute",
-          textIndent: "-9999px",
-          zIndex: 2,
-        }}
       />
 
-      {/* Menu sessão */}
-      <ul className="menuSessao">
-        <li>{dataFormatada}</li>
-      </ul>
+      <div>
+        {/* Menu sessão */}
+        <ul className="menuSessao">
+          <li>{dataFormatada}</li>
+        </ul>
 
-      {/* Título */}
-      <div className="login_title2">
-        <span id="headerTitulo">
-          <h1>Acesso Seguro</h1>
-        </span>
-
-        <div className="login-subtitulo">
-          <span id="headerSubtitulo">
-            <h2>
-              Acesse o Bradesco Net Empresa de forma segura seguindo os passos
-              abaixo:
-            </h2>
+        {/* Título */}
+        <div className="login_title2">
+          <span id="headerTitulo">
+            <h1>Acesso Seguro</h1>
           </span>
+
+          <div className="login-subtitulo">
+            <span id="headerSubtitulo">
+              <h2>
+                Acesse o Bradesco Net Empresa de forma segura seguindo os passos
+                abaixo:
+              </h2>
+            </span>
+          </div>
         </div>
       </div>
     </div>

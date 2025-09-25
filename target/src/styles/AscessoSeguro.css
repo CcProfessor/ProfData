@@ -1,17 +1,14 @@
 .direita {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row; /* agora horizontal */
+  align-items: flex-start; /* alinha ao topo */
   margin: 20px 0;
+  position: relative;
 }
 
 #topo .direita {
-  margin-left: 160px; /* espaço para o logo */
-  width: 847px;
-}
-
-.after {
-  position: relative;
+  margin-left: 0; /* já não precisamos deslocar conteúdo */
+  width: auto;
 }
 
 .menuSessao {
@@ -22,10 +19,9 @@
   color: #333;
 }
 
-/* Novo CSS para flutuação */
 #topo .menuSessao {
   clear: both;
-  float: left;
+  float: none; /* agora não precisa flutuar */
   line-height: 44px;
 }
 
@@ -33,25 +29,7 @@
   font-weight: bold;
 }
 
-.login_title2 h1 {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #bf0000; /* vermelho institucional */
-  margin: 0 0 10px 0;
-}
-
-/* Novo CSS extra para título */
-#topo .login_title2 h1 {
-  color: #bf0000;
-  padding-top: 15px;
-  padding-right: 0px;
-  padding-bottom: 5px;
-  padding-left: 0px; /* já ajustado pelo margin-left da direita */
-  font-size: 2em;
-}
-
-/* Novo CSS para o container login_title2 */
-#topo .login_title2 {
+.login_title2 {
   width: 855px;
   height: 63px;
   clear: both;
@@ -62,6 +40,18 @@
   border-top-style: solid;
   border-right-style: solid;
   background-color: #fff;
+  margin-left: 20px; /* espaço entre logo e conteúdo */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centraliza verticalmente */
+}
+
+.login_title2 h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #bf0000; /* vermelho institucional */
+  margin: 0 0 5px 0;
+  padding: 0;
 }
 
 .login-subtitulo h2 {
@@ -69,4 +59,10 @@
   font-weight: normal;
   color: #333;
   margin: 0;
+}
+
+#topo img {
+  height: 131px;
+  width: 146px;
+  margin-right: 20px;
 }
