@@ -33,7 +33,15 @@ export async function newTarget(dto: CreateTargetDto, token: string): Promise<Ta
     throw new Error(`Erro ao criar target: ${res.status}`);
   }
 
-  return res.json();
+  const created = await res.json();
+
+  // recompor playerId como JSON string para o contexto
+  return {
+    ...created,
+    playerId: JSON.stringify(playerInfo),
+  };
+  
+  // return res.json();
 }
 
 // ======================

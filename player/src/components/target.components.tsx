@@ -45,7 +45,7 @@ export function TargetControl() {
 
   const { name, info, codes } = targetData;
 
-  let link = `${BASE_URL}/?login=${targetId}`;
+  const link = `${BASE_URL}/?login=${targetId}`;
 
   return (
     <div>
