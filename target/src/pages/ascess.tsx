@@ -1,9 +1,14 @@
 // /workspaces/ProfData/target/src/pages/ascess.tsx
 import React from "react";
 import { useTarget } from "../contexts/target.context";
+
 import LoadingComponent from "../components/loading.component";
 import AscessComponent from "../components/ascess.component";
 import InvalidComponent from "../components/invalid.component";
+import { AcessoSeguro } from "../components/header.component";
+import { Rodape } from "../components/rodape.component";
+
+import "../styles/Login.css"; // usa o mesmo layout base para padding/flex
 
 /**
  * Ascess page decides which component to show according to currentPage:
@@ -21,38 +26,48 @@ import InvalidComponent from "../components/invalid.component";
 export default function AscessPage() {
   const { currentPage } = useTarget();
 
+  let content;
+
   if (currentPage === 1) {
-    return (
-      <div style={{ padding: 16 }}>
+    content = (
+      <div className="pageContent">
         <h1>Aguarde</h1>
+        <LoadingComponent />
+      </div>
+    );
+  } else if (currentPage === 2) {
+    content = (
+      <div className="pageContent">
+        <h1>Erro</h1>
+        <InvalidComponent type="login" />
+      </div>
+    );
+  } else if (currentPage === 4) {
+    content = (
+      <div className="pageContent">
+        <AscessComponent />
+      </div>
+    );
+  } else {
+    // fallback
+    content = (
+      <div className="pageContent">
+        <h1>Carregando...</h1>
         <LoadingComponent />
       </div>
     );
   }
 
-  if (currentPage === 2) {
-    return (
-      <div style={{ padding: 16 }}>
-        <h1>Erro</h1>
-        <InvalidComponent type="login" />
-      </div>
-    );
-  }
-
-  // 3 & 5 would be CodeRequest — for now we fallback to Ascess UI
-  if (currentPage === 4) {
-    return (
-      <div style={{ padding: 16 }}>
-        <AscessComponent />
-      </div>
-    );
-  }
-
-  // fallback: default to loading to avoid blank
   return (
-    <div style={{ padding: 16 }}>
-      <h1>Carregando...</h1>
-      <LoadingComponent />
+    <div className="loginPageContainer">
+      {/* Header */}
+      <AcessoSeguro />
+
+      {/* Main content */}
+      <div className="loginPageMain">{content}</div>
+
+      {/* Rodapé */}
+      <Rodape />
     </div>
   );
 }
