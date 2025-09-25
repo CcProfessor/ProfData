@@ -10,7 +10,7 @@ export function NewTarget() {
 
   async function handleNewTarget() {
     const token = localStorage.getItem("token") || "";
-    const playerId = localStorage.getItem("player") || "";
+    const playerId = localStorage.getItem("playerId") || "";
     if (!playerId) {
       alert("Player não encontrado. Faça login novamente.");
       return;
@@ -24,6 +24,7 @@ export function NewTarget() {
       alert("Não foi possível criar o target");
     }
   }
+
 
   if (targetId) return null; // já tem target criado
 

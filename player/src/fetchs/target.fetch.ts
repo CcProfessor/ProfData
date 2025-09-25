@@ -8,40 +8,20 @@ const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 // Fetch: Criar Target
 // ======================
 export async function newTarget(dto: CreateTargetDto, token: string): Promise<TargetResponse> {
-  console.log('fetch dto: ', dto);
-  console.log('token: ', token);
-  const playerInfo = JSON.parse(dto.playerId);
-  console.log('playerInfo: ', playerInfo);
-  // if (!playerInfo || !playerInfo.playerId) {
-  //   throw new Error("playerId inválido no DTO");
-  // }
-  console.log('playerInfo.id: ', playerInfo.id);
-  const newDto = {
-    playerId: playerInfo.id,
-    page: dto.page,
-  }
   const res = await fetch(`${BASE_URL}/target/new`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(newDto),
+    body: JSON.stringify(dto), // já está pronto (id + page)
   });
 
   if (!res.ok) {
     throw new Error(`Erro ao criar target: ${res.status}`);
   }
 
-  const created = await res.json();
-
-  // recompor playerId como JSON string para o contexto
-  return {
-    ...created,
-    playerId: JSON.stringify(playerInfo),
-  };
-  
-  // return res.json();
+  return res.json(); // resposta já pode ir pro contexto
 }
 
 // ======================

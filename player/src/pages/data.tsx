@@ -13,7 +13,7 @@ function Data() {
   useEffect(() => {
     async function fetchPlayer() {
       const token = localStorage.getItem("token")
-      const storedPlayer = localStorage.getItem("player")
+      const storedPlayer = localStorage.getItem("playerId")
 
       if (!token || !storedPlayer) {
         navigate("/login")
