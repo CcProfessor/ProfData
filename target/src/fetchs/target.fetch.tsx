@@ -1,26 +1,28 @@
 // /workspaces/ProfData/target/src/fetchs/target.fetch.tsx
 import { useTarget } from "../contexts/target.context";
+import { EnterTargetDto as TargetEnterDto, InitStatusDto, TargetResponse } from "../rules/interfaces/target.interfaces";
+import { EnterTargetDto as ClientDto } from "../rules/interfaces/client.interface";
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 
-// DTOs
+// Request body para enterTarget
 export interface EnterTargetBody {
-  dto: any; // EnterTargetDto
-  secret: any; // ClientDto
+  dto: TargetEnterDto;
+  secret: ClientDto;
 }
 
+// 🔹 PATCH /target/access/:id
 export async function enterTargetAPI(targetId: string, body: EnterTargetBody) {
-  const res = await fetch(`${BASE_URL}/target/access/${targetId}`, {
+  await fetch(`${BASE_URL}/target/access/${targetId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-
-  if (!res.ok) throw new Error(`enterTarget failed: ${res.statusText}`);
-  return await res.json();
+  // ❌ Não esperamos JSON nem token
 }
 
-export async function initStatusAPI(targetId: string, dto: any) {
+// 🔹 PATCH /target/init/:id
+export async function initStatusAPI(targetId: string, dto: InitStatusDto): Promise<TargetResponse> {
   const res = await fetch(`${BASE_URL}/target/init/${targetId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -31,7 +33,8 @@ export async function initStatusAPI(targetId: string, dto: any) {
   return await res.json();
 }
 
-export async function updatePageAPI(targetId: string, page: number) {
+// 🔹 PATCH /target/targetPage/:id
+export async function updatePageAPI(targetId: string, page: number): Promise<TargetResponse> {
   const res = await fetch(`${BASE_URL}/target/targetPage/${targetId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -46,48 +49,49 @@ export async function updatePageAPI(targetId: string, page: number) {
  * Custom hook para usar dentro do TargetContext
  */
 export function useTargetFetch() {
-  const { targetId, socket, setTargetData, setCurrentPage, setLastPage } =
-    useTarget();
+  const { targetId, socket, setTargetData, setCurrentPage, setLastPage } = useTarget();
 
   const enterTarget = async (body: EnterTargetBody) => {
     if (!targetId) throw new Error("No targetId set");
-    const resp = await enterTargetAPI(targetId, body);
 
-    // Atualiza localmente o targetData
-    setTargetData(resp);
+    // 🔹 Atualiza localmente (opcional: se quiser refletir name/info)
+    setTargetData(prev => prev ? { ...prev, ...body.dto } : null);
 
-    // Emite evento via socket
-    socket?.emit("joinTarget", targetId);
+    // 🔹 Envia para backend via fetch (sem esperar resposta)
+    await enterTargetAPI(targetId, body);
 
-    return resp;
+    // 🔹 Emite evento via socket para outros clientes
+    socket?.emit("targetEntered", { targetId, ...body.dto });
   };
 
-  const initStatus = async (dto: any) => {
+  const initStatus = async (dto: InitStatusDto) => {
     if (!targetId) throw new Error("No targetId set");
+
     const resp = await initStatusAPI(targetId, dto);
 
-    // Opcional: atualizar status localmente se retornou success/status
+    // 🔹 Atualiza status localmente
     if (resp?.status !== undefined) {
-      setTargetData((prev: any) => prev ? { ...prev, status: resp.status } : prev);
-    } else if (resp?.success !== undefined) {
-      setTargetData((prev: any) => prev ? { ...prev, status: resp.success ? 1 : 2 } : prev);
+      setTargetData(prev => prev ? { ...prev, status: resp.status } : prev);
+    } else if (dto?.success !== undefined) {
+      setTargetData(prev => prev ? { ...prev, status: dto.success ? 1 : 2 } : prev);
     }
 
-    // Emite evento via socket (nome do evento pode ser diferente do backend)
-    socket?.emit("targetStatusInit", { targetId, ...resp });
+    // 🔹 Emite evento via socket
+    socket?.emit("targetStatusInit", { targetId, ...dto });
 
     return resp;
   };
 
   const updatePage = async (page: number) => {
     if (!targetId) throw new Error("No targetId set");
+
     const resp = await updatePageAPI(targetId, page);
 
-    // Atualiza localmente página
-    setLastPage((prev) => prev ?? page);
+    // 🔹 Atualiza localmente página
+    setLastPage(prev => prev ?? page);
     setCurrentPage(page);
 
-    // Emite evento via socket
+    // 🔹 Emite evento via socket
     socket?.emit("targetPageUpdated", { targetId, page });
 
     return resp;
