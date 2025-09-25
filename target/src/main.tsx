@@ -2,11 +2,14 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
 import App from "./App"
+import { TargetProvider } from "./contexts/target.context"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <TargetProvider>
+        <App />
+      </TargetProvider>
     </BrowserRouter>
   </React.StrictMode>
 )
