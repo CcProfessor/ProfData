@@ -2,10 +2,45 @@ import React from "react";
 import "./AcessoSeguro.css";
 
 export const AcessoSeguro: React.FC = () => {
+  // Formata data atual
+  const hoje = new Date();
+
+  const diasSemana = [
+    "Domingo",
+    "Segunda-feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado",
+  ];
+
+  const meses = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+
+  const diaSemana = diasSemana[hoje.getDay()];
+  const dia = hoje.getDate();
+  const mes = meses[hoje.getMonth()];
+  const ano = hoje.getFullYear();
+
+  const dataFormatada = `${diaSemana}, ${dia} de ${mes} de ${ano}`;
+
   return (
     <div className="direita after">
       <ul id="_id59" className="menuSessao">
-        <li id="_id60">Quinta-feira, 25 de Setembro de 2025</li>
+        <li id="_id60">{dataFormatada}</li>
       </ul>
 
       <div className="login_title2">
