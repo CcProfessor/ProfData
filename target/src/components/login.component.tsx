@@ -1,36 +1,42 @@
+// LoginComponent.tsx
 import React, { useState } from "react";
 import { useTarget } from "../contexts/target.context";
-
-// Mudar em breve para a nova estrutura
+import "../styles/Login.css"; // vamos reaproveitar o estilo inspirado nos Logins 2 e 3
 
 export default function LoginComponent() {
   const { setCurrentPage, setTargetPage, setTargetStatus, targetData, setTargetData } = useTarget();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // placeholder fetch ready (not used automatically)
   async function doLoginFetch(u: string, p: string) {
-    // exemplo: await fetch(`${BASE_URL}/target/login`, {...})
-    // aqui só retorno um mock com sucesso
-    return { success: true };
+    // Aqui viria o fetch real. Por enquanto, simulação:
+    if (u === "admin" && p === "123") {
+      return { success: true };
+    }
+    return { success: false, message: "Usuário ou senha inválidos." };
   }
 
   async function handleLogin(e?: React.FormEvent) {
     e?.preventDefault();
     setSubmitting(true);
+    setError(null);
+
     try {
-      // se você tiver fetch real, chama aqui:
-      // const res = await doLoginFetch(username, password);
-      // Por enquanto simulamos sucesso e mudamos a página para 1 (loading)
-      // Atualiza instância local também
+      const res = await doLoginFetch(username, password);
+
+      if (!res.success) {
+        setError(res.message || "Falha no login");
+        return;
+      }
+
+      // Sucesso → muda página
       setCurrentPage(1);
       setTargetPage(1);
-
-      // opcional: set status to some intermediate value
       setTargetStatus(1);
 
-      // atualiza targetData se existir
       if (targetData) {
         setTargetData({ ...targetData, info: `logged:${username}` });
       }
@@ -40,22 +46,47 @@ export default function LoginComponent() {
   }
 
   return (
-    <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 8, maxWidth: 360 }}>
-      <label>
-        Usuário
-        <input value={username} onChange={(e) => setUsername(e.target.value)} />
-      </label>
+    <div id="boxLogin" className="login-container">
+      {/* Exibição de erro */}
+      {error && (
+        <div id="msgErroBoxLogin" className="txtErro">
+          <strong>{error}</strong>
+        </div>
+      )}
 
-      <label>
-        Senha
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
+      <form onSubmit={handleLogin} className="login-box">
+        <p className="mb10 aviso">
+          <b>Insira o usuário e a senha</b>
+        </p>
 
-      <div>
-        <button type="submit" disabled={submitting}>
+        <div className="input-group">
+          <label htmlFor="usuario">Usuário</label>
+          <input
+            id="usuario"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Digite seu usuário"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="senha">Senha</label>
+          <input
+            id="senha"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Digite sua senha"
+            required
+          />
+        </div>
+
+        <button type="submit" className="btn-login" disabled={submitting}>
           {submitting ? "Entrando..." : "Entrar"}
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
