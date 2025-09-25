@@ -1,8 +1,9 @@
-// target/src/App.tsx
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import type { BrowserRouter } from "react-router-dom";
 
-import Header from "../components/header.component";
+
+// import Header from "../components/header.component";
 import LoginPage from "./pages/login";
 import AscessPage from "./pages/ascess";
 
