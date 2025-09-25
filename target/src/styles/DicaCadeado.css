@@ -1,6 +1,6 @@
 .container-dicaCadeado {
   padding: 11px 14px;
-  background-color: #999999;
+  background-color: #bbbbbb;
   width: 216px;
   height: 514px;
   box-sizing: border-box; /* garante que padding não aumente a largura/altura */
@@ -16,7 +16,7 @@
 .subtitulo {
   font-size: 1em; /* menor que 1.1em */
   line-height: 1.2em; /* compacto */
-  color: #fff; /* contraste */
+  color: #000000; /* contraste */
   text-decoration: none;
   font-weight: bold;
   padding: 10px 0; /* padding reduzido */
@@ -39,7 +39,7 @@
 .boxP14 {
   width: 100%;
   height: 100%;
-  background-color: #999999; /* mantém a box escura dentro do container */
+  background-color: #bbbbbb; /* mantém a box escura dentro do container */
   padding: 0; /* padding já aplicado no container */
   box-sizing: border-box;
   overflow: hidden; /* impede que conteúdo vaze da box */
