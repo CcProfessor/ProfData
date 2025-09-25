@@ -5,7 +5,7 @@ return (<div class="direita after">
     <div class="login_title2"><span id="headerTitulo"><h1>Acesso Seguro</h1></span>
     <div class="login-subtitulo">
         <span id="headerSubtitulo">
-            <h2>Acesse o Bradesco Net Empresa de forma segura seguindo os passos abaixo:</h2>
+            <h2>Acesse a Empresa de forma segura seguindo os passos abaixo:</h2>
         </span>
     </div>
     </div>
