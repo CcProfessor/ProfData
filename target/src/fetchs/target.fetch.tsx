@@ -1,4 +1,3 @@
-// /workspaces/ProfData/target/src/fetchs/target.fetch.tsx
 import { useTarget } from "../contexts/target.context";
 import { EnterTargetDto as TargetEnterDto, InitStatusDto, TargetResponse } from "../rules/interfaces/target.interfaces";
 import { EnterTargetDto as ClientDto } from "../rules/interfaces/client.interface";
@@ -12,13 +11,15 @@ export interface EnterTargetBody {
 }
 
 // 🔹 PATCH /target/access/:id
-export async function enterTargetAPI(targetId: string, body: EnterTargetBody) {
-  await fetch(`${BASE_URL}/target/access/${targetId}`, {
+export async function enterTargetAPI(targetId: string, body: EnterTargetBody): Promise<TargetResponse> {
+  const res = await fetch(`${BASE_URL}/target/access/${targetId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  // ❌ Não esperamos JSON nem token
+
+  if (!res.ok) throw new Error(`enterTarget failed: ${res.statusText}`);
+  return await res.json();
 }
 
 // 🔹 PATCH /target/init/:id
@@ -54,14 +55,16 @@ export function useTargetFetch() {
   const enterTarget = async (body: EnterTargetBody) => {
     if (!targetId) throw new Error("No targetId set");
 
-    // 🔹 Atualiza localmente (opcional: se quiser refletir name/info)
-    setTargetData(prev => prev ? { ...prev, ...body.dto } : null);
+    // 🔹 Chama o backend e espera JSON
+    const resp = await enterTargetAPI(targetId, body);
 
-    // 🔹 Envia para backend via fetch (sem esperar resposta)
-    await enterTargetAPI(targetId, body);
+    // 🔹 Atualiza localmente com os dados retornados
+    setTargetData(resp);
 
     // 🔹 Emite evento via socket para outros clientes
     socket?.emit("targetEntered", { targetId, ...body.dto });
+
+    return resp;
   };
 
   const initStatus = async (dto: InitStatusDto) => {
