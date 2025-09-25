@@ -6,7 +6,6 @@ import { TargetProvider } from "./contexts/target.context"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <p>Main.ts ta funcionando</p>
     <BrowserRouter>
       <TargetProvider>
         <App />
