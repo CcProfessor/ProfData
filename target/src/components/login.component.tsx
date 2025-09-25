@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useTarget } from "../contexts/target.context";
 
+// Mudar em breve para a nova estrutura
+
 export default function LoginComponent() {
   const { setCurrentPage, setTargetPage, setTargetStatus, targetData, setTargetData } = useTarget();
   const [username, setUsername] = useState("");
