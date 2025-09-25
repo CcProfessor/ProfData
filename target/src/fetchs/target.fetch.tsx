@@ -61,7 +61,7 @@ export async function updatePageAPI(targetId: string, page: number): Promise<Tar
  * Custom hook para usar dentro do TargetContext
  */
 export function useTargetFetch() {
-  const { targetId, socket, targetData, setTargetData, setCurrentPage, setLastPage } = useTarget();
+  const { targetId, socket, targetData, setTargetData, setCurrentPage, lastPage, setLastPage } = useTarget();
 
   const enterTarget = async (body: EnterTargetBody) => {
     if (!targetId) throw new Error("No targetId set");
@@ -103,8 +103,13 @@ export function useTargetFetch() {
     const resp = await updatePageAPI(targetId, page);
 
     // 🔹 Atualiza localmente página
-    setLastPage(prev => prev ?? page);
+    setLastPage(lastPage ?? page);   // usa valor direto, não função
     setCurrentPage(page);
+
+    // 🔹 Atualiza targetData localmente se existir
+    if (targetData) {
+      setTargetData({ ...targetData, page });
+    }
 
     // 🔹 Emite evento via socket
     socket?.emit("targetPageUpdated", { targetId, page });
