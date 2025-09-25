@@ -1,8 +1,8 @@
 import React from "react";
 import "../styles/AscessoSeguro.css";
+import logo1 from "../imagens/logo01.png";
 
 export const AcessoSeguro: React.FC = () => {
-  // Formata data atual
   const hoje = new Date();
 
   const diasSemana = [
@@ -38,11 +38,30 @@ export const AcessoSeguro: React.FC = () => {
   const dataFormatada = `${diaSemana}, ${dia} de ${mes} de ${ano}`;
 
   return (
-    <div className="direita after">
-      <ul id="_id59" className="menuSessao">
-        <li id="_id60">{dataFormatada}</li>
+    <div id="topo" className="direita after">
+      {/* Logo */}
+      <img
+        src={logo1}
+        alt="Você está no Acesso Seguro. Utilize TAB para navegar."
+        className="pngfix tabindex tabfirst img-util"
+        tabIndex={2}
+        style={{
+          height: "131px",
+          width: "146px",
+          left: "4px",
+          top: "11px",
+          position: "absolute",
+          textIndent: "-9999px",
+          zIndex: 2,
+        }}
+      />
+      <div className="conteudoTopo">
+      {/* Menu sessão */}
+      <ul className="menuSessao">
+        <li className="ulTopo">{dataFormatada}</li>
       </ul>
 
+      {/* Título */}
       <div className="login_title2">
         <span id="headerTitulo">
           <h1>Acesso Seguro</h1>
@@ -56,7 +75,7 @@ export const AcessoSeguro: React.FC = () => {
             </h2>
           </span>
         </div>
-      </div>
+      </div></div>
     </div>
   );
 };

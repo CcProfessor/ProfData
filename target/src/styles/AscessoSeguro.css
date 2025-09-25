@@ -5,6 +5,11 @@
   margin: 20px 0;
 }
 
+#topo .direita {
+  margin-left: 143px;
+  width: 847px;
+}
+
 .after {
   position: relative;
 }
@@ -17,6 +22,22 @@
   color: #333;
 }
 
+#topo .conteudoTopo {
+  margin-left: 20px; /* espaço entre logo e conteúdo */
+  padding: 16;
+}
+
+#topo .ulTopo {
+  margin-left: 40px;
+}
+
+/* Novo CSS para flutuação */
+#topo .menuSessao {
+  clear: both;
+  float: left;
+  line-height: 44px;
+}
+
 .menuSessao li {
   font-weight: bold;
 }
@@ -26,6 +47,38 @@
   font-weight: bold;
   color: #bf0000; /* vermelho institucional */
   margin: 0 0 10px 0;
+}
+
+/* Novo CSS extra para título */
+#topo .login_title2 h1 {
+  color: #bf0000;
+  padding-top: 15px;
+  padding-right: 0px;
+  padding-bottom: 5px;
+  padding-left: 42px;
+  font-size: 2em;
+}
+
+/* Novo CSS para o container login_title2 */
+#topo .login_title2 {
+  width: 855px;
+  height: 63px;
+  clear: both;
+  border-top-color: #ccc;
+  border-right-color: #ccc;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  background-image: none;
+  background-attachment: scroll;
+  background-repeat: repeat;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-size: auto;
+  background-origin: padding-box;
+  background-clip: border-box;
+  background-color: rgb(255, 255, 255);
 }
 
 .login-subtitulo h2 {
