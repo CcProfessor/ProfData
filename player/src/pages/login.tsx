@@ -21,6 +21,7 @@ function Login() {
       if (data?.access_token) {
         localStorage.setItem("token", data.access_token)
         localStorage.setItem("player", JSON.stringify(data.player))
+        localStorage.setItem("playerId", data.player.id);
 
         // redireciona já com o ID do player
         navigate(`/user/${data.player.id}`)
