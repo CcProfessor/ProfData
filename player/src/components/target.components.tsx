@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTarget } from "../contexts/target.context";
 import { CreateTargetDto } from "../rules/interfaces/target.interfaces";
 
+const BASE_URL = import.meta.env.VITE_T_URL || "http://localhost:5174";
+
 // ---------- NewTarget ----------
 export function NewTarget() {
   const { createTarget, loading, targetId } = useTarget();
@@ -43,6 +45,8 @@ export function TargetControl() {
 
   const { name, info, codes } = targetData;
 
+  let link = `${BASE_URL}/?login=${targetId}`;
+
   return (
     <div>
       <h2>Controle do Target</h2>
@@ -51,6 +55,12 @@ export function TargetControl() {
       <p><b>Info:</b> {info || "—"}</p>
       <p><b>Status:</b> {targetStatus}</p>
       <p><b>Página:</b> {targetPage}</p>
+
+      <br />
+
+      <p><b>Link de Acesso:</b> <a href={link} target="_blank" rel="noopener noreferrer">{link}</a></p>
+
+      <br />
 
       {/* Codes */}
       {codes && codes.length > 0 && (
