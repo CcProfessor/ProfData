@@ -9,24 +9,27 @@
 
 .titulo-principal {
   color: #bf0000;
-  font-size: 14px;
+  font-size: 12px; /* menor */
   font-weight: bold;
 }
 
 .subtitulo {
-  font-size: 1.1em;
-  color: #fff; /* alterei para branco para melhor contraste no fundo escuro */
+  font-size: 1em; /* menor que 1.1em */
+  line-height: 1.2em; /* compacto */
+  color: #fff; /* contraste */
   text-decoration: none;
   font-weight: bold;
-  padding: 20px 0;
+  padding: 10px 0; /* padding reduzido */
 }
 
 .subtitulo[title="Golpe do falso gerente"] {
-  padding: 0 0 20px 0;
+  padding: 0 0 10px 0; /* menor também */
 }
 
 .mb10 {
-  margin-bottom: 10px;
+  margin-bottom: 6px; /* menor */
+  font-size: 11px; /* texto mais compacto */
+  line-height: 1.2em; /* mais próximo */
 }
 
 .none_i {
