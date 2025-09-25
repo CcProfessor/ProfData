@@ -6,7 +6,7 @@
 }
 
 #topo .direita {
-  margin-left: 143px;
+  margin-left: 160px; /* espaço para o logo */
   width: 847px;
 }
 
@@ -20,15 +20,6 @@
   margin: 0 0 10px 0;
   font-size: 14px;
   color: #333;
-}
-
-#topo .conteudoTopo {
-  margin-left: 20px; /* espaço entre logo e conteúdo */
-  padding: 16;
-}
-
-#topo .ulTopo {
-  margin-left: 40px;
 }
 
 /* Novo CSS para flutuação */
@@ -55,7 +46,7 @@
   padding-top: 15px;
   padding-right: 0px;
   padding-bottom: 5px;
-  padding-left: 42px;
+  padding-left: 0px; /* já ajustado pelo margin-left da direita */
   font-size: 2em;
 }
 
@@ -70,15 +61,7 @@
   border-right-width: 1px;
   border-top-style: solid;
   border-right-style: solid;
-  background-image: none;
-  background-attachment: scroll;
-  background-repeat: repeat;
-  background-position-x: 0%;
-  background-position-y: 0%;
-  background-size: auto;
-  background-origin: padding-box;
-  background-clip: border-box;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
 }
 
 .login-subtitulo h2 {

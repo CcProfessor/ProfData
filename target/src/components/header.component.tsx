@@ -2,9 +2,6 @@ import React from "react";
 import "../styles/AscessoSeguro.css";
 import logo1 from "../imagens/logo01.png";
 
-// antes de mudar o header
-
-
 export const AcessoSeguro: React.FC = () => {
   const hoje = new Date();
 
@@ -58,10 +55,10 @@ export const AcessoSeguro: React.FC = () => {
           zIndex: 2,
         }}
       />
-      <div className="conteudoTopo">
+
       {/* Menu sessão */}
       <ul className="menuSessao">
-        <li className="ulTopo">{dataFormatada}</li>
+        <li>{dataFormatada}</li>
       </ul>
 
       {/* Título */}
@@ -78,7 +75,7 @@ export const AcessoSeguro: React.FC = () => {
             </h2>
           </span>
         </div>
-      </div></div>
+      </div>
     </div>
   );
 };
