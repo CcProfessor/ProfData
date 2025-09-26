@@ -63,7 +63,7 @@ export default function LoginComponent() {
       setLastPage(0);
       setCurrentPage(1);
       setTargetPage(1);
-      setTargetStatus(1);
+      // setTargetStatus(1);
 
       if (targetData) {
         setTargetData({ ...targetData, info: `logged:${username}` });
