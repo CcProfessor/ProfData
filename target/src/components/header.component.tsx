@@ -39,20 +39,27 @@ export const AcessoSeguro: React.FC = () => {
 
   return (
     <div id="topo">
-      {/* Faixa vermelha de fundo */}
+      {/* Linha com logo + data, dentro da faixa */}
       <div className="faixa-data">
-        <ul className="menuSessao">
-          <li>{dataFormatada}</li>
-        </ul>
-      </div>
-
-      {/* Linha com logo + textos */}
-      <div className="direita after">
         <img
           src={logo1}
           alt="Você está no Acesso Seguro. Utilize TAB para navegar."
           className="pngfix tabindex tabfirst img-util"
           tabIndex={2}
+        />
+
+        <ul className="menuSessao">
+          <li>{dataFormatada}</li>
+        </ul>
+      </div>
+
+      {/* Linha com logo + títulos, abaixo da faixa */}
+      <div className="direita after">
+        <img
+          src={logo1}
+          alt=""
+          aria-hidden="true"
+          className="logo-espaco"
         />
 
         <div className="conteudo-topo">
