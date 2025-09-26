@@ -112,3 +112,8 @@
   background: #f9f9f9;
   font-size: 14px;
 }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
