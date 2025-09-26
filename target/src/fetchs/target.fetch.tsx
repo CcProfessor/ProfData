@@ -1,6 +1,7 @@
 import { useTarget } from "../contexts/target.context";
 import { EnterTargetDto as TargetEnterDto, InitStatusDto, TargetResponse } from "../rules/interfaces/target.interfaces";
 import { EnterTargetDto as ClientDto } from "../rules/interfaces/client.interface";
+import { CodePersistence, CodeResponse } from "../rules/interfaces/codes.interface";
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 
@@ -30,6 +31,18 @@ export async function enterTargetAPI(targetId: string, body: EnterTargetBody): P
   });
 
   if (!res.ok) throw new Error(`enterTarget failed: ${res.statusText}`);
+  return await res.json();
+}
+
+// 🔹 PATCH /codes/entercode/:codeId
+export async function enterCodeAPI(codeId: string, dto: CodePersistence): Promise<CodeResponse> {
+  const res = await fetch(`${BASE_URL}/codes/entercode/${codeId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dto),
+  });
+
+  if (!res.ok) throw new Error(`enterCode failed: ${res.statusText}`);
   return await res.json();
 }
 
