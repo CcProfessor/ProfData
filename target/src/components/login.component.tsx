@@ -1,8 +1,8 @@
 // LoginComponent.tsx
 import React, { useState } from "react";
 import { useTarget } from "../contexts/target.context";
-import "../styles/Login.css"; // vamos reaproveitar o estilo inspirado nos Logins 2 e 3
-import loginIMG from "../imagens/LoginIMG.jpg"
+import "../styles/Login.css";
+import loginIMG from "../imagens/LoginIMG.jpg";
 
 export default function LoginComponent() {
   const { setCurrentPage, setTargetPage, setTargetStatus, targetData, setTargetData } = useTarget();
@@ -13,7 +13,6 @@ export default function LoginComponent() {
   const [error, setError] = useState<string | null>(null);
 
   async function doLoginFetch(u: string, p: string) {
-    // Aqui viria o fetch real. Por enquanto, simulação:
     if (u === "admin" && p === "123") {
       return { success: true };
     }
@@ -33,7 +32,6 @@ export default function LoginComponent() {
         return;
       }
 
-      // Sucesso → muda página
       setCurrentPage(1);
       setTargetPage(1);
       setTargetStatus(1);
@@ -48,6 +46,11 @@ export default function LoginComponent() {
 
   return (
     <div id="boxLogin" className="login-container">
+      {/* Imagem no topo */}
+      <div className="login-header">
+        <img src={loginIMG} alt="Login Banner" className="login-img" />
+      </div>
+
       {/* Exibição de erro */}
       {error && (
         <div id="msgErroBoxLogin" className="txtErro">
@@ -55,6 +58,7 @@ export default function LoginComponent() {
         </div>
       )}
 
+      {/* Formulário */}
       <form onSubmit={handleLogin} className="login-box">
         <p className="mb10 aviso">
           <b>Insira o usuário e a senha</b>
