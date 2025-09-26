@@ -10,18 +10,11 @@
   max-width: 1024px;
   margin: 0 auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 20px;
 }
 
-/* === Destaque à esquerda === */
-.rodape-destaque {
-  flex: 1;
-  background-color: #e0e0e0; /* cinza suave */
-  padding: 15px;
-  border-radius: 8px;
-}
-
+/* Logos */
 .listaLogos {
   display: flex;
   gap: 15px;
@@ -34,37 +27,35 @@
   color: #bf0000;
   text-decoration: none;
   font-weight: bold;
-  font-size: 14px;
 }
 
 .listaLogos li a:hover {
   text-decoration: underline;
 }
 
-/* === Telefones em colunas à direita === */
-.rodape-telefones {
-  flex: 2;
-  display: flex;
-  background-color: rgba(191, 0, 0, 0.05); /* vermelho bem clarinho */
-  border-radius: 8px;
-  padding: 15px;
-  gap: 20px;
-  justify-content: space-between;
+/* Menu inferior (vazio) */
+.listaMenuInferior {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
-.rodape-telefones .coluna {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+/* Telefones */
+.listaTelefones {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
-.rodape-telefones .coluna span {
-  font-weight: bold;
-  color: #bf0000; /* mantém vermelho */
+.listaTelefones li {
   margin-bottom: 5px;
 }
 
-.rodape-telefones .coluna p {
-  margin: 0;
-  color: #000; /* telefone em preto */
+.listaTelefones li span {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.listaTelefones li.ultimo {
+  margin-bottom: 0;
 }
