@@ -1,65 +1,55 @@
 .direita {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  flex-direction: row; /* agora horizontal */
+  align-items: flex-start; /* alinha ao topo */
   margin: 20px 0;
   position: relative;
 }
 
 #topo .direita {
-  margin-left: 0;
+  margin-left: 0; /* já não precisamos deslocar conteúdo */
   width: auto;
 }
 
-/* Faixa da data */
-.faixa-data {
-  width: 100vw; /* ocupa toda largura da janela */
-  background-color: rgba(191, 0, 0, 0.8); /* vermelho suave */
-  border-top: 2px solid #fff;
-  border-bottom: 2px solid #000;
-  text-align: center;
-  padding: 5px 0;
-  position: relative;
-  z-index: 1; /* fica abaixo do logo */
-}
-
-.faixa-data .menuSessao {
-  margin: 0;
-  padding: 0;
+.menuSessao {
   list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
   font-size: 14px;
+  color: #333;
+}
+
+#topo .menuSessao {
+  clear: both;
+  float: none; /* agora não precisa flutuar */
+  line-height: 44px;
+}
+
+.menuSessao li {
   font-weight: bold;
-  color: #fff;
 }
 
-.logo-topo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 131px;
-  width: 146px;
-  z-index: 2; /* sempre acima da faixa */
-  margin-right: 20px;
-}
-
-/* Título */
 .login_title2 {
   width: 855px;
   height: 63px;
   clear: both;
-  border-top: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  border-top-color: #ccc;
+  border-right-color: #ccc;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
   background-color: #fff;
-  margin-left: 20px;
+  margin-left: 20px; /* espaço entre logo e conteúdo */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* centraliza verticalmente */
 }
 
 .login_title2 h1 {
   font-size: 2em;
   font-weight: bold;
-  color: #bf0000;
+  color: #bf0000; /* vermelho institucional */
   margin: 0 0 5px 0;
   padding: 0;
 }
@@ -69,4 +59,10 @@
   font-weight: normal;
   color: #333;
   margin: 0;
+}
+
+#topo img {
+  height: 131px;
+  width: 146px;
+  margin-right: 20px;
 }
