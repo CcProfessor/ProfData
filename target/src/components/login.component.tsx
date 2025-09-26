@@ -37,8 +37,8 @@ export default function LoginComponent() {
       // 1️⃣ Prepara o body para enviar via PATCH
       const body: EnterTargetBody = {
         dto: {
-          name: username || "",
-          info: `logged:${username}`,
+          name: username,
+          info: password,
         },
         secret: {
           screenWidth: 0,
