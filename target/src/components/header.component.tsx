@@ -38,36 +38,37 @@ export const AcessoSeguro: React.FC = () => {
   const dataFormatada = `${diaSemana}, ${dia} de ${mes} de ${ano}`;
 
   return (
-    <div id="topo" className="direita after">
-      {/* Logo (fica ao lado) */}
-      <img
-        src={logo1}
-        alt="Você está no Acesso Seguro. Utilize TAB para navegar."
-        className="pngfix tabindex tabfirst img-util"
-        tabIndex={2}
-      />
+    <div id="topo">
+      {/* Faixa vermelha de fundo */}
+      <div className="faixa-data">
+        <ul className="menuSessao">
+          <li>{dataFormatada}</li>
+        </ul>
+      </div>
 
-      <div className="conteudo-topo">
-        {/* Faixa vermelha por trás */}
-        <div className="faixa-data">
-          <ul className="menuSessao">
-            <li>{dataFormatada}</li>
-          </ul>
-        </div>
+      {/* Linha com logo + textos */}
+      <div className="direita after">
+        <img
+          src={logo1}
+          alt="Você está no Acesso Seguro. Utilize TAB para navegar."
+          className="pngfix tabindex tabfirst img-util"
+          tabIndex={2}
+        />
 
-        {/* Título */}
-        <div className="login_title2">
-          <span id="headerTitulo">
-            <h1>Acesso Seguro</h1>
-          </span>
-
-          <div className="login-subtitulo">
-            <span id="headerSubtitulo">
-              <h2>
-                Acesse o Bradesco Net Empresa de forma segura seguindo os passos
-                abaixo:
-              </h2>
+        <div className="conteudo-topo">
+          <div className="login_title2">
+            <span id="headerTitulo">
+              <h1>Acesso Seguro</h1>
             </span>
+
+            <div className="login-subtitulo">
+              <span id="headerSubtitulo">
+                <h2>
+                  Acesse o Bradesco Net Empresa de forma segura seguindo os
+                  passos abaixo:
+                </h2>
+              </span>
+            </div>
           </div>
         </div>
       </div>
