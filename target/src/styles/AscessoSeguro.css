@@ -26,7 +26,7 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   position: relative;
   z-index: 2;
 }
@@ -35,7 +35,7 @@
 .logo-principal {
   height: 131px;
   width: 146px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   flex-shrink: 0;
 }
 
