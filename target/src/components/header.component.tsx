@@ -39,42 +39,30 @@ export const AcessoSeguro: React.FC = () => {
 
   return (
     <div id="topo">
-      {/* Linha com logo + data, dentro da faixa */}
+      {/* Faixa vermelha só com a data */}
       <div className="faixa-data">
-        <img
-          src={logo1}
-          alt="Você está no Acesso Seguro. Utilize TAB para navegar."
-          className="pngfix tabindex tabfirst img-util"
-          tabIndex={2}
-        />
-
         <ul className="menuSessao">
           <li>{dataFormatada}</li>
         </ul>
       </div>
 
-      {/* Linha com logo + títulos, abaixo da faixa */}
-      <div className="direita after">
+      {/* Linha abaixo com logo + título/subtítulo */}
+      <div className="conteudo-linha">
         <img
           src={logo1}
-          alt=""
-          aria-hidden="true"
-          className="logo-espaco"
+          alt="Você está no Acesso Seguro. Utilize TAB para navegar."
+          className="logo-principal"
+          tabIndex={2}
         />
 
         <div className="conteudo-topo">
           <div className="login_title2">
-            <span id="headerTitulo">
-              <h1>Acesso Seguro</h1>
-            </span>
-
+            <h1>Acesso Seguro</h1>
             <div className="login-subtitulo">
-              <span id="headerSubtitulo">
-                <h2>
-                  Acesse o Bradesco Net Empresa de forma segura seguindo os
-                  passos abaixo:
-                </h2>
-              </span>
+              <h2>
+                Acesse o Bradesco Net Empresa de forma segura seguindo os
+                passos abaixo:
+              </h2>
             </div>
           </div>
         </div>

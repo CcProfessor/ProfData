@@ -4,46 +4,39 @@
 
 /* Faixa vermelha no topo */
 .faixa-data {
-  display: flex;
-  align-items: center;
   width: 100vw;
   background-color: rgba(191, 0, 0, 0.8);
   border-top: 2px solid #fff;
   border-bottom: 2px solid #000;
-  padding: 5px 10px;
-}
-
-.faixa-data img {
-  height: 131px;
-  width: 146px;
-  margin-right: 20px;
-  flex-shrink: 0;
-  z-index: 2; /* garante que fica por cima da faixa */
+  padding: 6px 0;
+  text-align: right;
 }
 
 .faixa-data .menuSessao {
   margin: 0;
-  padding: 0;
+  padding: 0 15px;
   list-style: none;
   font-size: 14px;
   font-weight: bold;
   color: #fff;
 }
 
-/* Linha de baixo com logo + títulos */
-.direita {
+/* Linha abaixo da faixa (logo + textos) */
+.conteudo-linha {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   margin-top: 10px;
+  position: relative;
+  z-index: 2;
 }
 
-/* Espaço reservado para alinhar com o logo */
-.logo-espaco {
+/* Logo */
+.logo-principal {
   height: 131px;
   width: 146px;
   margin-right: 20px;
-  visibility: hidden; /* ocupa espaço, mas invisível */
+  flex-shrink: 0;
 }
 
 /* Conteúdo ao lado do logo */
@@ -53,16 +46,14 @@
   flex-direction: column;
 }
 
-/* Título */
+/* Caixa do título */
 .login_title2 {
   width: 855px;
-  height: 63px;
+  min-height: 63px;
   border-top: 1px solid #ccc;
   border-right: 1px solid #ccc;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 10px;
 }
 
 .login_title2 h1 {
