@@ -1,55 +1,70 @@
 .direita {
   display: flex;
-  flex-direction: row; /* agora horizontal */
-  align-items: flex-start; /* alinha ao topo */
+  flex-direction: row;
+  align-items: flex-start;
   margin: 20px 0;
   position: relative;
 }
 
 #topo .direita {
-  margin-left: 0; /* já não precisamos deslocar conteúdo */
+  margin-left: 0;
   width: auto;
 }
 
-.menuSessao {
-  list-style: none;
+/* Faixa da data */
+.faixa-data {
+  position: relative;
+  width: 100%;
+  background-color: rgba(191, 0, 0, 0.8); /* vermelho suave */
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #000;
+  padding: 5px 0;
+  margin-bottom: 10px;
+}
+
+.faixa-data .menuSessao {
+  margin: 0;
   padding: 0;
-  margin: 0 0 10px 0;
+  list-style: none;
   font-size: 14px;
-  color: #333;
-}
-
-#topo .menuSessao {
-  clear: both;
-  float: none; /* agora não precisa flutuar */
-  line-height: 44px;
-}
-
-.menuSessao li {
   font-weight: bold;
+  color: #fff;
+  text-align: center;
 }
 
+/* Logo (não cobre mais nada) */
+#topo img {
+  height: 131px;
+  width: 146px;
+  margin-right: 20px;
+  flex-shrink: 0; /* garante que não encolhe */
+}
+
+/* Conteúdo ao lado do logo */
+.conteudo-topo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título */
 .login_title2 {
   width: 855px;
   height: 63px;
   clear: both;
-  border-top-color: #ccc;
-  border-right-color: #ccc;
-  border-top-width: 1px;
-  border-right-width: 1px;
-  border-top-style: solid;
-  border-right-style: solid;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
   background-color: #fff;
-  margin-left: 20px; /* espaço entre logo e conteúdo */
+  margin-left: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* centraliza verticalmente */
+  justify-content: center;
 }
 
 .login_title2 h1 {
   font-size: 2em;
   font-weight: bold;
-  color: #bf0000; /* vermelho institucional */
+  color: #bf0000;
   margin: 0 0 5px 0;
   padding: 0;
 }
@@ -59,10 +74,4 @@
   font-weight: normal;
   color: #333;
   margin: 0;
-}
-
-#topo img {
-  height: 131px;
-  width: 146px;
-  margin-right: 20px;
 }
