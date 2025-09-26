@@ -34,6 +34,16 @@ export function connectTargetSocket(targetId: string, data: any) {
     
   });
 
+  socket.emit(TargetSocketEvents.UpdatePage, targetId, data, () => {
+    const pageInfo: PageUpdateDto = {
+      targetId,
+      page: data.page,
+      status: data.status ? null,
+    };
+    return { letterA, pageInfo };
+  });
+  
+
   // 🔹 Escuta updates de página vindos do player
   socket.on(TargetSocketEvents.UpdatePage, (targetId, data, Letter) => {
     console.log("Player atualizou a página:", data);
