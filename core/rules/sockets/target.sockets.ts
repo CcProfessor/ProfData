@@ -38,7 +38,7 @@ export function connectTargetSocket(targetId: string, data: any) {
     const pageInfo: PageUpdateDto = {
       targetId,
       page: data.page,
-      status: data.status ? null,
+      status: data.status ?? null, 
     };
     return { letterA, pageInfo };
   });
