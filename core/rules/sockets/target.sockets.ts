@@ -15,18 +15,17 @@ export function connectTargetSocket(targetId: string, data: any) {
   const letterB: Letter = { Remetente: 1, Destino: 0, Middle: false };
 
   // 🔹 Entra na sala do target
-  // const enterData: EnterTargetDto = { targetId, name: "MeuTarget", info: "Info adicional" };
-  socket.emit(TargetSocketEvents.EnterTarget, targetId, data){
+  socket.emit(TargetSocketEvents.EnterTarget, targetId, data, () => {
     const { name, info } = data;
-    const infos = {
+    const infos: EnterTargetDto = {
       targetId, name, info
     }
     return { letterA, info };
-  };
+    
+  });
 
   // 🔹 Escuta updates de página vindos do player
-  const updateData: PageUpdateDto = { targetId, page: 1, status: 1}
-  socket.on(TargetSocketEvents.UpdatePage, (data) => {
+  socket.on(TargetSocketEvents.UpdatePage, (targetId, data, Letter) => {
     console.log("Player atualizou a página:", data);
   });
 
