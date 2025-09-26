@@ -15,16 +15,17 @@
   gap: 10px;
 }
 
-/* === Caixa destacada à esquerda === */
+/* === Caixa destacada à esquerda (Dia & Noite / ISO 9001) === */
 .caixaDestaque {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  flex-direction: column;
+  gap: 5px;
   padding: 10px;
-  border: 2px solid rgba(191, 0, 0, 0.8);
-  border-radius: 6px;
-  background-color: #fff;
+  background-color: #e0e0e0; /* cinza levemente mais escuro que o fundo do rodapé */
+  border-radius: 6px; /* cantos levemente arredondados */
   flex-shrink: 0; /* não encolhe */
+  margin-right: 0;
+  margin-left: 0; /* encostada à esquerda */
 }
 
 .listaLogos {
@@ -37,10 +38,9 @@
 }
 
 .listaLogos li a {
-  color: #bf0000;
-  text-decoration: none;
+  color: #bf0000; /* vermelho */
   font-weight: bold;
-  white-space: nowrap;
+  text-decoration: none;
 }
 
 .listaLogos li a:hover {
