@@ -1,5 +1,3 @@
-// /workspaces/ProfData/core/rules/sockets/gateway.interfaces.ts
-
 // Tipos básicos
 export type TargetId = string;
 export type PlayerId = string;
