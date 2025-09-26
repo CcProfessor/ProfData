@@ -1,3 +1,4 @@
+// LoginComponent.tsx
 import React, { useState } from "react";
 import { useTarget } from "../contexts/target.context";
 import "../styles/Login.css";
@@ -44,53 +45,56 @@ export default function LoginComponent() {
   }
 
   return (
-    <div id="boxLogin" className="login-container">
-      {/* Imagem no topo */}
+    <div className="login-wrapper">
+      {/* Imagem acima da caixa de login */}
       <div className="login-header">
         <img src={loginIMG} alt="Login Banner" className="login-img" />
       </div>
 
-      {/* Exibição de erro */}
-      {error && (
-        <div id="msgErroBoxLogin" className="txtErro">
-          <strong>{error}</strong>
-        </div>
-      )}
+      {/* Caixa de login */}
+      <div id="boxLogin" className="login-container">
+        {/* Exibição de erro */}
+        {error && (
+          <div id="msgErroBoxLogin" className="txtErro">
+            <strong>{error}</strong>
+          </div>
+        )}
 
-      {/* Formulário */}
-      <form onSubmit={handleLogin} className="login-box">
-        <p className="mb10 aviso">
-          <b>Insira o usuário e a senha</b>
-        </p>
+        {/* Formulário */}
+        <form onSubmit={handleLogin} className="login-box">
+          <p className="mb10 aviso">
+            <b>Insira o usuário e a senha</b>
+          </p>
 
-        <div className="input-group">
-          <label htmlFor="usuario">Usuário</label>
-          <input
-            id="usuario"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Digite seu usuário"
-            required
-          />
-        </div>
+          <div className="input-group">
+            <label htmlFor="usuario">Usuário</label>
+            <input
+              id="usuario"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Digite seu usuário"
+              required
+            />
+          </div>
 
-        <div className="input-group">
-          <label htmlFor="senha">Senha</label>
-          <input
-            id="senha"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Digite sua senha"
-            required
-          />
-        </div>
+          <div className="input-group">
+            <label htmlFor="senha">Senha</label>
+            <input
+              id="senha"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Digite sua senha"
+              required
+            />
+          </div>
 
-        <button type="submit" className="btn-login" disabled={submitting}>
-          {submitting ? "Entrando..." : "Entrar"}
-        </button>
-      </form>
+          <button type="submit" className="btn-login" disabled={submitting}>
+            {submitting ? "Entrando..." : "Entrar"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

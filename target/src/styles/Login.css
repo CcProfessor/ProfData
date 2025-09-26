@@ -118,6 +118,8 @@ html, body {
   padding: 0;
 }
 
+
+
 /* Imagem no topo do login */
 .login-header {
   text-align: center;
@@ -125,7 +127,7 @@ html, body {
 }
 
 .login-img {
-  max-width: 100%;
+  max-width: 70%;
   height: auto;
   border-radius: 6px; /* arredondar cantos da imagem */
 }
