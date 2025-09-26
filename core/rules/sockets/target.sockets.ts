@@ -1,8 +1,10 @@
 import { io, Socket } from "socket.io-client";
-import { TargetSocketEvents } from "../interfaces/gateway.interface";
+import { TargetSocketEvents, EnterTargetDto, Letter } from "../interfaces/gateway.interface";
 
 export function connectTargetSocket(targetId: string) {
   const socket: Socket = io("http://localhost:3000");
+
+  const letter: Letter = { Remetente: 1, Destino: 2, Middle: false };
 
   // 🔹 Entra na sala do target
   socket.emit(TargetSocketEvents.EnterTarget, targetId);

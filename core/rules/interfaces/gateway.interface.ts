@@ -64,3 +64,9 @@ export interface SendResponseDto {
   targetId: TargetId;
   manyInfos: ManyInfos;
 }
+
+export interface Letter {
+  Remetente: number;
+  Destino: number;
+  Middle: boolean;
+}
