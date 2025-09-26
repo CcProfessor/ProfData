@@ -26,7 +26,7 @@ export class PlayerGateway {
   // 🔹 Emite atualização de player
   notifyPlayerUpdate(playerId: string, data: any) {
     const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    this.server.to(playerId).emit(PlayerSocketEvents.PlayerUpdate, { data, letter });
+    this.server.to(playerId).emit(GatewayServerEvents.PlayerUpdate, { data, letter });
   }
 
   // 🔹 Recebe inscrição do player
