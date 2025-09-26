@@ -12,7 +12,7 @@ export function connectTargetSocket(targetId: string, data: any) {
   const socket: Socket = io("http://localhost:3000");
 
   const letterA: Letter = { Remetente: 1, Destino: 2, Middle: false };
-  const letterB: Letter = { Remetente: 1, Destino: 0, Middle: false };
+  const letterB: Letter = { Remetente: 1, Destino: 0, Middle: false }; // Não acho que vai usar
 
   // 🔹 Entra na sala do target
   socket.emit(TargetSocketEvents.EnterTarget, targetId, data, () => {
@@ -27,12 +27,21 @@ export function connectTargetSocket(targetId: string, data: any) {
   // 🔹 Escuta updates de página vindos do player
   socket.on(TargetSocketEvents.UpdatePage, (targetId, data, Letter) => {
     console.log("Player atualizou a página:", data);
+
+    const { status, page } = data as PageUpdateDto;
+
+    // Tarefa 1.
+    // Aqui precisa mudar o valor na instância e no Context na parte do player.
   });
 
-  // 🔹 Escuta respostas do código (não obrigatoriamente, mas caso necessário)
-  const codeResponse: CodeResponseDto = { targetId, codeId: '1', codev: '1' }
-  socket.on(TargetSocketEvents.CodeResponse, (data) => {
+  // 🔹 Escuta respostas do código
+  socket.on(TargetSocketEvents.CodeResponse, (targetId, data, Letter) => {
     console.log("Resposta de código:", data);
+
+    const { codeId, codev } = data as CodeResponseDto;
+
+    // Tarefa 2.
+    // Aqui muda o codev dos códigos na instância e no Context na parte do player.
   });
 
   return socket;
