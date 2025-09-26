@@ -36,17 +36,17 @@
   color: #000000;
   text-decoration: none;
   font-weight: bold;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .subtitulo[title="Golpe do falso gerente"] {
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 /* Parágrafos */
 .mb10 {
-  margin-bottom: 8px;
-  font-size: 12px;
+  margin-bottom: 2px;
+  font-size: 10px;
   line-height: 1.3em;
   color: #000000;
 }
