@@ -6,18 +6,31 @@
   color: #333;
 }
 
-.miolo {
+.mioloRodape {
   max-width: 1024px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-/* Logos */
+/* === Caixa destacada à esquerda === */
+.caixaDestaque {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+  border: 2px solid rgba(191, 0, 0, 0.8);
+  border-radius: 6px;
+  background-color: #fff;
+  flex-shrink: 0; /* não encolhe */
+}
+
 .listaLogos {
   display: flex;
-  gap: 15px;
+  flex-direction: column;
+  gap: 5px;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -27,35 +40,38 @@
   color: #bf0000;
   text-decoration: none;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .listaLogos li a:hover {
   text-decoration: underline;
 }
 
-/* Menu inferior (vazio) */
-.listaMenuInferior {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+/* === Telefones à direita === */
+.telefonesRodape {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(191, 0, 0, 0.05); /* vermelho clarinho */
+  border-radius: 6px;
+  padding: 10px 15px;
 }
 
-/* Telefones */
-.listaTelefones {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.telefonesRodape .coluna {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 2px; /* espaçamento entre span e número */
 }
 
-.listaTelefones li {
-  margin-bottom: 5px;
-}
-
-.listaTelefones li span {
+.telefonesRodape .coluna span {
   font-weight: bold;
-  margin-right: 5px;
+  color: #bf0000; /* vermelho */
+  line-height: 1.2em;
 }
 
-.listaTelefones li.ultimo {
-  margin-bottom: 0;
+.telefonesRodape .coluna p {
+  margin: 0;
+  color: #000; /* número em preto */
+  line-height: 1.2em;
 }
