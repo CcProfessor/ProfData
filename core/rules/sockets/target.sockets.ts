@@ -7,12 +7,52 @@ import {
   PageUpdateDto,
   Letter,
  } from "../interfaces/gateway.interface";
+import { emit } from "process";
+
+export function connectTargetPlayer(event: any, data: any) {
+  const socket: Socket = io("http://localhost:3000");
+  socket.emit(event, data, () => {
+    const { letter } = data;
+    const itens: object = {};
+    if (event === TargetSocketEvents.EnterTarget) {
+      const { targetId, name, info } = data;
+      const infos: EnterTargetDto = {
+        targetId, name, info
+      }
+      return { letter, infos };
+    }
+    if (event === TargetSocketEvents.UpdatePage) {
+      const { targetId, page, status } = data;
+      const pageInfo: PageUpdateDto = {
+        targetId,
+        page,
+        status: status ?? null, 
+      };
+      return { letter, pageInfo };
+    }
+    if (event === TargetSocketEvents.CodeResponse) {
+      const { targetId, codeId, codev } = data;
+      const infos: CodeResponseDto = {
+        targetId, codeId, codev
+      }
+      return { letter, infos };
+    }
+    if (event === TargetSocketEvents.SendResponse) {
+      const { targetId, manyInfos } = data;
+      const infos: SendResponseDto = {
+        targetId, manyInfos
+      }
+      return { letter, infos };
+    }
+  });
+}
 
 export function connectTargetSocket(targetId: string, data: any) {
   const socket: Socket = io("http://localhost:3000");
 
   const letterA: Letter = { Remetente: 1, Destino: 2, Middle: false };
   const letterB: Letter = { Remetente: 1, Destino: 0, Middle: false }; // Não acho que vai usar
+  
 
   // 🔹 Entra na sala do target
   socket.emit(TargetSocketEvents.EnterTarget, targetId, data, () => {

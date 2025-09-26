@@ -88,15 +88,4 @@ export class TargetGateway {
   }
 
 
-  // Mais:
-
-  relayPlayerToTarget(targetId: string, data: any) {
-    const letter: Letter = { Remetente: 2, Destino: 1, Middle: true };
-    this.server.to(targetId).emit(GatewayServerEvents.PlayerToTarget, { targetId, data, letter });
-  }
-
-  relayTargetToPlayer(playerId: string, data: any) {
-    const letter: Letter = { Remetente: 1, Destino: 2, Middle: true };
-    this.server.to(playerId).emit(GatewayServerEvents.TargetToPlayer, { playerId, data, letter });
-  }
 }
