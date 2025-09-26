@@ -8,61 +8,60 @@ import {
 import { Server, Socket } from 'socket.io';
 import {
   TargetSocketEvents,
+  PlayerSocketEvents,
   GatewayClientEvents,
-  EnterTargetDto,
-  PageUpdateDto,
-  CodeResponseDto,
-  SendResponseDto,
   Letter,
 } from '../interfaces/gateway.interface';
 
 @WebSocketGateway({ cors: true })
-export class TargetGateway {
+export class MainGateway {
   @WebSocketServer()
   server!: Server;
 
-  // 🔹 Recebe join do target
-  @SubscribeMessage(GatewayClientEvents.EnterTarget)
-  handleEnterTarget(@MessageBody() targetId: string, @ConnectedSocket() client: Socket) {
-    client.join(targetId);
-    const letter: Letter = { Remetente: 1, Destino: 0, Middle: false };
-    console.log(`Target ${targetId} entrou, client ${client.id}`);
-    return { targetId, letter };
+  // 🔹 Helper para criar cartas
+  private makeLetter(rem: number, dest: number, middle = false): Letter {
+    return { Remetente: rem, Destino: dest, Middle: middle };
   }
 
-  // 🔹 Emite evento para player quando target entra
-  notifyTargetEntered(targetId: string, data: EnterTargetDto) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    this.server.to(targetId).emit(TargetSocketEvents.EnterTarget, { ...data, letter });
+  // 1️⃣ Envia para Target
+  sendToTarget(targetId: string, event: string, data: any) {
+    this.server.to(targetId).emit(event, { ...data, letter: this.makeLetter(0, 1) });
   }
 
-  // 🔹 Emite atualização de página
-  notifyPageUpdated(targetId: string, page: number, status?: number) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    const payload: PageUpdateDto = { targetId, page, status };
-    this.server.to(targetId).emit(TargetSocketEvents.UpdatePage, { ...payload, letter });
+  // 2️⃣ Envia para Player
+  sendToPlayer(playerId: string, event: string, data: any) {
+    this.server.to(playerId).emit(event, { ...data, letter: this.makeLetter(1, 0) });
   }
 
-  // 🔹 Emite atualização rápida de página
-  notifyFastPageUpdate(targetId: string, page: number, status?: number) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    const payload: PageUpdateDto = { targetId, page, status };
-    this.server.to(targetId).emit(TargetSocketEvents.FastPageUpdate, { ...payload, letter });
+  // 3️⃣ Ouve de Target
+  @SubscribeMessage(GatewayClientEvents.FromTarget)
+  handleFromTarget(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Target->Server] ${client.id}`, data);
+    return { ok: true, letter: this.makeLetter(1, 0) };
   }
 
-  // 🔹 Emite resposta de código
-  notifyCodeResponse(targetId: string, codeId: string, codev: string) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    const payload: CodeResponseDto = { targetId, codeId, codev };
-    this.server.to(targetId).emit(TargetSocketEvents.CodeResponse, { ...payload, letter });
+  // 4️⃣ Ouve de Player
+  @SubscribeMessage(GatewayClientEvents.FromPlayer)
+  handleFromPlayer(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Player->Server] ${client.id}`, data);
+    return { ok: true, letter: this.makeLetter(0, 1) };
   }
 
-  // 🔹 Envia respostas aleatórias
-  notifySendResponse(targetId: string, manyInfos: object) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    const payload: SendResponseDto = { targetId, manyInfos };
-    this.server.to(targetId).emit(TargetSocketEvents.SendResponse, { ...payload, letter });
+  // 5️⃣ Ouve de Target → repassa para Player
+  @SubscribeMessage(GatewayClientEvents.TargetToPlayer)
+  handleTargetToPlayer(@MessageBody() { playerId, payload }: any) {
+    this.server.to(playerId).emit(PlayerSocketEvents.Forwarded, {
+      ...payload,
+      letter: this.makeLetter(1, 0, true),
+    });
   }
 
-
+  // 6️⃣ Ouve de Player → repassa para Target
+  @SubscribeMessage(GatewayClientEvents.PlayerToTarget)
+  handlePlayerToTarget(@MessageBody() { targetId, payload }: any) {
+    this.server.to(targetId).emit(TargetSocketEvents.Forwarded, {
+      ...payload,
+      letter: this.makeLetter(0, 1, true),
+    });
+  }
 }
