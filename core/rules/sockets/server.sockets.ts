@@ -7,37 +7,14 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import {
-  PlayerSocketEvents,
   TargetSocketEvents,
   GatewayClientEvents,
-  GatewayServerEvents,
   EnterTargetDto,
   PageUpdateDto,
   CodeResponseDto,
   SendResponseDto,
   Letter,
 } from '../interfaces/gateway.interface';
-
-@WebSocketGateway({ cors: true })
-export class PlayerGateway {
-  @WebSocketServer()
-  server!: Server;
-
-  // 🔹 Emite atualização de player
-  notifyPlayerUpdate(playerId: string, data: any) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    this.server.to(playerId).emit(GatewayServerEvents.PlayerUpdate, { data, letter });
-  }
-
-  // 🔹 Recebe inscrição do player
-  @SubscribeMessage(GatewayClientEvents.SubscribePlayer)
-  handleSubscribe(@MessageBody() playerId: string, @ConnectedSocket() client: Socket) {
-    client.join(playerId);
-    const letter: Letter = { Remetente: 1, Destino: 0, Middle: false };
-    return { event: 'subscribed', playerId, letter };
-  }
-}
-
 
 @WebSocketGateway({ cors: true })
 export class TargetGateway {
