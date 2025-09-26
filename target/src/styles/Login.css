@@ -4,6 +4,7 @@
   flex-direction: row;
   gap: 12px; /* espaço entre login e dica */
   align-items: flex-start; /* alinha pelo topo */
+  margin-top: 12px;
 }
 
 .loginColumn {
