@@ -6,10 +6,11 @@ import {
   CodeResponseDto,
   PageUpdateDto,
   Letter,
- } from "../interfaces/gateway.interface";
-import { emit } from "process";
+} from "../interfaces/gateway.interface";
 
-export function connectTargetPlayer(event: any, data: any) {
+
+
+export function TargetEmitPlayer(event: any, data: any) {
   const socket: Socket = io("http://localhost:3000");
   socket.emit(event, data, () => {
     const { letter } = data;
@@ -46,6 +47,27 @@ export function connectTargetPlayer(event: any, data: any) {
     }
   });
 }
+
+export function TargetOnPlayer(event: any, callback: any) {
+  const socket: Socket = io("http://localhost:3000");
+  socket.on(event, (data: any, letter: Letter) => {
+    if (event === TargetSocketEvents.UpdatePage) {
+      console.log("Player atualizou a página:", data);
+      const { targetId, status, page } = data as PageUpdateDto;
+      return callback({ targetId, status, page, letter });
+    }
+    if (event === TargetSocketEvents.CodeResponse) {
+      console.log("Resposta de código:", data);
+      const { targetId, codeId, codev } = data as CodeResponseDto;
+      return callback({ targetId, codeId, codev, letter });
+    }
+  });
+}
+
+
+// ===========
+
+
 
 export function connectTargetSocket(targetId: string, data: any) {
   const socket: Socket = io("http://localhost:3000");
