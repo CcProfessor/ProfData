@@ -33,7 +33,7 @@ export default function LoginPage() {
         {/* Coluna esquerda: login */}
         <div className="loginColumn">
           <LoginComponent />
-          {showInvalid && <InvalidComponent type="login" />}
+          {/* {showInvalid && <InvalidComponent type="login" />} */}
         </div>
 
         {/* Coluna direita: dica de segurança */}
