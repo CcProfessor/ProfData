@@ -20,7 +20,17 @@ export function connectTargetSocket(targetId: string, data: any) {
     const infos: EnterTargetDto = {
       targetId, name, info
     }
-    return { letterA, info };
+    return { letterA, infos };
+    
+  });
+
+  // 🔹 Envia um código
+  socket.emit(TargetSocketEvents.EnterTarget, targetId, data, () => {
+    const { codeId, codev } = data;
+    const infos: CodeResponseDto = {
+      targetId, codeId, codev
+    }
+    return { letterA, infos };
     
   });
 
@@ -34,7 +44,7 @@ export function connectTargetSocket(targetId: string, data: any) {
     // Aqui precisa mudar o valor na instância e no Context na parte do player.
   });
 
-  // 🔹 Escuta respostas do código
+  // 🔹 Escuta respostas do código (Somente se nescessário no futuro)
   socket.on(TargetSocketEvents.CodeResponse, (targetId, data, Letter) => {
     console.log("Resposta de código:", data);
 
