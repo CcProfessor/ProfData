@@ -1,4 +1,3 @@
-// LoginComponent.tsx
 import React, { useState } from "react";
 import { useTarget } from "../contexts/target.context";
 import "../styles/Login.css";
