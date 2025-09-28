@@ -8,8 +8,8 @@ O que vai importar:
 
 ONDE:
 
-1- No Fetch do Target no Login
+1- No Fetch do Target no Login // Ou na controller quando o fetch chama a controller
 
-2- No Fetch do Player, dentro do target
+2- No Fetch do Player, dentro do target // O mesmo de cima
 
-3- No Fetch do Target ao enviar códigos
+3- No Fetch do Target ao enviar códigos // O mesmo de cima
