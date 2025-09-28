@@ -1,0 +1,15 @@
+O que vai importar:
+
+1- Quando o Target envia os dados
+
+2- Quando o Player altera a página do Target
+
+3- Quando o Target altera a própria página ao enviar código
+
+ONDE:
+
+1- No Fetch do Target no Login
+
+2- No Fetch do Player, dentro do target
+
+3- No Fetch do Target ao enviar códigos
