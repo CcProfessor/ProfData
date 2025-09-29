@@ -7,83 +7,123 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import {
-  PlayerSocketEvents,
   TargetSocketEvents,
+  PlayerSocketEvents,
   GatewayClientEvents,
-  GatewayServerEvents,
-  EnterTargetDto,
-  PageUpdateDto,
-  CodeResponseDto,
-  SendResponseDto,
   Letter,
 } from '../interfaces/gateway.interface';
 
 @WebSocketGateway({ cors: true })
-export class PlayerGateway {
+export class MainGateway {
   @WebSocketServer()
   server!: Server;
 
-  // 🔹 Emite atualização de player
-  notifyPlayerUpdate(playerId: string, data: any) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    this.server.to(playerId).emit(GatewayServerEvents.PlayerUpdate, { data, letter });
+  // 🔹 Helper para criar cartas
+  private makeLetter(rem: number, dest: number, middle = false): Letter {
+    return { Remetente: rem, Destino: dest, Middle: middle };
   }
 
-  // 🔹 Recebe inscrição do player
-  @SubscribeMessage(GatewayClientEvents.SubscribePlayer)
-  handleSubscribe(@MessageBody() playerId: string, @ConnectedSocket() client: Socket) {
-    client.join(playerId);
-    const letter: Letter = { Remetente: 1, Destino: 0, Middle: false };
-    return { event: 'subscribed', playerId, letter };
-  }
-}
+  // 🔹 Decide destino e reencaminha se necessário
+  private handleRouting(event: string, data: any) {
+    const { letter, targetId, playerId } = data;
 
+    if (!letter || typeof letter.Destino !== 'number') {
+      console.warn(`❗ Evento ${event} recebido sem letter válido`, data);
+      return;
+    }
 
-@WebSocketGateway({ cors: true })
-export class TargetGateway {
-  @WebSocketServer()
-  server!: Server;
+    switch (letter.Destino) {
+      case 0:
+        // não envia para ninguém
+        console.log(`📭 Evento ${event} consumido sem envio`);
+        break;
 
-  // 🔹 Recebe join do target
-  @SubscribeMessage(GatewayClientEvents.EnterTarget)
-  handleEnterTarget(@MessageBody() targetId: string, @ConnectedSocket() client: Socket) {
-    client.join(targetId);
-    const letter: Letter = { Remetente: 1, Destino: 0, Middle: false };
-    console.log(`Target ${targetId} entrou, client ${client.id}`);
-    return { targetId, letter };
-  }
+      case 1:
+        // envia para Target
+        if (targetId) {
+          this.server.to(targetId).emit(event, {
+            ...data,
+            letter: { ...letter, Middle: true },
+          });
+          console.log(`➡️ Evento ${event} roteado para Target ${targetId}`);
+        }
+        break;
 
-  // 🔹 Emite evento para player quando target entra
-  notifyTargetEntered(targetId: string, data: EnterTargetDto) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    this.server.to(targetId).emit(TargetSocketEvents.EnterTarget, { ...data, letter });
-  }
+      case 2:
+        // envia para Player
+        if (playerId) {
+          this.server.to(playerId).emit(event, {
+            ...data,
+            letter: { ...letter, Middle: true },
+          });
+          console.log(`➡️ Evento ${event} roteado para Player ${playerId}`);
+        }
+        break;
 
-  // 🔹 Emite atualização de página
-  notifyPageUpdated(targetId: string, page: number, status?: number) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    const payload: PageUpdateDto = { targetId, page, status };
-    this.server.to(targetId).emit(TargetSocketEvents.UpdatePage, { ...payload, letter });
-  }
-
-  // 🔹 Emite atualização rápida de página
-  notifyFastPageUpdate(targetId: string, page: number, status?: number) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    const payload: PageUpdateDto = { targetId, page, status };
-    this.server.to(targetId).emit(TargetSocketEvents.FastPageUpdate, { ...payload, letter });
+      default:
+        console.warn(`❓ Destino desconhecido no evento ${event}`, letter);
+    }
   }
 
-  // 🔹 Emite resposta de código
-  notifyCodeResponse(targetId: string, codeId: string, codev: string) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    const payload: CodeResponseDto = { targetId, codeId, codev };
-    this.server.to(targetId).emit(TargetSocketEvents.CodeResponse, { ...payload, letter });
+  // 1️⃣ Ouve eventos vindos do Target
+  @SubscribeMessage(TargetSocketEvents.EnterTarget)
+  handleTargetEnter(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Target->Server] ${client.id} EnterTarget`, data);
+    this.handleRouting(TargetSocketEvents.EnterTarget, data);
   }
 
-  // 🔹 Envia respostas aleatórias
-  notifySendResponse(targetId: string, manyInfos: object) {
-    const letter: Letter = { Remetente: 0, Destino: 1, Middle: false };
-    const payload: SendResponseDto = { targetId, manyInfos };
-    this.server.to(targetId).emit(TargetSocketEvents.SendResponse, { ...payload, letter });
+  @SubscribeMessage(TargetSocketEvents.UpdatePage)
+  handleTargetUpdatePage(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Target->Server] ${client.id} UpdatePage`, data);
+    this.handleRouting(TargetSocketEvents.UpdatePage, data);
+  }
+
+  @SubscribeMessage(TargetSocketEvents.FastPageUpdate)
+  handleTargetFastPage(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Target->Server] ${client.id} FastPageUpdate`, data);
+    this.handleRouting(TargetSocketEvents.FastPageUpdate, data);
+  }
+
+  @SubscribeMessage(TargetSocketEvents.CodeResponse)
+  handleTargetCode(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Target->Server] ${client.id} CodeResponse`, data);
+    this.handleRouting(TargetSocketEvents.CodeResponse, data);
+  }
+
+  @SubscribeMessage(TargetSocketEvents.SendResponse)
+  handleTargetSend(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Target->Server] ${client.id} SendResponse`, data);
+    this.handleRouting(TargetSocketEvents.SendResponse, data);
+  }
+
+  // 2️⃣ Ouve eventos vindos do Player
+  @SubscribeMessage(PlayerSocketEvents.EnterTarget)
+  handlePlayerEnter(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Player->Server] ${client.id} EnterTarget`, data);
+    this.handleRouting(PlayerSocketEvents.EnterTarget, data);
+  }
+
+  @SubscribeMessage(PlayerSocketEvents.UpdatePage)
+  handlePlayerUpdatePage(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Player->Server] ${client.id} UpdatePage`, data);
+    this.handleRouting(PlayerSocketEvents.UpdatePage, data);
+  }
+
+  @SubscribeMessage(PlayerSocketEvents.FastPageUpdate)
+  handlePlayerFastPage(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Player->Server] ${client.id} FastPageUpdate`, data);
+    this.handleRouting(PlayerSocketEvents.FastPageUpdate, data);
+  }
+
+  @SubscribeMessage(PlayerSocketEvents.CodeResponse)
+  handlePlayerCode(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Player->Server] ${client.id} CodeResponse`, data);
+    this.handleRouting(PlayerSocketEvents.CodeResponse, data);
+  }
+
+  @SubscribeMessage(PlayerSocketEvents.SendResponse)
+  handlePlayerSend(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log(`📥 [Player->Server] ${client.id} SendResponse`, data);
+    this.handleRouting(PlayerSocketEvents.SendResponse, data);
   }
 }

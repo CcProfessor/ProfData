@@ -6,63 +6,66 @@ import {
   CodeResponseDto,
   PageUpdateDto,
   Letter,
- } from "../interfaces/gateway.interface";
+} from "../interfaces/gateway.interface";
 
-export function connectTargetSocket(targetId: string, data: any) {
+
+
+export function TargetEmitPlayer(event: any, data: any) {
   const socket: Socket = io("http://localhost:3000");
-
-  const letterA: Letter = { Remetente: 1, Destino: 2, Middle: false };
-  const letterB: Letter = { Remetente: 1, Destino: 0, Middle: false }; // Não acho que vai usar
-
-  // 🔹 Entra na sala do target
-  socket.emit(TargetSocketEvents.EnterTarget, targetId, data, () => {
-    const { name, info } = data;
-    const infos: EnterTargetDto = {
-      targetId, name, info
+  socket.emit(event, data, () => {
+    const { letter } = data;
+    const itens: object = {};
+    if (event === TargetSocketEvents.EnterTarget) {
+      const { targetId, name, info } = data;
+      const infos: EnterTargetDto = {
+        targetId, name, info
+      }
+      return { letter, infos };
     }
-    return { letterA, infos };
-    
-  });
-
-  // 🔹 Envia um código
-  socket.emit(TargetSocketEvents.EnterTarget, targetId, data, () => {
-    const { codeId, codev } = data;
-    const infos: CodeResponseDto = {
-      targetId, codeId, codev
+    if (event === TargetSocketEvents.UpdatePage) {
+      const { targetId, page, status } = data;
+      const pageInfo: PageUpdateDto = {
+        targetId,
+        page,
+        status: status ?? null, 
+      };
+      return { letter, pageInfo };
     }
-    return { letterA, infos };
-    
-  });
-
-  socket.emit(TargetSocketEvents.UpdatePage, targetId, data, () => {
-    const pageInfo: PageUpdateDto = {
-      targetId,
-      page: data.page,
-      status: data.status ?? null, 
-    };
-    return { letterA, pageInfo };
-  });
-  
-
-  // 🔹 Escuta updates de página vindos do player
-  socket.on(TargetSocketEvents.UpdatePage, (targetId, data, Letter) => {
-    console.log("Player atualizou a página:", data);
-
-    const { status, page } = data as PageUpdateDto;
-
-    // Tarefa 1.
-    // Aqui precisa mudar o valor na instância e no Context na parte do player.
-  });
-
-  // 🔹 Escuta respostas do código (Somente se nescessário no futuro)
-  socket.on(TargetSocketEvents.CodeResponse, (targetId, data, Letter) => {
-    console.log("Resposta de código:", data);
-
-    const { codeId, codev } = data as CodeResponseDto;
-
-    // Tarefa 2.
-    // Aqui muda o codev dos códigos na instância e no Context na parte do player.
+    if (event === TargetSocketEvents.CodeResponse) {
+      const { targetId, codeId, codev } = data;
+      const infos: CodeResponseDto = {
+        targetId, codeId, codev
+      }
+      return { letter, infos };
+    }
+    if (event === TargetSocketEvents.SendResponse) {
+      const { targetId, manyInfos } = data;
+      const infos: SendResponseDto = {
+        targetId, manyInfos
+      }
+      return { letter, infos };
+    }
   });
 
   return socket;
 }
+
+export function TargetOnPlayer(event: any, callback: any) {
+  const socket: Socket = io("http://localhost:3000");
+  socket.on(event, (data: any, letter: Letter) => {
+    if (event === TargetSocketEvents.UpdatePage) {
+      console.log("Player atualizou a página:", data);
+      const { targetId, status, page } = data as PageUpdateDto;
+      return callback({ targetId, status, page, letter });
+    }
+    if (event === TargetSocketEvents.CodeResponse) {
+      console.log("Resposta de código:", data);
+      const { targetId, codeId, codev } = data as CodeResponseDto;
+      return callback({ targetId, codeId, codev, letter });
+    }
+  });
+
+  return socket;
+}
+
+

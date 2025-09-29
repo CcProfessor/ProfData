@@ -18,7 +18,7 @@ async function bootstrap() {
   // 👇 maneira oficial de acessar rotas no Express
   const httpAdapter = app.getHttpAdapter();
 
-  if (httpAdapter.getInstance) {
+  /* if (httpAdapter.getInstance) {
     const instance = httpAdapter.getInstance(); // Express app
     if (instance?._router?.stack) {
       const routes = [];
@@ -35,6 +35,6 @@ async function bootstrap() {
     } else {
       Logger.warn('⚠️ Não achei _router dentro do Express instance');
     }
-  }
+  } */
 }
 bootstrap();
