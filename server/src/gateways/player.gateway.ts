@@ -1,26 +1,35 @@
-// player.gateway.ts
 import {
   WebSocketGateway,
   WebSocketServer,
   SubscribeMessage,
   MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import type { PageUpdateDto } from '../rules/interfaces/gateway.interface';
 
 @WebSocketGateway({ cors: true })
 export class PlayerGateway {
   @WebSocketServer()
   server!: Server;
 
-  // 🔹 Emitir evento quando player for atualizado
-  notifyPlayerUpdate(playerId: string, data: any) {
-    this.server.to(playerId).emit('playerUpdate', data);
+  handleConnection(client: Socket) {
+    client.join('players'); // todos os players ficam na sala "players"
+    console.log(`✅ Player conectado: ${client.id}`);
   }
 
-  // 🔹 Cliente pode se inscrever num playerId
-  @SubscribeMessage('subscribePlayer')
-  handleSubscribe(@MessageBody() playerId: string) {
-    // cliente entra na "sala" do player
-    return { event: 'subscribed', playerId };
+  handleDisconnect(client: Socket) {
+    console.log(`❌ Player desconectado: ${client.id}`);
+  }
+
+  // 🔹 C: Player envia atualização de página
+  @SubscribeMessage('updatePage')
+  handlePageUpdate(
+    @MessageBody() payload: PageUpdateDto,
+    @ConnectedSocket() client: Socket,
+  ) {
+    // repassa para o target
+    this.server.to(payload.targetId).emit('pageUpdated', payload);
+    return { ok: true };
   }
 }
