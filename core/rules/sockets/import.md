@@ -13,3 +13,11 @@ ONDE:
 2- No Fetch do Player, dentro do target // O mesmo de cima
 
 3- No Fetch do Target ao enviar códigos // O mesmo de cima
+
++:
+
+1- JoinTarget
+
+2- PlayerSendTarget
+
+3- TargetSendPlayer
