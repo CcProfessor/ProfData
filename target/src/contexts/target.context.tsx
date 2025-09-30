@@ -5,7 +5,7 @@ import React, {
   useState,
   ReactNode,
 } from "react";
-import { connectTargetSocket } from "../gateway/socket";
+import { enterTarget, onPageUpdate, sendCodeResponse } from "../target-socket";
 import { TargetResponse } from "../rules/interfaces/target.interfaces";
 
 /**
@@ -47,6 +47,8 @@ const TargetContext = createContext<TargetContextValue | undefined>(undefined);
 export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetId, setTargetId] = useState<string | null>(null);
   const [targetData, setTargetData] = useState<TargetResponse | null>(null);
+
+  const [codes, setCodes] = useState<string[]>([]);
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [lastPage, setLastPage] = useState<number>(0);
