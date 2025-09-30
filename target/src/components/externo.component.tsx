@@ -2,7 +2,7 @@ import React from "react";
 import { useTarget } from "../contexts/target.context";
 
 import LoadingComponent from "./loading.component";
-import CodeInputBox from "./codeRequest.component";
+import { CodeInputBox } from "./codeRequest.component";
 
 export function BoxComponent() {
   const { currentPage } = useTarget();

@@ -17,12 +17,14 @@ type CodeInputBoxProps = {
 
 const { id: targetIdFromRoute } = useParams<{ id: string }>();
 
-const CodeInputBox: React.FC<CodeInputBoxProps> = ({
+export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
   placeholder = "Insira seu código aqui",
   buttonLabel = "Enviar",
   onSubmit,
   disabled = false,
 }) => {
+  const { id: targetIdFromRoute } = useParams<{ id: string }>(); // ✅ dentro do componente
+
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,11 +37,9 @@ const CodeInputBox: React.FC<CodeInputBoxProps> = ({
     try {
       setLoading(true);
 
-      // 🔹 Se veio um onSubmit externo, usa ele
       if (onSubmit) {
         await Promise.resolve(onSubmit(trimmed));
       } else {
-        // 🔹 Se não, manda direto pro socket
         sendCodeResponse({
           targetId: targetIdFromRoute || "unknown-target",
           codeId: uuidv7(),
@@ -85,14 +85,12 @@ const CodeInputBox: React.FC<CodeInputBoxProps> = ({
           aria-label="Botão de enviar código"
         >
           {loading ? "Enviando..." : buttonLabel}
-          {/* ToDo 3: Colocar aqui para o OnClique ativar o SendCodeResponse*/}
         </button>
       </div>
 
-      {/* Sugestão de feedback abaixo do input */}
-      <p className="mt-2 text-xs text-gray-500">Digite o código e pressione Enter ou clique em "{buttonLabel}".</p>
+      <p className="mt-2 text-xs text-gray-500">
+        Digite o código e pressione Enter ou clique em "{buttonLabel}".
+      </p>
     </form>
   );
 };
-
-export default CodeInputBox;
