@@ -32,7 +32,6 @@ export class CodesService {
     if (!code) throw new NotFoundException(`Code ${codeId} not found`);
 
     const updated = await this.codesRepo.update(codeId, { codev: dto.codev });
-    const sendValue = dto.codev.toString().padStart(6, '0');
 
     // 🔹 Dispara evento via socket
     this.targetGateway.notifyCodeResponse({
