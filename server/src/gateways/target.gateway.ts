@@ -10,7 +10,7 @@ import { Server, Socket } from 'socket.io';
 @WebSocketGateway({ cors: true })
 export class TargetGateway {
   @WebSocketServer()
-  server!: Server; // ✅ corrige o erro (E) com `!`
+  server!: Server;
 
   @SubscribeMessage('joinTarget')
   handleJoinTarget(
@@ -43,5 +43,10 @@ export class TargetGateway {
       targetId,
       page,
     });
+  }
+
+  // 🔹 Evento D: enviar novo codeId
+  notifyNewCode(targetId: string, codeId: string) {
+    this.server.to(targetId).emit('newCode', { targetId, codeId });
   }
 }

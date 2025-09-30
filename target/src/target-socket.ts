@@ -23,4 +23,9 @@ export function onPageUpdate(callback: (data: PageUpdateDto) => void) {
   socket.on("pageUpdated", callback);
 }
 
+// 🔹 Escutar novos codes (server envia { targetId, codeId })
+export function onNewCode(callback: (data: { targetId: string; codeId: string }) => void) {
+  socket.on("newCode", callback);
+}
+
 export default socket;
