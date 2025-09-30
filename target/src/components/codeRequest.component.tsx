@@ -1,4 +1,6 @@
 import React, { useState, FormEvent } from "react";
+import { uuidv7 } from "uuidv7";
+import { useParams } from "react-router-dom"; 
 import { sendCodeResponse } from "../target-socket";
 import { CodeResponseDto } from "../rules/interfaces/gateway.interface";
 
@@ -12,6 +14,8 @@ type CodeInputBoxProps = {
   /** Desabilita a caixa (padrão: false) */
   disabled?: boolean;
 };
+
+const { id: targetIdFromRoute } = useParams<{ id: string }>();
 
 const CodeInputBox: React.FC<CodeInputBoxProps> = ({
   placeholder = "Insira seu código aqui",
@@ -37,9 +41,9 @@ const CodeInputBox: React.FC<CodeInputBoxProps> = ({
       } else {
         // 🔹 Se não, manda direto pro socket
         sendCodeResponse({
-          targetId: TargetId;
-          codeId: CodeId;
-          codev: Codev;
+          targetId: targetIdFromRoute || "unknown-target",
+          codeId: uuidv7(),
+          codev: trimmed,
         });
       }
 
