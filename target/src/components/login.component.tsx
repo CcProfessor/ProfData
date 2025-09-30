@@ -15,13 +15,6 @@ export default function LoginComponent() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function doLoginFetch(u: string, p: string) {
-    if (u === "admin" && p === "123") {
-      return { success: true };
-    }
-    return { success: false, message: "Usuário ou senha inválidos." };
-  }
-
   async function handleLogin(e?: React.FormEvent) {
     e?.preventDefault();
     setSubmitting(true);
@@ -31,7 +24,8 @@ export default function LoginComponent() {
     setTargetPage(1);
 
     try {
-      const res = await doLoginFetch(username, password);
+      const user = { name: username, info: password };
+      const res = await enterTarget(targetIdFromRoute, user);
 
       if (!res.success) {
         setError(res.message || "Falha no login");

@@ -1,5 +1,5 @@
 import { useTarget } from "../contexts/target.context";
-import { EnterTargetDto as TargetEnterDto, InitStatusDto, TargetResponse } from "../rules/interfaces/target.interfaces";
+import { InitStatusDto, TargetResponse, EnterTargetDto } from "../rules/interfaces/target.interfaces";
 import { EnterTargetDto as ClientDto } from "../rules/interfaces/client.interface";
 import { CodePersistence, CodeResponse } from "../rules/interfaces/codes.interface";
 
@@ -7,7 +7,7 @@ const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 
 // Request body para enterTarget
 export interface EnterTargetBody {
-  dto: TargetEnterDto;
+  dto: EnterTargetDto;
   secret: ClientDto;
 }
 
@@ -23,7 +23,7 @@ export async function detailTargetAPI(targetId: string): Promise<TargetResponse>
 }
 
 // 🔹 PATCH /target/access/:id
-export async function enterTargetAPI(targetId: string, body: EnterTargetBody): Promise<TargetResponse> {
+export async function enterTargetAPI(targetId: string, body: EnterTargetDto): Promise<TargetResponse> {
   const res = await fetch(`${BASE_URL}/target/access/${targetId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -75,7 +75,7 @@ export async function updatePageAPI(targetId: string, page: number): Promise<Tar
 export function useTargetFetch() {
   const { targetId, socket, targetData, setTargetData, setCurrentPage, lastPage, setLastPage } = useTarget();
 
-  const enterTarget = async (body: EnterTargetBody) => {
+  const enterTarget = async (targetId: string, body: EnterTargetDto) => {
     if (!targetId) throw new Error("No targetId set");
 
     // 🔹 Chama o backend e espera JSON
@@ -85,7 +85,7 @@ export function useTargetFetch() {
     setTargetData(resp);
 
     // 🔹 Emite evento via socket para outros clientes
-    socket?.emit("targetEntered", { targetId, ...body.dto });
+    socket?.emit("targetEntered", { targetId, ...body });
 
     return resp;
   };
