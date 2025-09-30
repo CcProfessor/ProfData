@@ -6,6 +6,7 @@ import { Target } from '../../rules/domain/target';
 import { AuthModule } from '../auth/auth.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { TargetGateway } from '../../gateways/target.gateway';
+import { PlayerGateway } from '../../gateways/player.gateway';
 
 @Module({
   imports: [AuthModule],
@@ -15,6 +16,7 @@ import { TargetGateway } from '../../gateways/target.gateway';
     TargetRepository,
     Target,
     TargetGateway,
+    PlayerGateway,
     PrismaService,
   ],
   exports: [
