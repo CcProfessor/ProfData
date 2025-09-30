@@ -1,21 +1,14 @@
 import React, { useState, FormEvent } from "react";
 import { uuidv7 } from "uuidv7";
-import { useParams } from "react-router-dom"; 
+import { useParams } from "react-router-dom";
 import { sendCodeResponse } from "../target-socket";
-import { CodeResponseDto } from "../rules/interfaces/gateway.interface";
 
 type CodeInputBoxProps = {
-  /** Placeholder para o input (padrão: "Insira seu código aqui") */
   placeholder?: string;
-  /** Texto do botão (padrão: "Enviar") */
   buttonLabel?: string;
-  /** Callback chamado quando o usuário envia o código */
   onSubmit?: (code: string) => void;
-  /** Desabilita a caixa (padrão: false) */
   disabled?: boolean;
 };
-
-const { id: targetIdFromRoute } = useParams<{ id: string }>();
 
 export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
   placeholder = "Insira seu código aqui",
@@ -24,13 +17,13 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
   disabled = false,
 }) => {
   const { id: targetIdFromRoute } = useParams<{ id: string }>(); // ✅ dentro do componente
-
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (disabled || loading) return;
+
     const trimmed = code.trim();
     if (!trimmed) return;
 
@@ -73,7 +66,6 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
           className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-indigo-400"
           aria-label="Campo de código"
         />
-
         <button
           type="submit"
           disabled={disabled || loading || !code.trim()}
