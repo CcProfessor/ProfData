@@ -10,12 +10,14 @@ import { EnterTargetDto as ClientDto } from '../../rules/interfaces/client.inter
 import { Request } from 'express';
 import { TargetGateway } from '../../gateways/target.gateway';
 import { TargetMapper } from '../../rules/mappers/target.mapper';
+import { PlayerGateway } from '../../gateways/player.gateway';
 
 @Injectable()
 export class TargetService {
   constructor(
     private readonly targetRepo: TargetRepository,
-    private readonly gateway: TargetGateway,
+    private readonly targetGateway: TargetGateway,
+    private readonly playerGateway: PlayerGateway,
   ) {}
 
   async newTarget(dto: CreateTargetDto): Promise<Target> {
@@ -62,7 +64,7 @@ export class TargetService {
     });
 
     // 🔹 Emite WebSocket (A)
-    this.gateway.notifyTargetEntered(id, { name: dto.name, info: dto.info });
+    this.targetGateway.notifyTargetEntered(id, { name: dto.name, info: dto.info });
 
     return updatedTarget;
   }
@@ -76,7 +78,7 @@ export class TargetService {
     });
 
     // 🔹 Emite WebSocket (B) com true/false
-    this.gateway.notifyStatusInit(id, dto.success);
+    this.targetGateway.notifyStatusInit(id, dto.success);
 
     return updated;
   }
@@ -94,7 +96,7 @@ export class TargetService {
     const updated = await this.targetRepo.update(id, { page });
 
     // 🔹 Emite WebSocket (C)
-    this.gateway.notifyPageUpdated(id, page);
+    this.playerGateway.emitPageUpdate(id, page);
 
     return updated;
   }

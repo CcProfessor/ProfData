@@ -61,6 +61,11 @@ export class PlayerGateway {
     this.server.to(payload.targetId).emit('pageUpdated', payload);
     return { ok: true };
   }
+  emitPageUpdate(targetId: string, page: number) {
+    const payload: PageUpdateDto = { targetId, page };
+    this.server.to(targetId).emit('pageUpdated', payload);
+    console.log(`📢 Emitido pageUpdated para target ${targetId}: ${page}`);
+  }
 
   // 🔹 D: Player notifica criação de novo código
   @SubscribeMessage('newCode')
