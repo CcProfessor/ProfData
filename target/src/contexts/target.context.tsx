@@ -5,7 +5,7 @@ import React, {
   useState,
   ReactNode,
 } from "react";
-import socket, { enterTarget, onPageUpdate } from "../target-socket"; 
+import socket, { enterTarget, onPageUpdate, onNewCode } from "../target-socket"; 
 import { TargetResponse } from "../rules/interfaces/target.interfaces";
 import { PageUpdateDto } from "../rules/interfaces/gateway.interface";
 import { CodeResponse } from "../rules/interfaces/codes.interface";
@@ -53,22 +53,31 @@ export function TargetProvider({ children }: { children: ReactNode }) {
 
   // Conecta e registra listeners só uma vez
   useEffect(() => {
-    if (!socket) return;
+  if (!socket) return;
 
-    // quando chega atualização de página (emitido pelo backend via player)
-    onPageUpdate((data: PageUpdateDto) => {
-      setLastPage((p) => p ?? currentPage);
-      setCurrentPage(data.page);
-      if (targetData) {
-        setTargetData({ ...targetData, page: data.page });
-      }
-    });
+  // 🔹 Escuta atualização de página
+  const pageListener = (data: PageUpdateDto) => {
+    setLastPage((p) => p ?? currentPage);
+    setCurrentPage(data.page);
+    if (targetData) {
+      setTargetData({ ...targetData, page: data.page });
+    }
+  };
+  onPageUpdate(pageListener);
 
-    // cleanup
-    return () => {
-      socket.off("pageUpdated");
-    };
-  }, [currentPage, targetData]);
+  // 🔹 Escuta novos codes
+  const codeListener = (data: { targetId: string; codeId: string }) => {
+    console.log("Novo code recebido:", data);
+    setCodesId(data as any); // aqui você pode ajustar para um array se quiser acumular
+  };
+  onNewCode(codeListener);
+
+  // cleanup
+  return () => {
+    socket.off("pageUpdated", pageListener);
+    socket.off("newCode", codeListener);
+  };
+}, [currentPage, targetData]);
 
   // sempre que targetId mudar, manda enterTarget
   useEffect(() => {
