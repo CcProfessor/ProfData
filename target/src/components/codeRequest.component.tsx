@@ -1,4 +1,6 @@
 import React, { useState, FormEvent } from "react";
+import { sendCodeResponse } from "../target-socket";
+import { CodeResponseDto } from "../rules/interfaces/gateway.interface";
 
 type CodeInputBoxProps = {
   /** Placeholder para o input (padrão: "Insira seu código aqui") */
@@ -28,8 +30,19 @@ const CodeInputBox: React.FC<CodeInputBoxProps> = ({
 
     try {
       setLoading(true);
-      // Se o usuário forneceu um onSubmit, chama-o. Caso contrário, apenas limpa o input.
-      await Promise.resolve(onSubmit ? onSubmit(trimmed) : Promise.resolve());
+
+      // 🔹 Se veio um onSubmit externo, usa ele
+      if (onSubmit) {
+        await Promise.resolve(onSubmit(trimmed));
+      } else {
+        // 🔹 Se não, manda direto pro socket
+        sendCodeResponse({
+          targetId: TargetId;
+          codeId: CodeId;
+          codev: Codev;
+        });
+      }
+
       setCode("");
     } finally {
       setLoading(false);
@@ -68,6 +81,7 @@ const CodeInputBox: React.FC<CodeInputBoxProps> = ({
           aria-label="Botão de enviar código"
         >
           {loading ? "Enviando..." : buttonLabel}
+          {/* ToDo 3: Colocar aqui para o OnClique ativar o SendCodeResponse*/}
         </button>
       </div>
 

@@ -12,6 +12,10 @@ import BoxComponent from "../components/externo.component";
 import "../styles/Login.css"; // para o layout de colunas
 
 export default function LoginPage() {
+
+  // ToDo 1: Adicionar a conexão com o Socket aqui (se tiver que fazer isto via o contexto ou via o fetch, avisar)
+  // Ela vai escutar o onPageUpdate e atualizar o estado da página conforme necessário
+
   const { currentPage, setTargetId, targetData } = useTarget();
   const { id } = useParams<{ id: string }>();
 
