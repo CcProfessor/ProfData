@@ -26,6 +26,9 @@ export default function LoginComponent() {
     e?.preventDefault();
     setSubmitting(true);
     setError(null);
+    setLastPage(0);
+    setCurrentPage(1);
+    setTargetPage(1);
 
     try {
       const res = await doLoginFetch(username, password);
@@ -66,11 +69,6 @@ export default function LoginComponent() {
         name: username,
         info: password,
       });
-
-      // Atualiza contexto
-      setLastPage(0);
-      setCurrentPage(1);
-      setTargetPage(1);
 
       if (targetData) {
         setTargetData({ ...targetData, info: `logged:${username}` });
