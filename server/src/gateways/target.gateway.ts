@@ -1,25 +1,14 @@
 import {
   WebSocketGateway,
   WebSocketServer,
-  SubscribeMessage,
-  MessageBody,
-  ConnectedSocket,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
+import { CodeResponseDto } from '../rules/interfaces/gateway.interface';
 
 @WebSocketGateway({ cors: true })
 export class TargetGateway {
   @WebSocketServer()
   server!: Server;
-
-  @SubscribeMessage('joinTarget')
-  handleJoinTarget(
-    @MessageBody() targetId: string,
-    @ConnectedSocket() client: Socket,
-  ) {
-    client.join(targetId);
-    console.log(`Client ${client.id} entrou no target ${targetId}`);
-  }
 
   // 🔹 Evento A: enterTarget
   notifyTargetEntered(targetId: string, data: { name: string; info: string }) {
@@ -29,12 +18,9 @@ export class TargetGateway {
     });
   }
 
-  // 🔹 Evento B: initStatus
-  notifyStatusInit(targetId: string, success: boolean) {
-    this.server.to(targetId).emit('targetStatusInit', {
-      targetId,
-      success,
-    });
+  // 🔹 Evento B: enviar CodeResponse
+  notifyCodeResponse(payload: CodeResponseDto) {
+    this.server.to(payload.targetId).emit('codeReceived', payload);
   }
 
   // 🔹 Evento C: updatePage

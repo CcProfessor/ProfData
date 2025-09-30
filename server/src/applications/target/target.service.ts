@@ -77,9 +77,6 @@ export class TargetService {
       status: dto.success ? 1 : 2,
     });
 
-    // 🔹 Emite WebSocket (B) com true/false
-    this.targetGateway.notifyStatusInit(id, dto.success);
-
     return updated;
   }
 
