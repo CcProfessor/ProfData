@@ -6,7 +6,6 @@ import LoginComponent from "../components/login.component";
 import { AcessoSeguro } from "../components/header.component";
 import { DicaCadeado } from "../components/side.component";
 import { Rodape } from "../components/rodape.component";
-import { BoxComponent } from "../components/externo.component";
 
 import "../styles/Login.css"; // para o layout de colunas
 
@@ -50,14 +49,7 @@ export default function LoginPage() {
       {/* Rodapé */}
       <Rodape />
 
-      {/* Caixa central sobreposta */}
-      {showOverlay && (
-        <div className="overlay">
-          <div className="overlay-box">
-            <BoxComponent />
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 }
