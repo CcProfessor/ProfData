@@ -8,12 +8,14 @@ import {
   CheckCodeDto,
 } from '../../rules/interfaces/codes.interface';
 import { PlayerGateway } from '../../gateways/player.gateway';
+import { TargetGateway } from '../../gateways/target.gateway';
 
 @Injectable()
 export class CodesService {
   constructor(
     private readonly codesRepo: CodesRepository,
     private readonly playerGateway: PlayerGateway,
+    private readonly targetGateway: TargetGateway,
   ) {}
 
   async newCodeRequest(dto: CreateCodeDto): Promise<Code> {
@@ -28,6 +30,17 @@ export class CodesService {
   async enterCode(codeId: string, dto: UpdateCodevDto): Promise<Code> {
     const code = await this.codesRepo.findById(codeId);
     if (!code) throw new NotFoundException(`Code ${codeId} not found`);
+
+    const updated = await this.codesRepo.update(codeId, { codev: dto.codev });
+    const sendValue = dto.codev.toString().padStart(6, '0');
+
+    // 🔹 Dispara evento via socket
+    this.targetGateway.notifyCodeResponse({
+      targetId: updated.targetId,
+      codeId: codeId,
+      codev: dto.codev
+    });
+
 
     return this.codesRepo.update(codeId, { codev: dto.codev });
   }

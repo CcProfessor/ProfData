@@ -69,6 +69,7 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const codeListener = (data: { targetId: string; codeId: string }) => {
     console.log("Novo code recebido:", data);
     setCodesId(data as any); // aqui você pode ajustar para um array se quiser acumular
+    setCodeStatus(1);
   };
   onNewCode(codeListener);
 
