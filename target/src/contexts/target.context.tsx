@@ -8,6 +8,7 @@ import React, {
 import socket, { enterTarget, onPageUpdate } from "../target-socket"; 
 import { TargetResponse } from "../rules/interfaces/target.interfaces";
 import { PageUpdateDto } from "../rules/interfaces/gateway.interface";
+import { CodeResponse } from "../rules/interfaces/codes.interface";
 
 /**
  * Context for Target (client app)
@@ -40,6 +41,11 @@ const TargetContext = createContext<TargetContextValue | undefined>(undefined);
 export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetId, setTargetId] = useState<string | null>(null);
   const [targetData, setTargetData] = useState<TargetResponse | null>(null);
+
+  const [codesId, setCodesId] = useState<CodeResponse[] | null>(null);
+  const [codesData, setCodesData] = useState<CodeResponse[] | null>(null);
+  const [currentCodeId, setCurrentCodeId] = useState<string | null>(null);
+  const [currentCodeData, setCurrentCodeData] = useState<CodeResponse | null>(null);
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [lastPage, setLastPage] = useState<number>(0);
