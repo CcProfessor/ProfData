@@ -4,7 +4,7 @@ import { useTarget } from "../contexts/target.context";
 import LoadingComponent from "./loading.component";
 import CodeInputBox from "./codeRequest.component";
 
-export default function BoxComponent() {
+export function BoxComponent() {
   const { currentPage } = useTarget();
 
   if (currentPage === 1) {

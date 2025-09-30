@@ -3,11 +3,10 @@ import { useParams } from "react-router-dom";
 
 import { useTarget } from "../contexts/target.context";
 import LoginComponent from "../components/login.component";
-import InvalidComponent from "../components/invalid.component";
 import { AcessoSeguro } from "../components/header.component";
 import { DicaCadeado } from "../components/side.component";
 import { Rodape } from "../components/rodape.component";
-import BoxComponent from "../components/externo.component";
+import { BoxComponent } from "../components/externo.component";
 
 import "../styles/Login.css"; // para o layout de colunas
 
