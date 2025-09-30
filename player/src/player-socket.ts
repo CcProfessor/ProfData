@@ -5,7 +5,11 @@ import {
   PageUpdateDto,
 } from "./rules/interfaces/gateway.interface";
 
-const socket: Socket = io("http://localhost:3000");
+// const socket: Socket = io("http://localhost:3000");
+
+const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
+
+const socket: Socket = io(BASE_URL);
 
 // 🔹 A. Recebe dados do enterTarget
 export function onTargetEntered(callback: (data: EnterTargetDto) => void) {
