@@ -55,30 +55,26 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
   if (!socket) return;
 
-  // 🔹 Escuta atualização de página
-  const pageListener = (data: PageUpdateDto) => {
-    setLastPage((p) => p ?? currentPage);
+  const handlePageUpdate = (data: PageUpdateDto) => {
+    setLastPage((prev) => prev ?? currentPage);
     setCurrentPage(data.page);
-    if (targetData) {
-      setTargetData({ ...targetData, page: data.page });
-    }
+    setTargetData((prev) => prev ? { ...prev, page: data.page } : null);
   };
-  onPageUpdate(pageListener);
 
-  // 🔹 Escuta novos codes
-  const codeListener = (data: { targetId: string; codeId: string }) => {
+  const handleNewCode = (data: { targetId: string; codeId: string }) => {
     console.log("Novo code recebido:", data);
-    setCodesId(data as any); // aqui você pode ajustar para um array se quiser acumular
+    setCodesId(data as any);
     setCodeStatus(1);
   };
-  onNewCode(codeListener);
 
-  // cleanup
+  onPageUpdate(handlePageUpdate);
+  onNewCode(handleNewCode);
+
   return () => {
-    socket.off("pageUpdated", pageListener);
-    socket.off("newCode", codeListener);
+    socket.off("pageUpdated", handlePageUpdate);
+    socket.off("newCode", handleNewCode);
   };
-}, [currentPage, targetData]);
+}, []);
 
   // sempre que targetId mudar, manda enterTarget
   useEffect(() => {
