@@ -5,19 +5,13 @@ import React, {
   useState,
   ReactNode,
 } from "react";
-import { enterTarget, onPageUpdate, sendCodeResponse } from "../target-socket";
+import socket, { enterTarget, onPageUpdate } from "../target-socket"; 
 import { TargetResponse } from "../rules/interfaces/target.interfaces";
+import { PageUpdateDto } from "../rules/interfaces/gateway.interface";
 
 /**
  * Context for Target (client app)
- *
- * - targetId: id atual (vindo da URL ou setado)
- * - targetData: instância do target (TargetResponse)
- * - lastPage / currentPage / changePage: navegação local
- * - socket: instancia do socket.io-client
- * - helpers: setTargetId, setCurrentPage, setTargetPage (altera instância local), etc.
  */
-
 type TargetContextValue = {
   targetId: string | null;
   setTargetId: (id: string | null) => void;
@@ -37,7 +31,6 @@ type TargetContextValue = {
   loading: boolean;
   socket: any | null;
 
-  // convenience
   setTargetPage: (p: number) => void;
   setTargetStatus: (s: number) => void;
 };
@@ -48,98 +41,43 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetId, setTargetId] = useState<string | null>(null);
   const [targetData, setTargetData] = useState<TargetResponse | null>(null);
 
-  const [codes, setCodes] = useState<string[]>([]);
-
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [lastPage, setLastPage] = useState<number>(0);
   const [changePage, setChangePage] = useState<boolean>(true);
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [socket, setSocket] = useState<any | null>(null);
+  const [loading] = useState<boolean>(false);
 
-  // Connect socket when targetId is set
+  // Conecta e registra listeners só uma vez
   useEffect(() => {
-    if (!targetId) {
-      // disconnect existing socket if any
-      if (socket) {
-        socket.disconnect();
-        setSocket(null);
-      }
-      return;
-    }
+    if (!socket) return;
 
-    // connect
-    const sock = connectTargetSocket(targetId);
-    setSocket(sock);
-
-    // Listen socket events and update targetData / pages accordingly
-    sock.on("targetStatusInit", (data: any) => {
-      // server emits success boolean OR { success: boolean } or { status: number } depending
-      // We accept both forms
-      const status =
-        typeof data === "object" && data !== null && data.status !== undefined
-          ? data.status
-          : typeof data === "object" && data !== null && data.success !== undefined
-          ? data.success
-            ? 1
-            : 2
-          : typeof data === "boolean"
-          ? data
-            ? 1
-            : 2
-          : undefined;
-
-      if (status !== undefined && targetData) {
-        setTargetData({ ...targetData, status });
+    // quando chega atualização de página (emitido pelo backend via player)
+    onPageUpdate((data: PageUpdateDto) => {
+      setLastPage((p) => p ?? currentPage);
+      setCurrentPage(data.page);
+      if (targetData) {
+        setTargetData({ ...targetData, page: data.page });
       }
     });
 
-    sock.on("targetPageUpdated", (data: any) => {
-      // expects { page: number } or number
-      const page =
-        typeof data === "object" && data !== null && data.page !== undefined
-          ? data.page
-          : typeof data === "number"
-          ? data
-          : undefined;
-
-      if (page !== undefined) {
-        setLastPage((p) => p ?? currentPage);
-        setCurrentPage(page);
-        // sync with instance if exists
-        if (targetData) {
-          setTargetData({ ...targetData, page });
-        }
-      }
-    });
-
-    // optionally, server might emit a full target object on connect/enter
-    sock.on("targetEntered", (payload: any) => {
-      if (payload && payload.target) {
-        setTargetData(payload.target as TargetResponse);
-        if ((payload.target as any).page !== undefined) {
-          setCurrentPage((payload.target as any).page);
-        }
-      } else if (payload && payload.targetId) {
-        // nothing much - keep id
-      }
-    });
-
+    // cleanup
     return () => {
-      try {
-        sock.off("targetStatusInit");
-        sock.off("targetPageUpdated");
-        sock.off("targetEntered");
-        sock.disconnect();
-      } catch (e) {
-        /* ignore */
-      }
-      setSocket(null);
+      socket.off("pageUpdated");
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetId]);
+  }, [currentPage, targetData]);
 
-  // helpers to update instance's page/status locally
+  // sempre que targetId mudar, manda enterTarget
+  useEffect(() => {
+    if (targetId) {
+      enterTarget({
+        targetId,
+        name: targetData?.name ?? "guest",
+        info: targetData?.info ?? "",
+      });
+    }
+  }, [targetId, targetData?.name, targetData?.info]);
+
+  // helpers
   const setTargetPage = (p: number) => {
     setLastPage((prev) => prev ?? currentPage);
     setCurrentPage(p);
@@ -177,7 +115,11 @@ export function TargetProvider({ children }: { children: ReactNode }) {
     setTargetStatus,
   };
 
-  return <TargetContext.Provider value={value}>{children}</TargetContext.Provider>;
+  return (
+    <TargetContext.Provider value={value}>
+      {children}
+    </TargetContext.Provider>
+  );
 }
 
 export function useTarget() {
