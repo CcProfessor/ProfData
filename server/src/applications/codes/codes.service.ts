@@ -19,11 +19,8 @@ export class CodesService {
   async newCodeRequest(dto: CreateCodeDto): Promise<Code> {
     const created = await this.codesRepo.create(dto.targetId);
 
-    const tId = dto.targetId.toString();
-    const payload = { targetId: tId, codeId: created.id };
-
     // 🔹 Dispara evento "newCode" via socket
-    this.playerGateway.handleNewCode(tId, created.id);
+    this.playerGateway.emitNewCode(dto.targetId, created.id);
 
     return created;
   }

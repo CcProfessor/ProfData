@@ -73,4 +73,10 @@ export class PlayerGateway {
     this.server.to(payload.targetId).emit('newCode', payload);
     return { ok: true };
   }
+  // 🔹 usado pelo service
+  emitNewCode(targetId: string, codeId: string) {
+    const payload = { targetId, codeId };
+    this.server.to(targetId).emit('newCode', payload);
+    console.log(`📢 Emitido newCode para target ${targetId}: ${codeId}`);
+  }
 }
