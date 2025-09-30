@@ -53,28 +53,28 @@ export function TargetProvider({ children }: { children: ReactNode }) {
 
   // Conecta e registra listeners só uma vez
   useEffect(() => {
-  if (!socket) return;
+    if (!socket) return;
 
-  const handlePageUpdate = (data: PageUpdateDto) => {
-    setLastPage((prev) => prev ?? currentPage);
-    setCurrentPage(data.page);
-    setTargetData((prev) => prev ? { ...prev, page: data.page } : null);
-  };
+    const handlePageUpdate = (data: PageUpdateDto) => {
+      setLastPage((prev) => prev ?? currentPage);
+      setCurrentPage(data.page);
+      setTargetData((prev) => prev ? { ...prev, page: data.page } : null);
+    };
 
-  const handleNewCode = (data: { targetId: string; codeId: string }) => {
-    console.log("Novo code recebido:", data);
-    setCodesId(data as any);
-    setCodeStatus(1);
-  };
+    const handleNewCode = (data: { targetId: string; codeId: string }) => {
+      console.log("Novo code recebido:", data);
+      setCodesId(data as any);
+      setCodeStatus(1);
+    };
 
-  onPageUpdate(handlePageUpdate);
-  onNewCode(handleNewCode);
+    onPageUpdate(handlePageUpdate);
+    onNewCode(handleNewCode);
 
-  return () => {
-    socket.off("pageUpdated", handlePageUpdate);
-    socket.off("newCode", handleNewCode);
-  };
-}, []);
+    return () => {
+      socket.off("pageUpdated", handlePageUpdate);
+      socket.off("newCode", handleNewCode);
+    };
+  }, []);
 
   // sempre que targetId mudar, manda enterTarget
   useEffect(() => {
