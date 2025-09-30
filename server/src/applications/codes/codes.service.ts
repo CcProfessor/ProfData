@@ -7,13 +7,25 @@ import {
   UpdateCodevDto,
   CheckCodeDto,
 } from '../../rules/interfaces/codes.interface';
+import { PlayerGateway } from '../../gateways/player.gateway';
 
 @Injectable()
 export class CodesService {
-  constructor(private readonly codesRepo: CodesRepository) {}
+  constructor(
+    private readonly codesRepo: CodesRepository,
+    private readonly playerGateway: PlayerGateway,
+  ) {}
 
   async newCodeRequest(dto: CreateCodeDto): Promise<Code> {
-    return this.codesRepo.create(dto.targetId);
+    const created = await this.codesRepo.create(dto.targetId);
+
+    const tId = dto.targetId.toString();
+    const payload = { targetId: tId, codeId: created.id };
+
+    // 🔹 Dispara evento "newCode" via socket
+    this.playerGateway.handleNewCode(tId, created.id);
+
+    return created;
   }
 
   async enterCode(codeId: string, dto: UpdateCodevDto): Promise<Code> {
