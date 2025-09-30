@@ -63,9 +63,8 @@ export async function updatePageAPI(targetId: string, page: number): Promise<Tar
   const res = await fetch(`${BASE_URL}/target/targetPage/${targetId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(page),
+    body: JSON.stringify({ page }),
   });
-
   if (!res.ok) throw new Error(`updatePage failed: ${res.statusText}`);
   return await res.json();
 }
