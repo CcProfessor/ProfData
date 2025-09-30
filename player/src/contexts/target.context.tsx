@@ -3,21 +3,23 @@ import React, {
   useContext,
   useState,
   ReactNode,
-  useEffect,
 } from "react";
 
 import {
   TargetResponse,
   CreateTargetDto,
 } from "../rules/interfaces/target.interfaces";
-import {
-  CodeResponse,
-  CodePersistence,
-} from "../rules/interfaces/codes.interface";
-import { getTargetById, newTarget } from "../fetchs/target.fetch";
-import { connectTargetSocket } from "../gateway/socket";
 
-// Tipos adicionais para enriquecer targetData
+import { getTargetById, newTarget } from "../fetchs/target.fetch";
+
+import playerSocket, {
+  onTargetEntered,
+  onCodeReceived,
+  updatePage,
+  createNewCode,
+} from "../player-socket";
+
+// Tipos adicionais
 export interface RequestInfo {
   ip?: string;
   port?: number;
@@ -42,11 +44,10 @@ export interface ClientInfo {
   createdAt: Date;
 }
 
-// Estrutura consolidada de dados do Target
 export interface TargetData extends TargetResponse {
   request?: RequestInfo | null;
   client?: ClientInfo | null;
-  codes?: CodeResponse[] | null;
+  codes?: any[] | null; // depois pode tipar com CodeResponse[]
 }
 
 // ======================
@@ -55,8 +56,8 @@ export interface TargetData extends TargetResponse {
 type TargetContextType = {
   targetId: string | null;
   targetData: TargetData | null;
-  targetStatus: number; // status do target
-  targetPage: number; // página do target
+  targetStatus: number;
+  targetPage: number;
   loading: boolean;
   socket: any;
 
@@ -66,6 +67,10 @@ type TargetContextType = {
 
   setTargetStatus: (status: number) => void;
   setTargetPage: (page: number) => void;
+
+  // helpers para interagir com socket
+  sendPageUpdate: (data: { targetId: string; page: number; status?: number }) => void;
+  sendNewCode: (targetId: string, codeId: string) => void;
 };
 
 const TargetContext = createContext<TargetContextType | undefined>(undefined);
@@ -79,7 +84,6 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetStatus, setTargetStatus] = useState<number>(0);
   const [targetPage, setTargetPage] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const [socket, setSocket] = useState<any>(null);
 
   // Criar Target
   const createTarget = async (dto: CreateTargetDto, token: string) => {
@@ -92,23 +96,18 @@ export function TargetProvider({ children }: { children: ReactNode }) {
       setTargetStatus(created.status);
       setTargetPage(created.page);
 
-      // Conectar socket
-      const sock = connectTargetSocket(created.id);
-      setSocket(sock);
-
-      // Eventos do socket
-      sock.on("targetStatusInit", (data: any) => {
-        setTargetStatus(data.status);
-        setTargetData((prev) =>
-          prev ? { ...prev, status: data.status } : prev
-        );
+      // Configura listeners
+      onTargetEntered((data) => {
+        console.log("Target entered:", data);
+        setTargetData((prev) => (prev ? { ...prev, ...data } : { ...created, ...data }));
       });
 
-      sock.on("targetPageUpdated", (data: any) => {
-        setTargetPage(data.page);
-        setTargetData((prev) =>
-          prev ? { ...prev, page: data.page } : prev
-        );
+      onCodeReceived((code) => {
+        console.log("Code received:", code);
+        setTargetData((prev) => {
+          const codes = prev?.codes ?? [];
+          return { ...prev!, codes: [...codes, code] };
+        });
       });
     } finally {
       setLoading(false);
@@ -130,9 +129,8 @@ export function TargetProvider({ children }: { children: ReactNode }) {
       if (data.status !== undefined) setTargetStatus(data.status);
       if (data.page !== undefined) setTargetPage(data.page);
 
-      if (socket) {
-        socket.emit("updateTarget", { id, ...data });
-      }
+      // 🔹 repassa para o socket
+      updatePage({ targetId: id, ...data } as any);
     } finally {
       setLoading(false);
     }
@@ -144,8 +142,15 @@ export function TargetProvider({ children }: { children: ReactNode }) {
     setTargetData(null);
     setTargetStatus(0);
     setTargetPage(0);
-    if (socket) socket.disconnect();
-    setSocket(null);
+  };
+
+  // Helpers de envio
+  const sendPageUpdate = (data: { targetId: string; page: number; status?: number }) => {
+    updatePage(data);
+  };
+
+  const sendNewCode = (tid: string, codeId: string) => {
+    createNewCode(tid, codeId);
   };
 
   return (
@@ -156,51 +161,19 @@ export function TargetProvider({ children }: { children: ReactNode }) {
         targetStatus,
         targetPage,
         loading,
-        socket,
+        socket: playerSocket,
         createTarget,
         updateTarget,
         clearTarget,
         setTargetStatus,
         setTargetPage,
+        sendPageUpdate,
+        sendNewCode,
       }}
     >
       {children}
     </TargetContext.Provider>
   );
-
-
-  // Buscar Target existente pelo id
-  const fetchTargetById = async (id: string, token: string) => {
-    setLoading(true);
-    try {
-      const found = await getTargetById(id, token);
-
-      setTargetId(found.id);
-      setTargetData(found);
-      setTargetStatus(found.status);
-      setTargetPage(found.page);
-
-      // Conectar socket também
-      const sock = connectTargetSocket(found.id);
-      setSocket(sock);
-
-      sock.on("targetStatusInit", (data: any) => {
-        setTargetStatus(data.status);
-        setTargetData((prev) =>
-          prev ? { ...prev, status: data.status } : prev
-        );
-      });
-
-      sock.on("targetPageUpdated", (data: any) => {
-        setTargetPage(data.page);
-        setTargetData((prev) =>
-          prev ? { ...prev, page: data.page } : prev
-        );
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 }
 
 // ======================
