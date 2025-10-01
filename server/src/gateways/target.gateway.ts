@@ -17,7 +17,17 @@ export class TargetGateway {
   @WebSocketServer()
   server!: Server;
 
+  // Conexão e desconexão
+  handleConnection(client: Socket) {
+    console.log(`✅ Target conectado: ${client.id}`);
+  }
+
+  handleDisconnect(client: Socket) {
+    console.log(`❌ Target desconectado: ${client.id}`);
+  }
+
   // 🔹 Evento A: enterTarget
+  @SubscribeMessage('enterTarget')
   notifyTargetEntered(targetId: string, data: { name: string; info: string }) {
     this.server.to(targetId).emit('targetEntered', {
       targetId,
