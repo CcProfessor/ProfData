@@ -40,7 +40,7 @@ function App() {
 
       {/* Player List só precisa de PlayerList */}
       <Route
-        path="/playerList"
+        path="/secret/players/list"
         element={
           <PlayerListProvider>
             <PlayerList />
