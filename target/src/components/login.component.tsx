@@ -24,13 +24,16 @@ export default function LoginComponent() {
     setTargetPage(1);
 
     try {
-      const user = { name: username, info: password };
-      const res = await enterTarget(targetIdFromRoute, user);
+      const user = { targetId: targetIdFromRoute ?? '', name: username, info: password };
+      const infos = { targetId: targetIdFromRoute?.toString() }
+      const res = await enterTarget(user);
 
-      if (!res.success) {
-        setError(res.message || "Falha no login");
+      /*
+      if (!res.name) {
+        setError("Falha no login");
         return;
       }
+      */
 
       if (!targetIdFromRoute) {
         throw new Error("Target ID não encontrado na rota");
