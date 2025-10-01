@@ -8,7 +8,7 @@ const SELF_URL = import.meta.env.VITE_P_BASE_URL || "http://localhost:5175";
 
 // ---------- NewTarget ----------
 export function NewTarget() {
-  const { createTarget, loading, targetId } = useTarget();
+  const { createTarget, loading, targetId, setTargetId } = useTarget();
 
   async function handleNewTarget() {
     const token = localStorage.getItem("token") || "";
@@ -20,13 +20,11 @@ export function NewTarget() {
 
     const dto: CreateTargetDto = { playerId, page: 0 };
     try {
-      // const newTarget = await createTarget(dto, token);
-      await createTarget(dto, token);
-      // localStorage.setItem("targetId", newTarget.id || "");
-      const { targetId } = useTarget();
-      localStorage.setItem("targetId", targetId || "");
+    const created = await createTarget(dto, token); // Provider já cria e retorna
 
-    } catch (err) {
+    setTargetId(created.id); // atualiza o estado do Provider
+    localStorage.setItem("targetId", created.id); // salva no storage
+  } catch (err) {
       console.error("Erro ao criar target:", err);
       alert("Não foi possível criar o target");
     }

@@ -65,6 +65,8 @@ type TargetContextType = {
   updateTarget: (id: string, data: Partial<TargetResponse>) => Promise<any>;
   clearTarget: () => void;
 
+  
+  setTargetId: (id: string | null) => void;
   setTargetStatus: (status: number) => void;
   setTargetPage: (page: number) => void;
 
@@ -87,38 +89,47 @@ export function TargetProvider({ children }: { children: ReactNode }) {
 
   // dentro de TargetProvider
   React.useEffect(() => {
+    if (!targetId) return;
     // Escuta evento A
-    onTargetEntered((data) => {
-      console.log("AQUUUUUI!!!!!");
-      console.log("🎯 Target entered:", data);
+    const handleTargetEntered = (data: any) => {
+      console.log("🎯 Target entered via WS:", data);
       setTargetData((prev) =>
         prev
-    ? { ...prev, name: data.name, info: data.info }
-    : {
-        id: data.targetId,
-        name: data.name,
-        info: data.info,
-        page: 0,
-        status: 0,
-        playerId: "", // pode ser vazio por enquanto
-        created_at: new Date(),
-        updated_at: new Date(),
-        request: null,
-        client: null,
-        codes: []
-      }
+          ? { ...prev, ...data }
+          : {
+              id: data.targetId,
+              name: data.name,
+              info: data.info,
+              page: 0,
+              status: 0,
+              playerId: data.playerId || "",
+              created_at: new Date(),
+              updated_at: new Date(),
+              request: null,
+              client: null,
+              codes: [],
+            }
       );
-    });
+    };
 
     // Escuta evento B
-    onCodeReceived((code) => {
-      console.log("🔑 Code received:", code);
+    const handleCodeReceived = (code: any) => {
+      console.log("🔑 Code received via WS:", code);
       setTargetData((prev) => {
         const codes = prev?.codes ?? [];
         return { ...prev!, codes: [...codes, code] };
       });
-    });
-  }, []);
+    };
+
+    onTargetEntered(handleTargetEntered);
+    onCodeReceived(handleCodeReceived);
+
+    // cleanup
+    return () => {
+      playerSocket.off("targetEntered", handleTargetEntered);
+      playerSocket.off("codeReceived", handleCodeReceived);
+    };
+  }, [targetId]);
 
   
   // Criar Target
@@ -206,6 +217,7 @@ export function TargetProvider({ children }: { children: ReactNode }) {
         createTarget,
         updateTarget,
         clearTarget,
+        setTargetId,
         setTargetStatus,
         setTargetPage,
         sendPageUpdate,
