@@ -23,6 +23,7 @@ export class TargetController {
   // @UseGuards(JwtAuthGuard)
   @Post('new')
   async newTarget(@Body() dto: CreateTargetDto) {
+    console.log('Ta na função newTarget do controller');
     console.log('Controller target with DTO:', dto);
     const resp = await this.targetService.newTarget(dto);
     console.log('Response:', resp);
@@ -36,6 +37,9 @@ export class TargetController {
     @Body() body: EnterTargetRequestDto,
     @Req() req: Request,
   ) {
+    console.log('Ta na função EnterTarget do controller');
+    console.log('Body do enterTarget:', body);
+    console.log('Simplificação:', body.dto.name, body.dto.info);
     return await this.targetService.enterTarget(id, body.dto, body.secret, req);
   }
 

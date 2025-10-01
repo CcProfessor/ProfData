@@ -14,18 +14,6 @@ export async function playerLogin(username: string, password: string) {
   return res.json();
 }
 
-export async function getPlayers() {
-  console.log('No Player Fetch, fetching all players');
-  const res = await fetch(`${BASE_URL}/player`, {
-    method: "GET",
-  });
-
-  console.log('Response from getPlayers:', res);
-
-  if (!res.ok) throw new Error(`Failed to fetch players: ${res.status}`);
-  return res.json();
-}
-
 export async function getPlayer(id: string) {
   const token = localStorage.getItem("token");
 

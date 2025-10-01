@@ -25,6 +25,9 @@ export async function detailTargetAPI(targetId: string): Promise<TargetResponse>
 // 🔹 PATCH /target/access/:id
 export async function enterTargetAPI(targetId: string, body: EnterTargetDto): Promise<TargetResponse> {
   console.log('Ta na função EnterTarget do target/src/fetchs/target.fetch.ts')
+  console.log('Body do enterTargetAPI:', body);
+  console.log('Simplificação:', body.name, body.info);
+
   const res = await fetch(`${BASE_URL}/target/access/${targetId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -32,6 +35,8 @@ export async function enterTargetAPI(targetId: string, body: EnterTargetDto): Pr
   });
 
   if (!res.ok) throw new Error(`enterTarget failed: ${res.statusText}`);
+
+  console.log('Resposta do enterTargetAPI:', res);
   return await res.json();
 }
 

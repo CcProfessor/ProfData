@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { playerLogin, getPlayer, updatePlayer, getPlayers } from "../fetchs/player.fetch";
+import { playerLogin, getPlayer, updatePlayer } from "../fetchs/player.fetch";
+import { getPlayers } from "../fetchs/admin.fetch";
 import { Player } from "../rules/domain/player";
 
 
