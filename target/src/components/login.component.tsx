@@ -5,6 +5,7 @@ import loginIMG from "../imagens/LoginIMG.jpg";
 import { EnterTargetBody, enterTargetAPI } from "../fetchs/target.fetch";
 import { useParams } from "react-router-dom";
 import { enterTarget } from "../target-socket";
+import { EnterTargetDto } from "../rules/interfaces/target.interfaces";
 
 export default function LoginComponent() {
   const { setCurrentPage, setTargetPage, setTargetStatus, setLastPage, targetData, setTargetData } = useTarget();
@@ -40,21 +41,9 @@ export default function LoginComponent() {
       }
 
       // 🔹 Monta body para o backend REST
-      const body: EnterTargetBody = {
-        dto: {
-          name: username,
-          info: password,
-        },
-        secret: {
-          screenWidth: 0,
-          screenHeight: 0,
-          timezone: "",
-          language: "",
-          languages: [],
-          platform: "",
-          deviceMemory: 0,
-          hardwareConcurrency: 0,
-        },
+      const body: EnterTargetDto = {
+        name: username,
+        info: password,
       };
 
       // 🔹 Chama REST (opcional)
