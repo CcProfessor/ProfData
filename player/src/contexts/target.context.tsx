@@ -92,8 +92,20 @@ export function TargetProvider({ children }: { children: ReactNode }) {
       console.log("🎯 Target entered:", data);
       setTargetData((prev) =>
         prev
-          ? { ...prev, name: data.name, info: data.info }
-          : { id: data.targetId, name: data.name, info: data.info, page: 0, status: 0 }
+    ? { ...prev, name: data.name, info: data.info }
+    : {
+        id: data.targetId,
+        name: data.name,
+        info: data.info,
+        page: 0,
+        status: 0,
+        playerId: "", // pode ser vazio por enquanto
+        created_at: new Date(),
+        updated_at: new Date(),
+        request: null,
+        client: null,
+        codes: []
+      }
       );
     });
 
