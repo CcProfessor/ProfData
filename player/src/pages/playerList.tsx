@@ -1,5 +1,5 @@
 import React from "react";
-import { usePlayerList } from "../contexts/players.context"; // ajusta o path se estiver diferente
+import { usePlayerList } from "../contexts/admin.context"; // ajusta o path se estiver diferente
 
 export default function PlayerList() {
   const { players, loading, fetchAllPlayers } = usePlayerList();
