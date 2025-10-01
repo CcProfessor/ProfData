@@ -110,7 +110,7 @@ export function TargetControl() {
 // ---------- Wrapper que alterna ----------
 export function TargetWrapper() {
   const { targetId } = useTarget();
-  return targetId ? <TargetControl /> : <NewTarget />;
+  return targetId ? <div><TargetControl /><br /><NewTarget /></div> : <div><NewTarget /></div>;
 }
 
 
