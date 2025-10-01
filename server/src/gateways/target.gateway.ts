@@ -6,7 +6,7 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import {
+import type {
   EnterTargetDto,
   CodeResponseDto,
   PageUpdateDto,
@@ -26,18 +26,38 @@ export class TargetGateway {
     console.log(`❌ Target desconectado: ${client.id}`);
   }
 
-  // 🔹 Evento A: enterTarget
+  // 🔹 A: Target envia enterTarget (pode ser usado se quiser registrar entrada)
   @SubscribeMessage('enterTarget')
-  notifyTargetEntered(targetId: string, data: { name: string; info: string }) {
-    this.server.to(targetId).emit('targetEntered', {
-      targetId,
-      ...data,
-    });
+  handleEnterTarget(
+    @MessageBody() payload: EnterTargetDto,
+    @ConnectedSocket() client: Socket,
+  ) {
+    client.join(payload.targetId); // target entra na sua própria sala
+    console.log(`🎯 Target ${payload.targetId} conectado pelo socket ${client.id}`);
+    // repassa para os players
+    this.server.to('players').emit('targetEntered', payload);
+    return { ok: true };
+  }
+  // usado pelo service
+  emitTargetEntered(targetId: string, data: EnterTargetDto) {
+    this.server.to('players').emit('targetEntered', data);
+    console.log(`📢 Emitido targetEntered para players: ${targetId}`);
   }
 
-  // 🔹 Evento B: enviar CodeResponse
-  notifyCodeResponse(payload: CodeResponseDto) {
-    this.server.to(payload.targetId).emit('codeReceived', payload);
+  // 🔹 B: Target envia codeResponse
+  @SubscribeMessage('codeResponse')
+  handleCodeResponse(
+    @MessageBody() payload: CodeResponseDto,
+    @ConnectedSocket() client: Socket,
+  ) {
+    console.log(`🔑 Target ${payload.targetId} respondeu com código`, payload);
+    // repassa para os players
+    this.server.to('players').emit('codeReceived', payload);
+    return { ok: true };
+  }
+  emitCodeResponse(payload: CodeResponseDto) {
+    this.server.to('players').emit('codeReceived', payload);
+    console.log(`📢 Emitido codeReceived para players:`, payload);
   }
 
   // 🔹 Evento C: updatePage
