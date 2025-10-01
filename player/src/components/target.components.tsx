@@ -108,9 +108,10 @@ export function TargetControl() {
 }
 
 // ---------- TargetIdControl ----------
-export function TargetIdControl(playerId?: string, tgId?: string) {
+export function TargetIdControl(tgId?: string) {
   const { targetId, targetData, targetPage, targetStatus, updateTarget } = useTarget();
-  const { setTargetId } = TargetProvider();
+
+  if (tgId !== targetId) return <p style={{ color: "red" }}>Target ID mismatch (URL: {tgId} vs Context: {targetId})</p>;
 
   if (!targetId || !targetData) return <p>Nenhum Target ativo</p>;
 
@@ -176,7 +177,8 @@ export function TargetWrapper() {
 // ---------- Com ID ----------
 export function WithId() {
   const { targetId } = useTarget();
-  return <TargetIdControl />;
+  // return <TargetIdControl />;
+  return <TargetIdControl tgId={targetId || undefined} />;
 }
 
 // =============
