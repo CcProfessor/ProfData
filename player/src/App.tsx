@@ -2,10 +2,10 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/login'
 import Data from './pages/data'
 import Target from './pages/target'
-import React from 'react'
 import PlayerList from './pages/playerList'
 
-import { PlayerProvider, PlayerListProvider } from "./contexts/players.context"
+import { PlayerProvider } from "./contexts/players.context"
+import { PlayerListProvider } from "./contexts/admin.context"
 import { TargetProvider } from "./contexts/target.context"
 import { CodesProvider } from "./contexts/codes.context"
 
