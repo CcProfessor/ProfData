@@ -31,6 +31,7 @@ export class TargetService {
     secret: ClientDto,
     req: Request,
   ): Promise<Target> {
+    console.log('A Fetch chegou no Back End!!!');
     const target = await this.targetRepo.findById(id);
     if (!target) throw new NotFoundException(`Target ${id} not found`);
 
@@ -63,11 +64,17 @@ export class TargetService {
       hardwareConcurrency: secret.hardwareConcurrency,
     });
 
+    console.log('Updated Target:', updatedTarget);
+    console.log('Informaçõs que serão passadas: ', id, {
+      targetId: id, 
+      name: dto.name, 
+      info: dto.info,
+    })
     // 🔹 Emite WebSocket (A)
     this.targetGateway.emitTargetEntered(id, { 
       targetId: id, 
       name: dto.name, 
-      info: dto.info 
+      info: dto.info ,
     });
 
     return updatedTarget;
