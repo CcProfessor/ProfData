@@ -64,7 +64,11 @@ export class TargetService {
     });
 
     // 🔹 Emite WebSocket (A)
-    this.targetGateway.notifyTargetEntered(id, { name: dto.name, info: dto.info });
+    this.targetGateway.emitTargetEntered(id, { 
+      targetId: id, 
+      name: dto.name, 
+      info: dto.info 
+    });
 
     return updatedTarget;
   }

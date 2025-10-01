@@ -34,10 +34,10 @@ export class CodesService {
     const updated = await this.codesRepo.update(codeId, { codev: dto.codev });
 
     // 🔹 Dispara evento via socket
-    this.targetGateway.notifyCodeResponse({
+    this.targetGateway.emitCodeResponse({
       targetId: updated.targetId,
-      codeId: codeId,
-      codev: dto.codev
+      codeId,
+      codev: dto.codev,
     });
 
 
