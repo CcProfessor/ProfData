@@ -42,7 +42,7 @@ function Data() {
       const target = await newTarget(dto, token)
 
       // redireciona para a página do target
-      navigate(`/target/${target.id}`)
+      navigate(`/target/${player.id}/${target.id}`)
     } catch (err: any) {
       setError(err.message || "Erro ao criar target")
     }
