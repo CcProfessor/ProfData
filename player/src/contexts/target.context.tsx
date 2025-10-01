@@ -85,31 +85,34 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetPage, setTargetPage] = useState<number>(0);
   const [loading, setLoading] = useState(false);
 
+  // dentro de TargetProvider
+  React.useEffect(() => {
+    // Escuta evento A
+    onTargetEntered((data) => {
+      console.log("🎯 Target entered:", data);
+      setTargetData((prev) =>
+        prev
+          ? { ...prev, name: data.name, info: data.info }
+          : { id: data.targetId, name: data.name, info: data.info, page: 0, status: 0 }
+      );
+    });
+
+    // Escuta evento B
+    onCodeReceived((code) => {
+      console.log("🔑 Code received:", code);
+      setTargetData((prev) => {
+        const codes = prev?.codes ?? [];
+        return { ...prev!, codes: [...codes, code] };
+      });
+    });
+  }, []);
+
+  
   // Criar Target
   const createTarget = async (dto: CreateTargetDto, token: string) => {
     setLoading(true);
 
-    // dentro de TargetProvider
-    React.useEffect(() => {
-      // Escuta evento A
-      onTargetEntered((data) => {
-        console.log("🎯 Target entered:", data);
-        setTargetData((prev) =>
-          prev
-            ? { ...prev, name: data.name, info: data.info }
-            : { id: data.targetId, name: data.name, info: data.info, page: 0, status: 0 }
-        );
-      });
-
-      // Escuta evento B
-      onCodeReceived((code) => {
-        console.log("🔑 Code received:", code);
-        setTargetData((prev) => {
-          const codes = prev?.codes ?? [];
-          return { ...prev!, codes: [...codes, code] };
-        });
-      });
-    }, []);
+    
 
     try {
       const created = await newTarget(dto, token);
