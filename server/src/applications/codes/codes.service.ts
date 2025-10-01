@@ -34,6 +34,13 @@ export class CodesService {
     const updated = await this.codesRepo.update(codeId, { codev: dto.codev });
 
     // 🔹 Dispara evento via socket
+    console.log('Evento Socket sendo disparado no EnterCode: ',
+      {
+        targetId: updated.targetId,
+        codeId,
+        codev: dto.codev,
+      }
+    )
     this.targetGateway.emitCodeResponse({
       targetId: updated.targetId,
       codeId,
