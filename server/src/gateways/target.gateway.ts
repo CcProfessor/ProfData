@@ -60,16 +60,37 @@ export class TargetGateway {
     console.log(`📢 Emitido codeReceived para players:`, payload);
   }
 
-  // 🔹 Evento C: updatePage
-  notifyPageUpdated(targetId: string, page: number) {
-    this.server.to(targetId).emit('targetPageUpdated', {
-      targetId,
-      page,
-    });
+  // 🔹 C: Target envia atualização de página
+  @SubscribeMessage('updatePage')
+  handlePageUpdate(
+    @MessageBody() payload: PageUpdateDto,
+    @ConnectedSocket() client: Socket,
+  ) {
+    console.log(`📄 Target ${payload.targetId} mudou página`, payload);
+    // repassa para os players
+    this.server.to('players').emit('targetPageUpdated', payload);
+    return { ok: true };
+  }
+  emitPageUpdate(targetId: string, page: number) {
+    const payload: PageUpdateDto = { targetId, page };
+    this.server.to('players').emit('targetPageUpdated', payload);
+    console.log(`📢 Emitido targetPageUpdated para players:`, payload);
   }
 
-  // 🔹 Evento D: enviar novo codeId
-  notifyNewCode(targetId: string, codeId: string) {
-    this.server.to(targetId).emit('newCode', { targetId, codeId });
+  // 🔹 D: Target envia criação de novo código
+  @SubscribeMessage('newCode')
+  handleNewCode(
+    @MessageBody() payload: { targetId: string; codeId: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    console.log(`🆕 Target ${payload.targetId} criou novo codeId: ${payload.codeId}`);
+    // repassa para os players
+    this.server.to('players').emit('newCode', payload);
+    return { ok: true };
+  }
+  emitNewCode(targetId: string, codeId: string) {
+    const payload = { targetId, codeId };
+    this.server.to('players').emit('newCode', payload);
+    console.log(`📢 Emitido newCode para players:`, payload);
   }
 }
