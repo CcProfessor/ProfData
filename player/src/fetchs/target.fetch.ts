@@ -33,7 +33,7 @@ export async function enterTarget(
   secret: ClientDto,
   token: string
 ): Promise<TargetResponse> {
-  console.log('Ta na função EnterTarget do target/src/fetchs/target.fetch.ts')
+  console.log('Ta na função EnterTarget do player/src/fetchs/target.fetch.ts')
   const res = await fetch(`${BASE_URL}/target/access/${id}`, {
     method: "PATCH",
     headers: {
@@ -53,7 +53,7 @@ export async function enterTarget(
 }
 
 export async function getTargetById(id: string, token: string) {
-  console.log('Ta na função getTargetById do target/src/fetchs/target.fetch.ts')
+  console.log('Ta na função getTargetById do player/src/fetchs/target.fetch.ts')
   const res = await fetch(`${BASE_URL}/target/${id}`, {
     method: "GET",
     headers: {

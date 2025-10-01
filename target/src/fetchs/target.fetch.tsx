@@ -24,6 +24,7 @@ export async function detailTargetAPI(targetId: string): Promise<TargetResponse>
 
 // 🔹 PATCH /target/access/:id
 export async function enterTargetAPI(targetId: string, body: EnterTargetDto): Promise<TargetResponse> {
+  console.log('Ta na função EnterTarget do target/src/fetchs/target.fetch.ts')
   const res = await fetch(`${BASE_URL}/target/access/${targetId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
