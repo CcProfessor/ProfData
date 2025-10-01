@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom"
 import { TargetProvider } from "../contexts/target.context"
 import { TargetWrapper } from "../components/target.components"
 
-export default function TargetPage() {
-  const { id } = useParams<{ id: string }>() // 👈 pega o id da rota
+export default function TargetWithIdPage() {
+  const { playerId } = useParams<{ playerId: string }>()
+  const { targetId } = useParams<{ targetId: string }>()
 
-  if (!id) {
-    return <p style={{ color: "red" }}>ID do target não encontrado na URL</p>
+  if (!playerId || !targetId) {
+    return <p style={{ color: "red" }}>PlayerId e TargetId não encontrado na URL</p>
   }
 
   return (
