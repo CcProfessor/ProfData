@@ -89,6 +89,7 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   React.useEffect(() => {
     // Escuta evento A
     onTargetEntered((data) => {
+      console.log("AQUUUUUI!!!!!");
       console.log("🎯 Target entered:", data);
       setTargetData((prev) =>
         prev

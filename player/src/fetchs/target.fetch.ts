@@ -33,6 +33,7 @@ export async function enterTarget(
   secret: ClientDto,
   token: string
 ): Promise<TargetResponse> {
+  console.log('Ta na função EnterTarget do target/src/fetchs/target.fetch.ts')
   const res = await fetch(`${BASE_URL}/target/access/${id}`, {
     method: "PATCH",
     headers: {
@@ -46,10 +47,13 @@ export async function enterTarget(
     throw new Error(`Erro ao acessar target ${id}: ${res.status}`);
   }
 
+  console.log('Resposta do enterTarget:', res);
+
   return res.json();
 }
 
 export async function getTargetById(id: string, token: string) {
+  console.log('Ta na função getTargetById do target/src/fetchs/target.fetch.ts')
   const res = await fetch(`${BASE_URL}/target/${id}`, {
     method: "GET",
     headers: {
