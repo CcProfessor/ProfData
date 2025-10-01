@@ -41,6 +41,10 @@ function Data() {
 
       const target = await newTarget(dto, token)
 
+      if (!player.id) {
+        navigate(`/target/${target.id}`)
+      }
+
       // redireciona para a página do target
       navigate(`/target/${player.id}/${target.id}`)
     } catch (err: any) {
