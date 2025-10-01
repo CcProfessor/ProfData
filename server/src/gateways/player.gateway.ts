@@ -63,6 +63,8 @@ export class PlayerGateway {
   }
   emitPageUpdate(targetId: string, page: number) {
     const payload: PageUpdateDto = { targetId, page };
+    console.log(`🆕 Player que opera o Target ${targetId} atualizou a page: ${page}`);
+
     this.server.to(targetId).emit('pageUpdated', payload);
     console.log(`📢 Emitido pageUpdated para target ${targetId}: ${page}`);
   }
@@ -81,6 +83,8 @@ export class PlayerGateway {
   // 🔹 usado pelo service
   emitNewCode(targetId: string, codeId: string) {
     const payload = { targetId, codeId };
+    console.log(`🆕 Target ${targetId} criou novo codeId: ${codeId}`);
+
     this.server.to(targetId).emit('newCode', payload);
     console.log(`📢 Emitido newCode para target ${targetId}: ${codeId}`);
   }
