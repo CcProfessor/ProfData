@@ -1,9 +1,16 @@
 import {
   WebSocketGateway,
   WebSocketServer,
+  SubscribeMessage,
+  MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
-import { Server } from 'socket.io';
-import { CodeResponseDto } from '../rules/interfaces/gateway.interface';
+import { Server, Socket } from 'socket.io';
+import {
+  EnterTargetDto,
+  CodeResponseDto,
+  PageUpdateDto,
+} from '../rules/interfaces/gateway.interface';
 
 @WebSocketGateway({ cors: true })
 export class TargetGateway {
