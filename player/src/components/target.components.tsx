@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useTarget } from "../contexts/target.context";
+import { TargetProvider, useTarget } from "../contexts/target.context";
 import { CreateTargetDto } from "../rules/interfaces/target.interfaces";
 import { playerLogin } from "../fetchs/player.fetch";
 
@@ -108,8 +108,9 @@ export function TargetControl() {
 }
 
 // ---------- TargetIdControl ----------
-export function TargetIdControl() {
+export function TargetIdControl(playerId?: string, tgId?: string) {
   const { targetId, targetData, targetPage, targetStatus, updateTarget } = useTarget();
+  const { setTargetId } = TargetProvider();
 
   if (!targetId || !targetData) return <p>Nenhum Target ativo</p>;
 
@@ -174,7 +175,7 @@ export function TargetWrapper() {
 
 // ---------- Com ID ----------
 export function WithId() {
-  // const { targetId } = useTarget();
+  const { targetId } = useTarget();
   return <TargetIdControl />;
 }
 
