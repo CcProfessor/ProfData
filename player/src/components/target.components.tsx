@@ -18,8 +18,8 @@ export function NewTarget() {
 
     const dto: CreateTargetDto = { playerId, page: 0 };
     try {
-      await createTarget(dto, token);
-      localStorage.setItem("targetId", createTarget.id || "");
+      const newTarget = await createTarget(dto, token);
+      localStorage.setItem("targetId", newTarget.id || "");
 
     } catch (err) {
       console.error("Erro ao criar target:", err);

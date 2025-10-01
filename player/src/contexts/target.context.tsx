@@ -61,8 +61,8 @@ type TargetContextType = {
   loading: boolean;
   socket: any;
 
-  createTarget: (dto: CreateTargetDto, token: string) => Promise<void>;
-  updateTarget: (id: string, data: Partial<TargetResponse>) => Promise<void>;
+  createTarget: (dto: CreateTargetDto, token: string) => Promise<any>;
+  updateTarget: (id: string, data: Partial<TargetResponse>) => Promise<any>;
   clearTarget: () => void;
 
   setTargetStatus: (status: number) => void;
