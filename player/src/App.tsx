@@ -12,6 +12,10 @@ import { CodesProvider } from "./contexts/codes.context"
 function App() {
   return (
     <Routes>
+      
+      {/* Redirecionar "/" para "/login" */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      
       {/* Login só precisa de Player */}
       <Route
         path="/login"
