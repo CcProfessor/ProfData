@@ -108,7 +108,7 @@ export function TargetControl() {
 }
 
 // ---------- TargetIdControl ----------
-export function TargetIdControl(tgId?: string) {
+export function TargetIdControl(tgId: string) {
   const { targetId, targetData, targetPage, targetStatus, updateTarget } = useTarget();
 
   if (tgId !== targetId) return <p style={{ color: "red" }}>Target ID mismatch (URL: {tgId} vs Context: {targetId})</p>;
@@ -178,7 +178,7 @@ export function TargetWrapper() {
 export function WithId() {
   const { targetId } = useTarget();
   // return <TargetIdControl />;
-  return <TargetIdControl tgId={targetId || undefined} />;
+  return <TargetIdControl tgId={targetId!.toString()} />;
 }
 
 // =============
