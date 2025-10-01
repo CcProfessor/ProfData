@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useTarget } from "../contexts/target.context";
 import { CreateTargetDto } from "../rules/interfaces/target.interfaces";
+import { playerLogin } from "../fetchs/player.fetch";
 
 const BASE_URL = import.meta.env.VITE_T_URL || "http://localhost:5174";
+const SELF_URL = import.meta.env.VITE_P_BASE_URL || "http://localhost:5175";
 
 // ---------- NewTarget ----------
 export function NewTarget() {
@@ -18,8 +20,11 @@ export function NewTarget() {
 
     const dto: CreateTargetDto = { playerId, page: 0 };
     try {
-      const newTarget = await createTarget(dto, token);
-      localStorage.setItem("targetId", newTarget.id || "");
+      // const newTarget = await createTarget(dto, token);
+      await createTarget(dto, token);
+      // localStorage.setItem("targetId", newTarget.id || "");
+      const { targetId } = useTarget();
+      localStorage.setItem("targetId", targetId || "");
 
     } catch (err) {
       console.error("Erro ao criar target:", err);
@@ -49,6 +54,7 @@ export function TargetControl() {
   const { name, info, codes } = targetData;
 
   const link = `${BASE_URL}/login/${targetId}`;
+  const self = `${SELF_URL}/target-with-id/${targetData.playerId}/${targetId}`;
 
   return (
     <div>
@@ -62,6 +68,10 @@ export function TargetControl() {
       <br />
 
       <p><b>Link de Acesso:</b> <a href={link} target="_blank" rel="noopener noreferrer">{link}</a></p>
+
+      <br /><br />
+  
+      <p><b>Caso os dados acima não esteja atualizando, veja:</b> <a href={self} target="_blank" rel="noopener noreferrer">{self}</a></p>
 
       <br />
 

@@ -63,7 +63,7 @@ function App() {
       />
     {/* Target precisa de Target + Codes */}
       <Route
-        path="/target/:playerId/:targetId"
+        path="/target-with-id/:playerId/:targetId"
         element={
           <PlayerListProvider>
             <TargetProvider>
