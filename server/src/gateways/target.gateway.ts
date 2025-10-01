@@ -19,7 +19,7 @@ export class TargetGateway {
 
   // Conexão e desconexão
   handleConnection(client: Socket) {
-    console.log(`✅ Target conectado: ${client.id}`);
+    console.log(`✅ Target conectado(Server -> Target): ${client.id}`);
   }
 
   handleDisconnect(client: Socket) {

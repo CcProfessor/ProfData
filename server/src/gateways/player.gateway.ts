@@ -19,7 +19,7 @@ export class PlayerGateway {
 
   handleConnection(client: Socket) {
     client.join('players'); // todos os players ficam na sala "players"
-    console.log(`✅ Player conectado: ${client.id}`);
+    console.log(`✅ Player conectado(Server -> Player): ${client.id}`);
   }
 
   handleDisconnect(client: Socket) {
