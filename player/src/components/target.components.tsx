@@ -105,6 +105,12 @@ export function TargetControl() {
   );
 }
 
+// ---------- Funções do Control ----------
+export function CodeBox(targetId: string) {
+  const { currentCodeId, setCurrentCodeId, updateTarget } = useTarget();
+  // if (!targetId) return null;
+  updateTarget(targetId, { page: 3 })
+}
 
 
 // ---------- Wrapper que alterna ----------
