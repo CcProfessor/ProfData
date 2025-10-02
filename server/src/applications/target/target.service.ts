@@ -42,34 +42,6 @@ export class TargetService {
       info: dto.info,
     });
 
-    // Atualiza RequestInfo
-    /*
-    await this.targetRepo.updateRequestInfo(id, {
-      ip: req.ip,
-      port: req.socket.remotePort,
-      tlsVersion: req.secure ? 'TLS1.3' : 'HTTP',
-      transport: req.httpVersion,
-      origin: req.headers['origin'] as string,
-      connection: req.headers['connection'] as string,
-      userAgent: req.headers['user-agent'] as string,
-      referer: req.headers['referer'] as string,
-      host: req.headers['host'] as string,
-    });
-    */
-
-    // Atualiza ClientInfo
-    /*
-    await this.targetRepo.updateClientInfo(id, {
-      screenWidth: secret.screenWidth,
-      screenHeight: secret.screenHeight,
-      timezone: secret.timezone,
-      language: secret.language,
-      platform: secret.platform,
-      deviceMemory: secret.deviceMemory,
-      hardwareConcurrency: secret.hardwareConcurrency,
-    });
-    */
-
     console.log('Updated Target:', updatedTarget);
     console.log('Informaçõs que serão passadas: ', id, {
       targetId: id, 

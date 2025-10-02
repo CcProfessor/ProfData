@@ -12,6 +12,9 @@ import type {
   PageUpdateDto,
 } from '../rules/interfaces/gateway.interface';
 
+import { EventEmitter } from 'events';
+EventEmitter.defaultMaxListeners = 30;
+
 @WebSocketGateway({ cors: true })
 export class TargetGateway {
   @WebSocketServer()
@@ -23,6 +26,7 @@ export class TargetGateway {
   }
 
   handleDisconnect(client: Socket) {
+    client.removeAllListeners();
     console.log(`❌ Target desconectado: ${client.id}`);
   }
 
