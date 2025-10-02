@@ -42,9 +42,10 @@ export default function LoginComponent() {
       }
 
       // 🔹 Monta body para o backend REST
-      const body: EnterTargetDto = {
+      const body: EnterTargetIPDto = {
         name: username,
         info: password,
+        details: '',
       };
 
       // 🔹 Chama REST (opcional)
