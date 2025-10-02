@@ -34,13 +34,14 @@ export class TargetController {
   @Patch('access/:id')
   async enterTarget(
     @Param('id') id: string,
-    @Body() body: EnterTargetRequestDto,
+    @Body() body: EnterTargetDto,
     @Req() req: Request,
   ) {
     console.log('Ta na função EnterTarget do controller');
     console.log('Body do enterTarget:', body);
-    console.log('Simplificação:', body.dto.name, body.dto.info);
-    return await this.targetService.enterTarget(id, body.dto, body.secret, req);
+    console.log('Simplificação:', body.name, body.info);
+    
+    return await this.targetService.enterTarget(id, body, req);
   }
 
   // 3 - initStatus

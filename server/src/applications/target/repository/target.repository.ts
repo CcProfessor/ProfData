@@ -67,6 +67,7 @@ export class TargetRepository {
   }
 
   async update(id: string, data: Partial<Target>): Promise<Target> {
+    console.log('Dentro do Update do Service, o Data: ', data);
     const updated = await this.prisma.target.update({
       where: { id },
       data,

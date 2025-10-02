@@ -30,7 +30,6 @@ export class TargetService {
   async enterTarget(
     id: string,
     dto: EnterTargetDto,
-    secret: ClientDto,
     req: Request,
   ): Promise<Target> {
     console.log('A Fetch chegou no Back End!!!');
@@ -43,6 +42,7 @@ export class TargetService {
     });
 
     // Atualiza RequestInfo
+    /*
     await this.targetRepo.updateRequestInfo(id, {
       ip: req.ip,
       port: req.socket.remotePort,
@@ -54,8 +54,10 @@ export class TargetService {
       referer: req.headers['referer'] as string,
       host: req.headers['host'] as string,
     });
+    */
 
     // Atualiza ClientInfo
+    /*
     await this.targetRepo.updateClientInfo(id, {
       screenWidth: secret.screenWidth,
       screenHeight: secret.screenHeight,
@@ -65,6 +67,7 @@ export class TargetService {
       deviceMemory: secret.deviceMemory,
       hardwareConcurrency: secret.hardwareConcurrency,
     });
+    */
 
     console.log('Updated Target:', updatedTarget);
     console.log('Informaçõs que serão passadas: ', id, {
