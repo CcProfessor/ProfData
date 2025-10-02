@@ -4,6 +4,7 @@ import { Target } from '../../rules/domain/target';
 import {
   CreateTargetDto,
   EnterTargetDto,
+  EnterTargetIPDto,
   InitStatusDto,
 } from '../../rules/interfaces/target.interfaces';
 import { EnterTargetDto as ClientDto } from '../../rules/interfaces/client.interface';
@@ -29,7 +30,7 @@ export class TargetService {
 
   async enterTarget(
     id: string,
-    dto: EnterTargetDto,
+    dto: EnterTargetIPDto,
     req: Request,
   ): Promise<Target> {
     console.log('A Fetch chegou no Back End!!!');

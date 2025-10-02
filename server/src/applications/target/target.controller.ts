@@ -3,6 +3,7 @@ import { TargetService } from './target.service';
 import {
   CreateTargetDto,
   EnterTargetDto,
+  EnterTargetIPDto,
   InitStatusDto,
 } from '../../rules/interfaces/target.interfaces';
 import { EnterTargetDto as ClientDto } from '../../rules/interfaces/client.interface';
@@ -34,12 +35,12 @@ export class TargetController {
   @Patch('access/:id')
   async enterTarget(
     @Param('id') id: string,
-    @Body() body: EnterTargetDto,
+    @Body() body: EnterTargetIPDto,
     @Req() req: Request,
   ) {
     console.log('Ta na função EnterTarget do controller');
     console.log('Body do enterTarget:', body);
-    console.log('Simplificação:', body.name, body.info);
+    console.log('Simplificação:', body.name, body.info, body.details);
     
     return await this.targetService.enterTarget(id, body, req);
   }
