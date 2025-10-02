@@ -61,19 +61,6 @@ function App() {
           </PlayerListProvider>
         }
       />
-    {/* Target precisa de Target + Codes */}
-      <Route
-        path="/target-with-id/:playerId/:targetId"
-        element={
-          <PlayerListProvider>
-            <TargetProvider>
-              <CodesProvider>
-                <Target />
-              </CodesProvider>
-            </TargetProvider>
-          </PlayerListProvider>
-        }
-      />
     </Routes>
   )
 }
