@@ -44,17 +44,23 @@ export class TargetController {
 
     // Captura IP real do target
     const xff = req.headers['x-forwarded-for'] as string | undefined;
+    console.log('X-Forwarded-For:', xff);
     const forwarded = xff ? xff.split(',')[0].trim() : null;
+    console.log('Primeiro IP do XFF:', forwarded);
     let ip = forwarded || req.socket.remoteAddress || '';
+    console.log('IP do socket:', ip);
     if (typeof ip === 'string' && ip.startsWith('::ffff:')) {
       ip = ip.replace('::ffff:', '');
     }
     const cf = (req.headers['cf-connecting-ip'] as string) ?? null;
     if (cf) {
+      console.log('IP via Cloudflare:', cf);
       ip = cf
-      body.details = `IP: '${ip}'`;
     };
     
+    
+    body.details = `IP: '${ip}'`;
+
     return await this.targetService.enterTarget(id, body, req);
   }
 
