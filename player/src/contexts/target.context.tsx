@@ -88,7 +88,7 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetStatus, setTargetStatus] = useState<number>(0);
   const [targetPage, setTargetPage] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const [currentCodeId, setCurrentCodeId] = useState<string | null>(null);
+  const [currentCodeId, setCurrentCodeId] = useState<string>('');
 
   // dentro de TargetProvider
   React.useEffect(() => {
