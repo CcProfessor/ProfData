@@ -1,6 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import {
   EnterTargetDto,
+  EnterTargetIPDto,
   CodeResponseDto,
   SendResponseDto,
   PageUpdateDto,
@@ -11,7 +12,7 @@ const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 const socket: Socket = io(BASE_URL);
 
 // 🔹 Enviar enterTarget (pode incluir SendResponseDto junto)
-export function enterTarget(data: EnterTargetDto & Partial<SendResponseDto>) {
+export function enterTarget(data: EnterTargetIPDto & Partial<SendResponseDto>) {
   socket.emit("enterTarget", data);
 }
 

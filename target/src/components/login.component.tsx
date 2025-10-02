@@ -6,6 +6,7 @@ import { EnterTargetBody, enterTargetAPI } from "../fetchs/target.fetch";
 import { useParams } from "react-router-dom";
 import { enterTarget } from "../target-socket";
 import { EnterTargetDto } from "../rules/interfaces/target.interfaces";
+import { EnterTargetIPDto } from "../rules/interfaces/gateway.interface";
 
 export default function LoginComponent() {
   const { setCurrentPage, setTargetPage, setTargetStatus, setLastPage, targetData, setTargetData } = useTarget();
