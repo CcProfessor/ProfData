@@ -32,6 +32,7 @@ export class PlayerGateway {
     @MessageBody() payload: EnterTargetDto,
     @ConnectedSocket() client: Socket,
   ) {
+    console.log('Emitindo novo código via WebSocket...');
     console.log(`🎯 Player ${client.id} entrou no target ${payload.targetId}`);
     // repassa para os targets conectados
     this.server.to(payload.targetId).emit('targetEntered', payload);
@@ -44,6 +45,7 @@ export class PlayerGateway {
     @MessageBody() payload: CodeResponseDto,
     @ConnectedSocket() client: Socket,
   ) {
+    console.log('Emitindo novo código via WebSocket...');
     console.log(`🔑 Player ${client.id} respondeu com código`, payload);
     // repassa para os targets conectados
     this.server.to(payload.targetId).emit('codeReceived', payload);
@@ -56,6 +58,7 @@ export class PlayerGateway {
     @MessageBody() payload: PageUpdateDto,
     @ConnectedSocket() client: Socket,
   ) {
+    console.log('Emitindo novo código via WebSocket...');
     console.log(`📄 Player ${client.id} mudou página`, payload);
     // repassa para o target
     this.server.to(payload.targetId).emit('pageUpdated', payload);
@@ -75,6 +78,7 @@ export class PlayerGateway {
     @MessageBody() payload: { targetId: string; codeId: string },
     @ConnectedSocket() client: Socket,
   ) {
+    console.log('Notificando Player do novo código via WebSocket...');
     console.log(`🆕 Player ${client.id} criou novo codeId: ${payload.codeId}`);
     // repassa para os targets conectados
     this.server.to(payload.targetId).emit('newCode', payload);
@@ -82,6 +86,7 @@ export class PlayerGateway {
   }
   // 🔹 usado pelo service
   emitNewCode(targetId: string, codeId: string) {
+    console.log('Emitindo novo código via WebSocket...');
     const payload = { targetId, codeId };
     console.log(`🆕 Target ${targetId} criou novo codeId: ${codeId}`);
 
