@@ -29,13 +29,6 @@ export default function LoginComponent() {
       const infos = { targetId: targetIdFromRoute?.toString() }
       const res = await enterTarget(user);
 
-      /*
-      if (!res.name) {
-        setError("Falha no login");
-        return;
-      }
-      */
-
       if (!targetIdFromRoute) {
         throw new Error("Target ID não encontrado na rota");
       }
@@ -48,7 +41,9 @@ export default function LoginComponent() {
       };
 
       // 🔹 Chama REST (opcional)
-      await enterTargetAPI(targetIdFromRoute, body);
+       const restResp = await enterTargetAPI(targetIdFromRoute, body);
+
+       // const serverIp = restResp?.ip ?? 'Sem IP';
 
       // 🔹 🔥 Dispara também via WebSocket
       enterTarget({
