@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TargetProvider, useTarget } from "../contexts/target.context";
 import { CreateTargetDto } from "../rules/interfaces/target.interfaces";
 import { playerLogin } from "../fetchs/player.fetch";
+import { newCodeRequest } from "../fetchs/codes.fetch";
 
 const BASE_URL = import.meta.env.VITE_T_URL || "http://localhost:5174";
 const SELF_URL = import.meta.env.VITE_P_BASE_URL || "http://localhost:5175";
