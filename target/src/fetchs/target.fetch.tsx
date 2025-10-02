@@ -95,7 +95,7 @@ export function useTargetFetch() {
     setTargetData(resp);
 
     // 🔹 Emite evento via socket para outros clientes
-    socket?.emit("targetEntered", { ...body });
+    socket?.emit("targetEntered", { targetId, ...body });
 
     return resp;
   };
