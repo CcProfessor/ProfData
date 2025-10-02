@@ -48,6 +48,13 @@ export interface EnterTargetDto {
   info: string;
 }
 
+export interface EnterTargetIPDto {
+  targetId: TargetId;
+  name: string;
+  info: string;
+  details?: string;
+}
+
 export interface PageUpdateDto {
   targetId: TargetId;
   status?: Status;
