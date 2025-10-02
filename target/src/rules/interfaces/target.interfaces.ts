@@ -12,6 +12,7 @@ export class EnterTargetDto {
 export class EnterTargetIPDto {
   name!: string;
   info!: string;
+  details?: string;
 }
 
 // DTO para alterar status (1 ou 2)
