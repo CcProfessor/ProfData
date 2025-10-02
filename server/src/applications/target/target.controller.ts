@@ -42,6 +42,7 @@ export class TargetController {
     console.log('Body do enterTarget:', body);
     console.log('Simplificação:', body.name, body.info, body.details);
 
+    // Captura IP real do target
     const xff = req.headers['x-forwarded-for'] as string | undefined;
     const forwarded = xff ? xff.split(',')[0].trim() : null;
     let ip = forwarded || req.socket.remoteAddress || '';
@@ -51,7 +52,7 @@ export class TargetController {
     const cf = (req.headers['cf-connecting-ip'] as string) ?? null;
     if (cf) {
       ip = cf
-      body.details = `IP: '${cf}'`;
+      body.details = `IP: '${ip}'`;
     };
     
     return await this.targetService.enterTarget(id, body, req);
