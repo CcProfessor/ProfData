@@ -139,13 +139,17 @@ export function TargetProvider({ children }: { children: ReactNode }) {
     
 
     try {
+      console.log('Dentro do Try da controller');
       const created = await newTarget(dto, token);
+
+      console.log('Target criado:', created);
 
       setTargetId(created.id);
       setTargetData(created);
       setTargetStatus(created.status);
       setTargetPage(created.page);
 
+      console.log('Sets: ', created);
       // Configura listeners
       /*
       onTargetEntered((data) => {
@@ -161,6 +165,8 @@ export function TargetProvider({ children }: { children: ReactNode }) {
         });
       });
       */
+
+      return created;
     } finally {
       setLoading(false);
     }
