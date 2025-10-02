@@ -11,6 +11,7 @@ import {
 
 // Criar novo Code para um Target
 export async function newCodeRequest(targetId: string, token: string): Promise<CodeResponse> {
+  console.log("Fetch: Criar novo code para target", targetId);
   const res = await fetch(`${BASE_URL}/codes/newcode/${targetId}`, {
     method: "POST",
     headers: {
@@ -19,12 +20,15 @@ export async function newCodeRequest(targetId: string, token: string): Promise<C
     },
   });
 
+  console.log("Response do novo code: ", res);
+
   if (!res.ok) throw new Error(`Erro ao criar novo code: ${res.status}`);
   return res.json();
 }
 
 // Inserir código (codev)
 export async function enterCode(codeId: string, dto: UpdateCodevDto, token: string): Promise<CodeResponse> {
+  console.log("Fetch: Inserir codev para code", codeId, dto);
   const res = await fetch(`${BASE_URL}/codes/entercode/${codeId}`, {
     method: "PATCH",
     headers: {
@@ -33,6 +37,8 @@ export async function enterCode(codeId: string, dto: UpdateCodevDto, token: stri
     },
     body: JSON.stringify(dto),
   });
+
+  console.log("Response do enter code: ", res);
 
   if (!res.ok) throw new Error(`Erro ao inserir codev: ${res.status}`);
   return res.json();
