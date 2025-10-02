@@ -16,12 +16,18 @@ export class CodesController {
   // @UseGuards(JwtAuthGuard)
   @Post('newcode/:targetId')
   newCodeRequest(@Param('targetId') targetId: string) {
+    console.log('Função newCode');
+    console.log('Controller do Code, Target id: ', targetId);
     const dto: CreateCodeDto = { targetId };
-    return this.codesService.newCodeRequest(dto);
+    const result = this.codesService.newCodeRequest(dto);
+    console.log('Code Result: ', result);
+    return result;
   }
 
   @Patch('entercode/:codeId')
   enterCode(@Param('codeId') codeId: string, @Body() dto: UpdateCodevDto) {
+    console.log('Função enterCode');
+    console.log('Controller do Code, Code id: ', codeId, ' DTO: ', dto);
     return this.codesService.enterCode(codeId, dto);
   }
 

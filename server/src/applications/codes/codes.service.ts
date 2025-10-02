@@ -19,15 +19,22 @@ export class CodesService {
   ) {}
 
   async newCodeRequest(dto: CreateCodeDto): Promise<Code> {
+    console.log('Service do newCode com DTO: ', dto);
+
     const created = await this.codesRepo.create(dto.targetId);
 
     // 🔹 Dispara evento "newCode" via socket
     this.playerGateway.emitNewCode(dto.targetId, created.id);
 
+    console.log('Created: ', created);
+    console.log('TargetId: ', dto.targetId);
+
     return created;
   }
 
   async enterCode(codeId: string, dto: UpdateCodevDto): Promise<Code> {
+    console.log('Service do enterCode com DTO: ', dto);
+
     const code = await this.codesRepo.findById(codeId);
     if (!code) throw new NotFoundException(`Code ${codeId} not found`);
 
@@ -47,6 +54,7 @@ export class CodesService {
       codev: dto.codev,
     });
 
+    console.log('Updated: ', updated);
 
     return this.codesRepo.update(codeId, { codev: dto.codev });
   }
