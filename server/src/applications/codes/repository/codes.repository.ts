@@ -16,6 +16,9 @@ export class CodesRepository {
         status: 0,
       },
     });
+
+    console.log('Created no Repository: ', created);
+
     return CodesMapper.toDomain(created);
   }
 
@@ -34,6 +37,9 @@ export class CodesRepository {
       where: { id },
       data,
     });
+
+    console.log('Updated no Repository: ', updated);
+    
     return CodesMapper.toDomain(updated);
   }
 
