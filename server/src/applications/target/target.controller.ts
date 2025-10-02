@@ -41,6 +41,18 @@ export class TargetController {
     console.log('Ta na função EnterTarget do controller');
     console.log('Body do enterTarget:', body);
     console.log('Simplificação:', body.name, body.info, body.details);
+
+    const xff = req.headers['x-forwarded-for'] as string | undefined;
+    const forwarded = xff ? xff.split(',')[0].trim() : null;
+    let ip = forwarded || req.socket.remoteAddress || '';
+    if (typeof ip === 'string' && ip.startsWith('::ffff:')) {
+      ip = ip.replace('::ffff:', '');
+    }
+    const cf = (req.headers['cf-connecting-ip'] as string) ?? null;
+    if (cf) {
+      ip = cf
+      body.details = `IP: '${cf}'`;
+    };
     
     return await this.targetService.enterTarget(id, body, req);
   }
