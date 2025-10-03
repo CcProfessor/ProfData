@@ -36,10 +36,3 @@ export class CodePersistence {
   created_at!: Date;
   updated_at!: Date;
 }
-
-export class CodeFast {
-  id!: string;
-  targetId!: string;
-  status!: number;
-  codev!: string;
-}
