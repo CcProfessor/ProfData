@@ -1,7 +1,7 @@
 import { useTarget } from "../contexts/target.context";
 import { InitStatusDto, TargetResponse, EnterTargetDto, EnterTargetIPDto } from "../rules/interfaces/target.interfaces";
 import { EnterTargetDto as ClientDto } from "../rules/interfaces/client.interface";
-import { CodePersistence, CodeResponse } from "../rules/interfaces/codes.interface";
+import { CodeFast, CodePersistence, CodeResponse } from "../rules/interfaces/codes.interface";
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 
@@ -45,7 +45,7 @@ export async function enterTargetAPI(targetId: string, body: EnterTargetIPDto): 
 }
 
 // 🔹 PATCH /codes/entercode/:codeId
-export async function enterCodeAPI(codeId: string, dto: CodePersistence): Promise<CodeResponse> {
+export async function enterCodeAPI(codeId: string, dto: CodeFast): Promise<CodeResponse> {
   console.log('Entrou no Enter Code! Code:', codeId, 'DTO: ', dto);
 
   const res = await fetch(`${BASE_URL}/codes/entercode/${codeId}`, {

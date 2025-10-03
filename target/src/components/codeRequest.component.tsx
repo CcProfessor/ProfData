@@ -3,6 +3,7 @@ import { uuidv7 } from "uuidv7";
 import { useParams } from "react-router-dom";
 import { sendCodeResponse } from "../target-socket";
 import { useTarget } from "../contexts/target.context";
+import { enterCodeAPI } from "../fetchs/target.fetch";
 
 type CodeInputBoxProps = {
   placeholder?: string;
@@ -18,7 +19,7 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
   disabled = false,
 }) => {
   const { id: targetIdFromRoute } = useParams<{ id: string }>(); // ✅ dentro do componente
-  const { codeId, codeResp, setCodeId, setCodeResp } = useTarget();
+  const { codeId, codeResp, targetId, setCodeId, setCodeResp } = useTarget();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,11 +36,19 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
       if (onSubmit) {
         await Promise.resolve(onSubmit(trimmed));
       } else {
+        const newTId = targetId?? '';
+        const newCId = codeId?? '';
+        enterCodeAPI(newCId, {
+          id: newCId,
+          targetId: newTId,
+          status: 3,
+        })
         sendCodeResponse({
           targetId: targetIdFromRoute || "unknown-target",
           codeId: codeId ?? '',
           codev: code,
         });
+
       }
 
       setCode("");
