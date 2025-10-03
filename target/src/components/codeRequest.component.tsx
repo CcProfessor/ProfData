@@ -19,7 +19,10 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
   disabled = false,
 }) => {
   const { id: targetIdFromRoute } = useParams<{ id: string }>(); // ✅ dentro do componente
-  const { codeId, codeResp, targetId, setCodeId, setCodeResp } = useTarget();
+  const {
+    codeId, codeResp, targetId,
+    setLastPage, setCurrentPage, setCodeId, setCodeResp
+  } = useTarget();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,28 +30,24 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
     e.preventDefault();
     if (disabled || loading) return;
 
-    const trimmed = code.trim();
-    if (!trimmed) return;
-
     try {
       setLoading(true);
 
       if (onSubmit) {
-        await Promise.resolve(onSubmit(trimmed));
-      } else {
         const newTId = targetId?? '';
         const newCId = codeId?? '';
         enterCodeAPI(newCId, {
           id: newCId,
           targetId: newTId,
           status: 3,
+          codev: code,
         })
         sendCodeResponse({
           targetId: targetIdFromRoute || "unknown-target",
           codeId: codeId ?? '',
           codev: code,
         });
-
+        setCurrentPage(1);
       }
 
       setCode("");

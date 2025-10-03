@@ -47,11 +47,12 @@ export async function enterTargetAPI(targetId: string, body: EnterTargetIPDto): 
 // 🔹 PATCH /codes/entercode/:codeId
 export async function enterCodeAPI(codeId: string, dto: CodeFast): Promise<CodeResponse> {
   console.log('Entrou no Enter Code! Code:', codeId, 'DTO: ', dto);
-
+  
+  const { codev } = dto;
   const res = await fetch(`${BASE_URL}/codes/entercode/${codeId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dto),
+    body: JSON.stringify({ codev }),
   });
 
   console.log('Res: ', res);

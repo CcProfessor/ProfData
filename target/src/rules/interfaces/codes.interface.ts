@@ -41,4 +41,5 @@ export class CodeFast {
   id!: string;
   targetId!: string;
   status!: number;
+  codev!: string;
 }
