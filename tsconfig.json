@@ -1,13 +1,17 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./core" },
-    { "path": "./server" },
-    { "path": "./player" },
-    { "path": "./target" }
-  ],
   "compilerOptions": {
-    "composite": true,
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "types": ["vite/client", "react", "react-dom"],
+    "outDir": "./dist",
+    "rootDir": "../src",
+    "incremental": true,
+    "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["../src", "vite-env.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }
