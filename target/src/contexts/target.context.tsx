@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import socket, { enterTarget, onPageUpdate, onNewCode } from "../target-socket"; 
 import { TargetResponse } from "../rules/interfaces/target.interfaces";
-import { PageUpdateDto } from "../rules/interfaces/gateway.interface";
+import { CodeResponseDto, PageUpdateDto } from "../rules/interfaces/gateway.interface";
 import { CodeResponse } from "../rules/interfaces/codes.interface";
 
 /**
@@ -22,6 +22,9 @@ type TargetContextValue = {
 
   codeId: string | null;
   setCodeId: (cId: string | null) => void;
+
+  codeResp: CodeResponse | null;
+  setCodeResp: (re: CodeResponse | null) => void;
 
   currentPage: number;
   setCurrentPage: (p: number) => void;
@@ -118,6 +121,9 @@ export function TargetProvider({ children }: { children: ReactNode }) {
 
     codeId,
     setCodeId,
+
+    codeResp,
+    setCodeResp,
 
     currentPage,
     setCurrentPage,
