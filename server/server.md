@@ -1,1 +1,0 @@
-Detalhes sobre o servidor

@@ -1,13 +1,30 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./core" },
-    { "path": "./server" },
-    { "path": "./player" },
-    { "path": "./target" }
-  ],
   "compilerOptions": {
-    "composite": true,
-    "skipLibCheck": true
-  }
+    "target": "ES2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "@core/*": ["core/*"],
+      "@domain/*": ["core/rules/domain/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
