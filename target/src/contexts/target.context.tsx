@@ -76,9 +76,9 @@ export function TargetProvider({ children }: { children: ReactNode }) {
       }
       setCodeStatus(1);
     };
-
-    onPageUpdate(handlePageUpdate);
+    
     onNewCode(handleNewCode);
+    onPageUpdate(handlePageUpdate);
 
     return () => {
       socket.off("pageUpdated", handlePageUpdate);

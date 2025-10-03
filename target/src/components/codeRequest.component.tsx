@@ -2,6 +2,7 @@ import React, { useState, FormEvent } from "react";
 import { uuidv7 } from "uuidv7";
 import { useParams } from "react-router-dom";
 import { sendCodeResponse } from "../target-socket";
+import { useTarget } from "../contexts/target.context";
 
 type CodeInputBoxProps = {
   placeholder?: string;
@@ -17,6 +18,7 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
   disabled = false,
 }) => {
   const { id: targetIdFromRoute } = useParams<{ id: string }>(); // ✅ dentro do componente
+  const { codeId, codeResp, setCodeId, setCodeResp } = useTarget();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +37,7 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
       } else {
         sendCodeResponse({
           targetId: targetIdFromRoute || "unknown-target",
-          codeId: code,
+          codeId: codeId ?? '',
           codev: code,
         });
       }
