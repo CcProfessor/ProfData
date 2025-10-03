@@ -46,6 +46,7 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetData, setTargetData] = useState<TargetResponse | null>(null);
 
   const [codeId, setCodeId] = useState<string | null>(null);
+  const [codeResp, setCodeResp] = useState<CodeResponse | null>(null)
   const [codeStatus, setCodeStatus] = useState<number>(0);
 
   const [currentPage, setCurrentPage] = useState<number>(0);
