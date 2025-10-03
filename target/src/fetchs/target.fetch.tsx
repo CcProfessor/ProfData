@@ -46,11 +46,15 @@ export async function enterTargetAPI(targetId: string, body: EnterTargetIPDto): 
 
 // 🔹 PATCH /codes/entercode/:codeId
 export async function enterCodeAPI(codeId: string, dto: CodePersistence): Promise<CodeResponse> {
+  console.log('Entrou no Enter Code! Code:', codeId, 'DTO: ', dto);
+
   const res = await fetch(`${BASE_URL}/codes/entercode/${codeId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dto),
   });
+
+  console.log('Res: ', res);
 
   if (!res.ok) throw new Error(`enterCode failed: ${res.statusText}`);
   return await res.json();

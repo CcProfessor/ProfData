@@ -20,6 +20,9 @@ type TargetContextValue = {
   targetData: TargetResponse | null;
   setTargetData: (d: TargetResponse | null) => void;
 
+  codeId: string | null;
+  setCodeId: (cId: string | null) => void;
+
   currentPage: number;
   setCurrentPage: (p: number) => void;
 
@@ -42,7 +45,7 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetId, setTargetId] = useState<string | null>(null);
   const [targetData, setTargetData] = useState<TargetResponse | null>(null);
 
-  const [codesId, setCodesId] = useState<CodeResponse | null>(null);
+  const [codeId, setCodeId] = useState<CodeResponse>(null);
   const [codeStatus, setCodeStatus] = useState<number>(0);
 
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -63,7 +66,10 @@ export function TargetProvider({ children }: { children: ReactNode }) {
 
     const handleNewCode = (data: { targetId: string; codeId: string }) => {
       console.log("Novo code recebido:", data);
-      setCodesId(data as any);
+      const { targetId, codeId } = data;
+      if (codeId) {
+        setCodeId(codeId);
+      }
       setCodeStatus(1);
     };
 
@@ -108,6 +114,9 @@ export function TargetProvider({ children }: { children: ReactNode }) {
 
     targetData,
     setTargetData,
+
+    codeId,
+    setCodeId,
 
     currentPage,
     setCurrentPage,

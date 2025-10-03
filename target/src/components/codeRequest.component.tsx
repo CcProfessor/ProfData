@@ -36,7 +36,7 @@ export const CodeInputBox: React.FC<CodeInputBoxProps> = ({
         sendCodeResponse({
           targetId: targetIdFromRoute || "unknown-target",
           codeId: code,
-          codev: trimmed,
+          codev: code,
         });
       }
 
