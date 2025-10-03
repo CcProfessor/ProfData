@@ -12,9 +12,19 @@ async function main() {
     },
     {
       username: 'Vitoria',
-      password: 'MTgp',
+      password: 'matogrosso',
       access: 1,
     },
+    {
+      username: 'Amanda',
+      password: 'second',
+      access: 1,
+    }
+    {
+      username: 'Julia',
+      password: 'reserva',
+      access: 1,
+    }
   ];
 
   for (const player of players) {
