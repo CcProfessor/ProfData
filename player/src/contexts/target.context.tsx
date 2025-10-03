@@ -70,7 +70,7 @@ type TargetContextType = {
   setTargetId: (id: string | null) => void;
   setTargetStatus: (status: number) => void;
   setTargetPage: (page: number) => void;
-  setCurrentCodeId?: (codeId: string | null) => void;
+  setCurrentCodeId: (id: string | null) => void;
 
   // helpers para interagir com socket
   sendPageUpdate: (data: { targetId: string; page: number; status?: number }) => void;
@@ -88,7 +88,7 @@ export function TargetProvider({ children }: { children: ReactNode }) {
   const [targetStatus, setTargetStatus] = useState<number>(0);
   const [targetPage, setTargetPage] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const [currentCodeId, setCurrentCodeId] = useState<string>('');
+  const [currentCodeId, setCurrentCodeId] = useState<string | null>('');
 
   // dentro de TargetProvider
   React.useEffect(() => {

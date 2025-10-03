@@ -112,11 +112,7 @@ export function CodeBox(targetId: string) {
   updateTarget(targetId, { page: 3 })
   newCodeRequest(targetId, "").then((res) => {
     console.log("Novo code criado no CodeBox: ", res);
-    if (res) {
-      const { id } = res;
-      const idString = id.toString();
-      setCurrentCodeId(idString);
-    }
+    setCurrentCodeId(res.id)
   }).catch((err) => {
     console.error("Erro ao criar novo code no CodeBox: ", err);
   });
